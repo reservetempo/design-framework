@@ -1,0 +1,68 @@
+<!doctype html>
+<!--
+  Style frameworks: a standalone research page showing design styles and design
+  languages across screens and buildings (what each is called, why, and the idea).
+
+  It is not linked from the site and uses none of the site's code or CSS.
+  A new site made from this template can delete the whole research/ folder.
+
+  - Sections: research/data/<id>.js (format documented at the top of style-frameworks.js)
+  - Images:   research/img/<id>/
+  - Helper:   research/tools/get_image.py (search and download Wikimedia images)
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="robots" content="noindex">
+  <title>Style frameworks</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style-frameworks.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the styles</a>
+
+  <header class="page-head wrap">
+    <h1>Style frameworks</h1>
+    <p class="intro">Design languages across screens and buildings: what each style is called, why, and the idea behind it.</p>
+    <p class="count" id="count">Loading styles…</p>
+  </header>
+
+  <div class="bar" id="bar">
+    <div class="bar-inner wrap">
+      <nav class="menu" id="menu" aria-label="Sections"></nav>
+      <div class="search" role="search">
+        <label class="visually-hidden" for="q">Search styles</label>
+        <input type="search" id="q" placeholder="Search names, years, makers, places…" autocomplete="off" spellcheck="false">
+        <output id="matches" for="q" aria-live="polite"></output>
+      </div>
+    </div>
+  </div>
+
+  <main id="main" class="wrap" tabindex="-1">
+    <noscript><p class="note">This page needs JavaScript to show the styles.</p></noscript>
+  </main>
+
+  <dialog class="viewer" id="viewer" aria-labelledby="viewer-caption">
+    <button type="button" class="viewer-close" id="viewer-close" aria-label="Close">&times;</button>
+    <figure>
+      <img id="viewer-img" alt="">
+      <figcaption>
+        <p id="viewer-caption"></p>
+        <div id="viewer-credit"></div>
+      </figcaption>
+    </figure>
+  </dialog>
+
+  <!-- One file per section (plain script tags, so the page also works from file://). -->
+  <script src="data/os.js"></script>
+  <script src="data/web.js"></script>
+  <script src="data/games.js"></script>
+  <script src="data/architecture-historic.js"></script>
+  <script src="data/architecture-modern.js"></script>
+  <script src="data/interiors.js"></script>
+  <script src="data/gardens.js"></script>
+  <script src="style-frameworks.js"></script>
+</body>
+</html>
