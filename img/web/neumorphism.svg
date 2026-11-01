@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="720" viewBox="0 0 960 720">
+<defs>
+<filter id="up" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow in="SourceGraphic" dx="-16" dy="-16" stdDeviation="14" flood-color="#fff" result="a"/><feDropShadow in="SourceGraphic" dx="16" dy="16" stdDeviation="16" flood-color="#a7b4c8" flood-opacity=".8" result="b"/><feMerge><feMergeNode in="a"/><feMergeNode in="b"/></feMerge></filter>
+<linearGradient id="dip" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c9d2de"/><stop offset=".55" stop-color="#e2e7ee"/><stop offset="1" stop-color="#f3f6fa"/></linearGradient>
+<linearGradient id="dome" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef2f7"/><stop offset="1" stop-color="#d9dfe8"/></linearGradient>
+</defs>
+<rect width="960" height="720" fill="#e3e8ef"/>
+<rect x="130" y="130" width="420" height="460" rx="56" fill="#e3e8ef" filter="url(#up)"/>
+<circle cx="340" cy="320" r="130" fill="url(#dip)"/>
+<circle cx="340" cy="320" r="78" fill="url(#dome)" filter="url(#up)"/>
+<circle cx="340" cy="262" r="8" fill="#7d8cff"/>
+<rect x="210" y="490" width="260" height="22" rx="11" fill="url(#dip)"/>
+<rect x="210" y="490" width="150" height="22" rx="11" fill="#9aa7ff"/>
+<rect x="640" y="170" width="200" height="96" rx="48" fill="url(#dip)"/>
+<circle cx="792" cy="218" r="36" fill="url(#dome)" filter="url(#up)"/>
+<circle cx="690" cy="420" r="58" fill="#e3e8ef" filter="url(#up)"/>
+<path d="M674 392 L714 420 L674 448 Z" fill="#8f9bb0"/>
+<circle cx="800" cy="420" r="58" fill="url(#dip)"/>
+<path d="M800 396 V444 M776 420 H824" stroke="#7d8cff" stroke-width="10" stroke-linecap="round"/>
+<rect x="640" y="520" width="220" height="70" rx="35" fill="#e3e8ef" filter="url(#up)"/>
+</svg>
