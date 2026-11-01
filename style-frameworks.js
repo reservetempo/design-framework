@@ -42,6 +42,9 @@
  * - Prefer free Wikimedia Commons files. Non-free English Wikipedia screenshots are allowed
  *   for OS, app and game screenshots: credit them as
  *   { by: '(c) <owner>', license: 'non-free, via English Wikipedia', source: <file page> }.
+ * - The Objects and Art and film sections use free Wikimedia Commons files only: no
+ *   non-free English Wikipedia files and nothing from big franchises or studios (Star Wars,
+ *   Disney, Marvel, Pixar, Studio Ghibli and the like). With no free picture, use an SVG specimen.
  * - Only when no image exists, draw an SVG specimen (img/<id>/<slug>.svg) and credit it as
  *   { by: 'Illustration made for this page', license: '', source: '' }. An empty license
  *   shows the credit as plain text without "Photo:".
@@ -55,7 +58,9 @@
 
   const GROUPS = [
     { name: 'Screens', sections: ['os', 'web', 'games'] },
-    { name: 'Buildings and spaces', sections: ['architecture-historic', 'architecture-modern', 'interiors', 'gardens'] }
+    { name: 'Buildings and spaces', sections: ['architecture-historic', 'architecture-modern', 'interiors', 'gardens'] },
+    { name: 'Objects', sections: ['products', 'furniture', 'cars'] },
+    { name: 'Art and film', sections: ['art', 'film', 'animation'] }
   ];
 
   const DATA = window.STYLE_DATA || {};
