@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Aqua</title>
+<meta name="description" content="Aqua, the Mac OS X look (Apple, 2001-2013), as a small CSS library: windows, buttons, fields, menus, dialogs and 21 colours.">
+<link rel="stylesheet" href="aqua.css">
+<style>
+  html {
+    scroll-padding-top: 48px;
+  }
+
+  .demo-menubar {
+    position: sticky;
+    z-index: 10;
+    top: 0;
+  }
+
+  .demo {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    align-items: start;
+    gap: 36px 28px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 36px 24px 64px;
+  }
+
+  .demo-wide {
+    grid-column: 1 / -1;
+  }
+
+  .demo-item {
+    margin: 0 0 12px;
+  }
+
+  .demo-item .aqua-field {
+    width: 100%;
+  }
+
+  .demo-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 12px;
+    margin: 0 0 12px;
+  }
+
+  .demo-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .demo-error {
+    margin: 4px 0 0;
+  }
+
+  .demo pre {
+    max-width: 100%;
+    margin: 0 0 14px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    border: 1px solid var(--aqua-field-edge);
+    background: var(--aqua-field);
+    box-shadow: var(--aqua-field-shadow);
+  }
+
+  .demo pre:focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: var(--aqua-field-shadow), var(--aqua-focus-ring);
+  }
+
+  .demo code {
+    font-family: Monaco, Menlo, Consolas, monospace;
+    font-size: 12px;
+  }
+
+  @media (max-width: 480px) {
+    .demo {
+      gap: 28px;
+      padding: 24px 16px 48px;
+    }
+
+    .aqua-window__body {
+      padding: 14px 14px 16px;
+    }
+  }
+</style>
+</head>
+<body class="aqua-desktop">
+<header class="demo-menubar">
+  <nav class="aqua-menubar" aria-label="Menu bar">
+    <a class="aqua-menubar__item aqua-menubar__item--app" href="../../index.html#os">&lsaquo; Design framework</a>
+    <details class="aqua-menu">
+      <summary class="aqua-menubar__item">File</summary>
+      <ul class="aqua-menu__list">
+        <li><button class="aqua-menu__item" type="button" data-open-dialog>Close Window&hellip; <kbd class="aqua-menu__key">&#8984;W</kbd></button></li>
+        <li><button class="aqua-menu__item" type="button" disabled>Save <kbd class="aqua-menu__key">&#8984;S</kbd></button></li>
+        <li class="aqua-menu__separator" role="separator"></li>
+        <li><button class="aqua-menu__item" type="button" disabled>Print&hellip; <kbd class="aqua-menu__key">&#8984;P</kbd></button></li>
+      </ul>
+    </details>
+    <details class="aqua-menu">
+      <summary class="aqua-menubar__item">Colour</summary>
+      <ul class="aqua-menu__list" id="colour-menu"></ul>
+    </details>
+    <details class="aqua-menu aqua-menu--end">
+      <summary class="aqua-menubar__item">Help</summary>
+      <ul class="aqua-menu__list">
+        <li><a class="aqua-menu__item" href="#how">How to use</a></li>
+        <li><a class="aqua-menu__item" href="aqua.css">aqua.css</a></li>
+        <li class="aqua-menu__separator" role="separator"></li>
+        <li><a class="aqua-menu__item" href="../../index.html#os">Back to the design framework</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<main class="demo">
+  <section class="aqua-window demo-wide" id="about" aria-labelledby="about-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h1 class="aqua-title" id="about-title">Aqua</h1>
+    </div>
+    <div class="aqua-window__body">
+      <p><strong>Aqua</strong> is the look of Mac OS X, made by Apple and used from 2001 to 2013: glossy &ldquo;lickable&rdquo; buttons, pinstriped windows, and red, yellow and green gumdrops in every title bar.</p>
+      <p>This is Aqua as a small CSS library, <code>aqua.css</code>, built from the Aqua look of the admin framework, with its 21 colours. Pick one below or from the Colour menu, and press Tab to see the focus rings. Not affiliated with Apple.</p>
+      <div class="demo-row">
+        <label for="colour-select">Colour</label>
+        <select class="aqua-select" id="colour-select"></select>
+      </div>
+    </div>
+  </section>
+
+  <section class="aqua-window" aria-labelledby="buttons-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="buttons-title">Buttons</h2>
+    </div>
+    <div class="aqua-window__body">
+      <div class="demo-row">
+        <button class="aqua-button" type="button">Cancel</button>
+        <button class="aqua-button aqua-button--default" type="button">OK</button>
+      </div>
+      <div class="demo-row">
+        <button class="aqua-button" type="button" disabled>Disabled</button>
+        <button class="aqua-button aqua-button--default" type="button" disabled>Disabled default</button>
+      </div>
+      <div class="demo-row">
+        <a class="aqua-button" href="#how">A link as a button</a>
+      </div>
+      <p class="aqua-note">The default button pulses (it holds still if you prefer reduced motion). Hover: Aqua buttons don&rsquo;t change under the pointer; they darken while pressed. Focus: a ring in the colour.</p>
+    </div>
+  </section>
+
+  <section class="aqua-window" aria-labelledby="fields-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="fields-title">Text fields</h2>
+    </div>
+    <div class="aqua-window__body">
+      <div class="demo-item">
+        <label class="aqua-label" for="tf-name">Name</label>
+        <input class="aqua-field" id="tf-name" type="text" autocomplete="off">
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="tf-search">With a placeholder</label>
+        <input class="aqua-field" id="tf-search" type="search" placeholder="Search">
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="tf-disabled">Disabled</label>
+        <input class="aqua-field" id="tf-disabled" type="text" value="Can&rsquo;t change this" disabled>
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="tf-invalid">Invalid</label>
+        <input class="aqua-field" id="tf-invalid" type="email" value="not-an-email" aria-invalid="true" aria-describedby="tf-invalid-error" autocomplete="off">
+        <p class="aqua-error demo-error" id="tf-invalid-error">Enter an email address, like name@example.com.</p>
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="tf-notes">Text area</label>
+        <textarea class="aqua-field" id="tf-notes" rows="3"></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="aqua-window" aria-labelledby="checks-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="checks-title">Check boxes and radio buttons</h2>
+    </div>
+    <div class="aqua-window__body">
+      <fieldset class="aqua-group">
+        <legend>Check boxes</legend>
+        <div class="demo-stack">
+          <label class="aqua-check"><input type="checkbox" checked> Checked</label>
+          <label class="aqua-check"><input type="checkbox"> Not checked</label>
+          <label class="aqua-check"><input type="checkbox" id="cb-mixed"> Mixed</label>
+          <label class="aqua-check"><input type="checkbox" disabled> Disabled</label>
+          <label class="aqua-check"><input type="checkbox" checked disabled> Disabled, checked</label>
+        </div>
+      </fieldset>
+      <fieldset class="aqua-group">
+        <legend>Radio buttons</legend>
+        <div class="demo-stack">
+          <label class="aqua-radio"><input type="radio" name="size" checked> Small</label>
+          <label class="aqua-radio"><input type="radio" name="size"> Medium</label>
+          <label class="aqua-radio"><input type="radio" name="size" disabled> Large (disabled)</label>
+        </div>
+      </fieldset>
+    </div>
+  </section>
+
+  <section class="aqua-window" aria-labelledby="lists-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="lists-title">Pop-up menus and list boxes</h2>
+    </div>
+    <div class="aqua-window__body">
+      <div class="demo-item">
+        <label class="aqua-label" for="sel-view">Pop-up menu</label>
+        <select class="aqua-select" id="sel-view">
+          <option>as Icons</option>
+          <option selected>as List</option>
+          <option>as Columns</option>
+        </select>
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="sel-disabled">Disabled</label>
+        <select class="aqua-select" id="sel-disabled" disabled>
+          <option>Automatic</option>
+        </select>
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="sel-invalid">Invalid</label>
+        <select class="aqua-select" id="sel-invalid" aria-invalid="true" aria-describedby="sel-invalid-error">
+          <option>Choose a printer</option>
+          <option>Laser</option>
+        </select>
+        <p class="aqua-error demo-error" id="sel-invalid-error">Choose a printer first.</p>
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="list-apps">List box</label>
+        <select class="aqua-listbox" id="list-apps" size="5">
+          <option>Address Book</option>
+          <option>Calculator</option>
+          <option selected>Mail</option>
+          <option>Preview</option>
+          <option>TextEdit</option>
+          <option>System Preferences</option>
+        </select>
+      </div>
+      <p class="aqua-note">The selection is in the colour while the list has focus, grey otherwise.</p>
+    </div>
+  </section>
+
+  <section class="aqua-window" aria-labelledby="progress-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="progress-title">Progress bars</h2>
+    </div>
+    <div class="aqua-window__body">
+      <div class="demo-item">
+        <label class="aqua-label" for="pg-copy">Copying 4 of 10 items</label>
+        <progress class="aqua-progress" id="pg-copy" value="40" max="100">40%</progress>
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="pg-done">Done</label>
+        <progress class="aqua-progress" id="pg-done" value="100" max="100">100%</progress>
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="pg-wait">Preparing to copy (indeterminate)</label>
+        <progress class="aqua-progress" id="pg-wait"></progress>
+      </div>
+      <p class="aqua-note">The stripes drift, and hold still if you prefer reduced motion.</p>
+    </div>
+  </section>
+
+  <section class="aqua-window" aria-labelledby="tabs-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="tabs-title">Tabs</h2>
+    </div>
+    <div class="aqua-window__body">
+      <div class="aqua-tabs">
+        <div class="aqua-tabs__list" role="tablist" aria-label="Preferences">
+          <button class="aqua-tab" type="button" role="tab" id="tab-general" aria-selected="true" aria-controls="panel-general">General</button>
+          <button class="aqua-tab" type="button" role="tab" id="tab-look" aria-selected="false" aria-controls="panel-look" tabindex="-1">Appearance</button>
+          <button class="aqua-tab" type="button" role="tab" id="tab-share" aria-selected="false" aria-controls="panel-share" tabindex="-1">Sharing</button>
+        </div>
+        <div class="aqua-tabs__panel" role="tabpanel" id="panel-general" aria-labelledby="tab-general">
+          <label class="aqua-check"><input type="checkbox" checked> Open new windows in the same place</label>
+          <label class="aqua-check"><input type="checkbox"> Show the status bar</label>
+        </div>
+        <div class="aqua-tabs__panel" role="tabpanel" id="panel-look" aria-labelledby="tab-look" hidden>
+          <p>Pick the colour of buttons, menus and windows from the Colour menu at the top of the page.</p>
+        </div>
+        <div class="aqua-tabs__panel" role="tabpanel" id="panel-share" aria-labelledby="tab-share" hidden>
+          <p>Nothing is shared: this is a demo.</p>
+        </div>
+      </div>
+      <p class="aqua-note" style="margin-top: 12px">Arrow keys move between the tabs.</p>
+    </div>
+  </section>
+
+  <section class="aqua-window" aria-labelledby="menus-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="menus-title">Menus</h2>
+    </div>
+    <div class="aqua-window__body">
+      <p>The menu bar at the top of the page is the real thing: File, Colour and Help open menus. Here is one drawn in place:</p>
+      <ul class="aqua-menu__list" aria-label="Sample menu">
+        <li><button class="aqua-menu__item" type="button">New Folder <kbd class="aqua-menu__key">&#8984;N</kbd></button></li>
+        <li><button class="aqua-menu__item" type="button" aria-pressed="true">Show Toolbar</button></li>
+        <li><button class="aqua-menu__item" type="button" disabled>Empty Trash</button></li>
+        <li class="aqua-menu__separator" role="separator"></li>
+        <li><button class="aqua-menu__item" type="button">Get Info <kbd class="aqua-menu__key">&#8984;I</kbd></button></li>
+      </ul>
+      <p class="aqua-note" style="margin-top: 12px">An item is highlighted in the colour under the pointer or the keyboard; a dimmed one is disabled; a tick marks a chosen one.</p>
+    </div>
+  </section>
+
+  <section class="aqua-window" aria-labelledby="dialog-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="dialog-title">Dialog</h2>
+    </div>
+    <div class="aqua-window__body">
+      <p>A modal window over a dimmed page. Its red gumdrop is a real close button, and Escape closes it too.</p>
+      <div class="demo-row">
+        <button class="aqua-button" type="button" data-open-dialog>Show dialog&hellip;</button>
+      </div>
+      <p class="aqua-note" id="dialog-result" role="status"></p>
+    </div>
+  </section>
+
+  <section class="aqua-window" aria-labelledby="form-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="form-title">New Account</h2>
+    </div>
+    <form class="aqua-window__body" id="signup" novalidate>
+      <div class="demo-item">
+        <label class="aqua-label" for="su-name">Name</label>
+        <input class="aqua-field" id="su-name" type="text" required autocomplete="off" aria-describedby="su-name-error">
+        <p class="aqua-error demo-error" id="su-name-error" hidden>Enter your name.</p>
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="su-email">Email</label>
+        <input class="aqua-field" id="su-email" type="email" required autocomplete="off" placeholder="name@example.com" aria-describedby="su-email-error">
+        <p class="aqua-error demo-error" id="su-email-error" hidden>Enter an email address, like name@example.com.</p>
+      </div>
+      <div class="demo-item">
+        <label class="aqua-label" for="su-plan">Account type</label>
+        <select class="aqua-select" id="su-plan">
+          <option>Standard</option>
+          <option>Administrator</option>
+        </select>
+      </div>
+      <fieldset class="aqua-group">
+        <legend>Software updates</legend>
+        <div class="demo-stack">
+          <label class="aqua-radio"><input type="radio" name="su-updates" checked> Check weekly</label>
+          <label class="aqua-radio"><input type="radio" name="su-updates"> Check daily</label>
+        </div>
+      </fieldset>
+      <label class="aqua-check"><input type="checkbox" id="su-hint"> Show a password hint</label>
+      <div class="aqua-buttons">
+        <button class="aqua-button" type="reset">Cancel</button>
+        <button class="aqua-button aqua-button--default" type="submit">Create</button>
+      </div>
+      <p class="aqua-note" id="su-status" role="status"></p>
+    </form>
+  </section>
+
+  <section class="aqua-window demo-wide" id="how" aria-labelledby="how-title">
+    <div class="aqua-titlebar">
+      <span class="aqua-lights" aria-hidden="true"><span class="aqua-light"></span><span class="aqua-light aqua-light--min"></span><span class="aqua-light aqua-light--zoom"></span></span>
+      <h2 class="aqua-title" id="how-title">How to use</h2>
+    </div>
+    <div class="aqua-window__body">
+      <p>Copy <a href="aqua.css">aqua.css</a> next to your page and link it:</p>
+      <pre tabindex="0" aria-label="The link line"><code>&lt;link rel="stylesheet" href="aqua.css"&gt;</code></pre>
+      <p>A window is a title bar with the three gumdrops and a title, then a body:</p>
+      <pre tabindex="0" aria-label="Window markup"><code>&lt;section class="aqua-window" aria-labelledby="t1"&gt;
+  &lt;div class="aqua-titlebar"&gt;
+    &lt;span class="aqua-lights" aria-hidden="true"&gt;
+      &lt;span class="aqua-light"&gt;&lt;/span&gt;
+      &lt;span class="aqua-light aqua-light--min"&gt;&lt;/span&gt;
+      &lt;span class="aqua-light aqua-light--zoom"&gt;&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;h2 class="aqua-title" id="t1"&gt;Title&lt;/h2&gt;
+  &lt;/div&gt;
+  &lt;div class="aqua-window__body"&gt;
+    &lt;p&gt;Hello.&lt;/p&gt;
+    &lt;button class="aqua-button aqua-button--default"&gt;OK&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+      <p>For a colour, put <code>data-color="1"</code> to <code>"20"</code> on <code>&lt;html&gt;</code> (none, or <code>"0"</code>, is Classic), or set the five tokens <code>--aqua-face</code>, <code>--aqua-muted</code>, <code>--aqua-title</code>, <code>--aqua-title-text</code> and <code>--aqua-ink</code> yourself. Add <code>class="aqua-desktop"</code> to <code>&lt;body&gt;</code> for the page in the colour. The comment at the top of <code>aqua.css</code> gives the markup for every component.</p>
+    </div>
+  </section>
+</main>
+
+<dialog class="aqua-window aqua-dialog" id="save-dialog" aria-labelledby="save-title">
+  <div class="aqua-titlebar">
+    <span class="aqua-lights">
+      <button class="aqua-light" type="button" aria-label="Close" data-close-dialog></button>
+      <span class="aqua-light aqua-light--min" aria-hidden="true"></span>
+      <span class="aqua-light aqua-light--zoom" aria-hidden="true"></span>
+    </span>
+    <h2 class="aqua-title" id="save-title">Untitled</h2>
+  </div>
+  <form class="aqua-window__body" method="dialog">
+    <p><strong>Do you want to save the changes you made in the document &ldquo;Untitled&rdquo;?</strong></p>
+    <p class="aqua-note">Your changes will be lost if you don&rsquo;t save them.</p>
+    <div class="aqua-buttons">
+      <button class="aqua-button" value="Don&rsquo;t Save">Don&rsquo;t Save</button>
+      <button class="aqua-button" value="Cancel">Cancel</button>
+      <button class="aqua-button aqua-button--default" value="Save">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  (function () {
+    var NAMES = ["Classic", "Vermilion", "Saffron", "Chartreuse", "Malachite", "Verdigris",
+      "Cerulean", "Klein Blue", "Wisteria", "Fuchsia", "Flamingo", "Oxblood", "Tangerine",
+      "Umber", "Olive", "Turquoise", "Teal", "Ultraviolet", "Hot Pink", "Porcelain", "Raku"];
+    var root = document.documentElement;
+    var select = document.getElementById("colour-select");
+    var menu = document.getElementById("colour-menu");
+    var menus = Array.prototype.slice.call(document.querySelectorAll(".aqua-menu"));
+
+    // The colours: data-color on <html> (none for Classic), from the select or the menu.
+    NAMES.forEach(function (name, i) {
+      select.add(new Option(name, String(i)));
+      var li = document.createElement("li");
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "aqua-menu__item";
+      button.textContent = name;
+      button.setAttribute("data-set-color", String(i));
+      li.appendChild(button);
+      menu.appendChild(li);
+    });
+
+    function setColour(n) {
+      n = String(n);
+      if (n === "0") root.removeAttribute("data-color");
+      else root.setAttribute("data-color", n);
+      select.value = n;
+      menu.querySelectorAll("[data-set-color]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-set-color") === n));
+      });
+    }
+
+    var start = new URLSearchParams(location.search).get("color");
+    setColour(/^([0-9]|1[0-9]|20)$/.test(start || "") ? start : "0");
+    select.addEventListener("change", function () { setColour(select.value); });
+    menu.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-set-color]");
+      if (b) setColour(b.getAttribute("data-set-color"));
+    });
+
+    // Menus: one open at a time; closed by choosing an item, Escape or a click elsewhere;
+    // up and down arrows move through the items.
+    menus.forEach(function (d) {
+      d.addEventListener("toggle", function () {
+        if (d.open) menus.forEach(function (o) { if (o !== d) o.open = false; });
+      });
+      d.addEventListener("click", function (e) {
+        if (e.target.closest(".aqua-menu__item")) d.open = false;
+      });
+      d.addEventListener("keydown", function (e) {
+        if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+        var items = Array.prototype.slice.call(d.querySelectorAll(".aqua-menu__item:not(:disabled)"));
+        if (!items.length) return;
+        e.preventDefault();
+        d.open = true;
+        var i = items.indexOf(document.activeElement);
+        var next = e.key === "ArrowDown" ? (i + 1) % items.length : (i <= 0 ? items.length - 1 : i - 1);
+        items[next].focus();
+      });
+    });
+    document.addEventListener("click", function (e) {
+      menus.forEach(function (d) { if (d.open && !d.contains(e.target)) d.open = false; });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      menus.forEach(function (d) {
+        if (d.open) { d.open = false; d.querySelector("summary").focus(); }
+      });
+    });
+
+    // The mixed check box.
+    document.getElementById("cb-mixed").indeterminate = true;
+
+    // Tabs: click or arrow keys, Home and End.
+    document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+      var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+      function choose(tab) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute("aria-selected", String(on));
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+        });
+      }
+      list.addEventListener("click", function (e) {
+        var t = e.target.closest('[role="tab"]');
+        if (t) choose(t);
+      });
+      list.addEventListener("keydown", function (e) {
+        var i = tabs.indexOf(document.activeElement);
+        var j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (j === undefined) return;
+        e.preventDefault();
+        var t = tabs[(j + tabs.length) % tabs.length];
+        choose(t);
+        t.focus();
+      });
+    });
+
+    // The dialog.
+    var dialog = document.getElementById("save-dialog");
+    var result = document.getElementById("dialog-result");
+    document.querySelectorAll("[data-open-dialog]").forEach(function (b) {
+      b.addEventListener("click", function () { dialog.returnValue = ""; dialog.showModal(); dialog.querySelector(".aqua-button--default").focus(); });
+    });
+    dialog.querySelector("[data-close-dialog]").addEventListener("click", function () { dialog.close("Close"); });
+    dialog.addEventListener("close", function () {
+      result.textContent = "Closed with: " + (dialog.returnValue || "Escape") + ".";
+    });
+
+    // The sample form: checks the name and the email, sends nothing.
+    var form = document.getElementById("signup");
+    var status = document.getElementById("su-status");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var first = null;
+      ["su-name", "su-email"].forEach(function (id) {
+        var field = document.getElementById(id);
+        var bad = !field.checkValidity();
+        field.setAttribute("aria-invalid", String(bad));
+        document.getElementById(id + "-error").hidden = !bad;
+        if (bad && !first) first = field;
+      });
+      if (first) {
+        status.textContent = "";
+        first.focus();
+      } else {
+        status.textContent = "Account created for " + document.getElementById("su-name").value + ". (Nothing was sent: this is a demo.)";
+      }
+    });
+    form.addEventListener("reset", function () {
+      form.querySelectorAll("[aria-invalid]").forEach(function (f) { f.removeAttribute("aria-invalid"); });
+      form.querySelectorAll(".aqua-error").forEach(function (p) { p.hidden = true; });
+      status.textContent = "";
+    });
+  })();
+</script>
+</body>
+</html>
