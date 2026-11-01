@@ -34,6 +34,9 @@
  * - alt     alt text describing the picture (also the caption in the enlarged view).
  * - credit  { by, license, source }: shown as "Photo: <by>, <license>", linked to source,
  *           the file's Wikimedia page URL (the "source" that get_image.py prints).
+ * - demo    optional: the style's finished framework, as the path of its demo page relative
+ *           to index.html: 'frameworks/aqua/'. The card then shows a "Framework" badge and a
+ *           "View demo" link, and the "Completed only" filter (?sort=completed) keeps it.
  *
  * Rules:
  * - About 10-12 styles per section, oldest first. The page keeps the file's order.
@@ -115,67 +118,107 @@
 
   function cardNode(style) {
     const meta = [style.when, style.where].filter(Boolean).join(' · ');
+    const name = style.name || 'Untitled';
+    const title = el('h3', { text: name });
     const card = el('article', { class: 'card' },
       photoNode(style),
       el('div', { class: 'card-body' },
-        el('h3', { text: style.name || 'Untitled' }),
+        style.demo ? el('div', { class: 'card-title' }, title, el('span', { class: 'badge', text: 'Framework' })) : title,
         meta ? el('p', { class: 'meta', text: meta }) : null,
         style.line ? el('p', { class: 'line', text: style.line }) : null,
+        style.demo ? el('p', { class: 'demo' },
+          el('a', { href: style.demo, 'aria-label': `View demo of the ${name} framework` },
+            'View demo', el('span', { 'aria-hidden': 'true', text: ' →' }))) : null,
         creditNode(style.credit)));
     card.dataset.search = [style.name, style.when, style.where, style.line].join(' ').toLowerCase();
+    if (style.demo) card.dataset.demo = '';
     return card;
   }
 
   // Build the menu and sections.
   const menu = $('#menu');
   const main = $('#main');
+  const groups = [];
   const sections = [];
   let total = 0;
+  let frameworks = 0;
 
   for (const group of GROUPS) {
     const list = el('ul');
-    menu.append(el('div', { class: 'menu-group' }, el('span', { class: 'menu-label', text: group.name }), list));
-    main.append(el('p', { class: 'group-title', text: group.name }));
+    const menuGroup = el('div', { class: 'menu-group' }, el('span', { class: 'menu-label', text: group.name }), list);
+    const groupTitle = el('p', { class: 'group-title', text: group.name });
+    const groupSections = [];
+    menu.append(menuGroup);
+    main.append(groupTitle);
 
     for (const id of group.sections) {
       const data = sectionData(id);
       const cards = data.styles.map(cardNode);
       const grid = el('div', { class: 'grid' }, ...cards);
       const note = el('p', { class: 'note', text: cards.length ? 'No matches' : 'Coming soon', hidden: cards.length > 0 });
-      list.append(el('li', {}, el('a', { href: '#' + id, text: data.title })));
-      main.append(el('section', { class: 'section', id, 'aria-labelledby': id + '-title' },
+      const link = el('li', {}, el('a', { href: '#' + id, text: data.title }));
+      const section = el('section', { class: 'section', id, 'aria-labelledby': id + '-title' },
         el('h2', { id: id + '-title', text: data.title }),
         data.intro ? el('p', { class: 'section-intro', text: data.intro }) : null,
         grid,
-        note));
-      sections.push({ cards, note });
+        note);
+      list.append(link);
+      main.append(section);
+      const demos = data.styles.filter((style) => style.demo).length;
+      const entry = { section, link, cards, note, demos, off: false };
+      sections.push(entry);
+      groupSections.push(entry);
       total += cards.length;
+      frameworks += demos;
     }
+    groups.push({ menuGroup, groupTitle, sections: groupSections });
   }
 
   const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
   $('#count').textContent = `${plural(total, 'style')} in ${plural(sections.length, 'section')}`;
 
   // Search: every word must appear in the name, when, where or line.
+  // "Completed only" keeps the styles with a demo and hides sections (and groups) without one.
   const input = $('#q');
   const matches = $('#matches');
+  const completed = $('#completed');
 
   function filter() {
     const words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    const only = completed.checked;
     let shown = 0;
-    for (const { cards, note } of sections) {
+    for (const entry of sections) {
+      const { cards, note } = entry;
       let count = 0;
       for (const card of cards) {
-        const hit = words.every((word) => card.dataset.search.includes(word));
+        const hit = (!only || 'demo' in card.dataset) && words.every((word) => card.dataset.search.includes(word));
         card.hidden = !hit;
         if (hit) count++;
       }
+      entry.off = only && entry.demos === 0;
+      entry.section.hidden = entry.link.hidden = entry.off;
       if (cards.length) note.hidden = count > 0;
       shown += count;
     }
-    matches.textContent = words.length ? `${shown} ${shown === 1 ? 'match' : 'matches'}` : '';
+    for (const group of groups) {
+      group.menuGroup.hidden = group.groupTitle.hidden = group.sections.every((entry) => entry.off);
+    }
+    if (only) matches.textContent = words.length ? `${shown} of ${frameworks}` : plural(frameworks, 'framework');
+    else matches.textContent = words.length ? `${shown} ${shown === 1 ? 'match' : 'matches'}` : '';
   }
   input.addEventListener('input', filter);
+
+  // ?sort=completed in the URL turns "Completed only" on, so a shared link opens filtered.
+  completed.addEventListener('change', () => {
+    const params = new URLSearchParams(location.search);
+    if (completed.checked) params.set('sort', 'completed');
+    else params.delete('sort');
+    const query = params.toString();
+    history.replaceState(history.state, '', location.pathname + (query ? '?' + query : '') + location.hash);
+    filter();
+  });
+  completed.checked = new URLSearchParams(location.search).get('sort') === 'completed';
+  if (completed.checked) filter();
 
   // Photo viewer.
   const viewer = $('#viewer');

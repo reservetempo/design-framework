@@ -180,12 +180,13 @@ a { color: var(--accent); text-underline-offset: 0.15em; }
 .search {
   flex: 1 1 100%;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.4rem 0.75rem;
 }
 
-.search input {
-  flex: 1 1 auto;
+.search input[type="search"] {
+  flex: 1 1 12rem;
   min-width: 0;
   max-width: 28rem;
   padding: 0.45rem 0.75rem;
@@ -197,11 +198,29 @@ a { color: var(--accent); text-underline-offset: 0.15em; }
 }
 .search input::placeholder { color: var(--muted); opacity: 1; }
 
+/* Room for the longest count, so the toggle doesn't jump as you type. */
 #matches {
+  min-width: 5.5rem;
   font-size: 0.875rem;
   color: var(--muted);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.toggle input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
 /* Wide screens: groups stacked on the left, search on the right. */
@@ -221,6 +240,9 @@ a { color: var(--accent); text-underline-offset: 0.15em; }
   }
   .menu ul { flex-wrap: wrap; }
   .search { flex: 0 0 19rem; }
+  /* The search box gets the full width; the toggle and the count go underneath. */
+  .search input[type="search"] { flex-basis: 100%; }
+  #matches { order: 1; }
 }
 
 /* Sections */
@@ -346,6 +368,38 @@ main:focus { outline: none; }
   font-size: 1.125rem;
   line-height: 1.3;
 }
+
+/* Styles with a finished framework: a badge by the name and a link to the demo. */
+.card-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+}
+
+.badge {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+}
+
+.demo { margin: 0.35rem 0 0; }
+
+.demo a {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+}
+.demo a:hover { color: var(--surface); background: var(--accent); }
 
 .meta {
   margin: 0;

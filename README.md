@@ -10,6 +10,7 @@ Live site: https://reservetempo.github.io/design-framework/
 - `style-frameworks.css`, `style-frameworks.js`: the styles and the script that renders the sections. The section groups and their order are set in `GROUPS` in `style-frameworks.js`.
 - `data/<id>.js`: one file per section, loaded with a plain `<script>` tag in `index.html`. The data format and rules are documented at the top of `style-frameworks.js`.
 - `img/<id>/`: the pictures for each section.
+- `frameworks/<id>/`: the finished style frameworks, each one CSS library plus a demo page (`index.html`). See `frameworks/aqua/`; usage is in the header of `aqua.css`.
 - `tools/get_image.py`: searches Wikimedia and downloads images (Python 3 standard library only).
 
 ## Adding a style or a section
@@ -23,6 +24,8 @@ Live site: https://reservetempo.github.io/design-framework/
   python tools/get_image.py search "Bauhaus building"
   python tools/get_image.py get "File:<name>" img/<id>/<slug>.jpg
   ```
+
+- **A framework:** put it in `frameworks/<id>/` and set `demo: 'frameworks/<id>/'` on its style. The card then gets a "Framework" badge and a "View demo" link. The "Completed only" check box shows just these styles; it adds `?sort=completed` to the URL, so https://reservetempo.github.io/design-framework/?sort=completed opens filtered.
 
 To preview over HTTP, run `python -m http.server 8002` and open http://localhost:8002.
 
