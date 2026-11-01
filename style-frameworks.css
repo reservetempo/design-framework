@@ -273,6 +273,19 @@ main:focus { outline: none; }
 }
 .grid + .note { margin-top: 0; }
 
+/* Footer */
+
+.page-foot {
+  padding-block: 1.5rem 3rem;
+  border-top: 1px solid var(--border);
+}
+.page-foot p {
+  max-width: 40em;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
 /* Cards */
 
 .card {

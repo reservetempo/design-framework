@@ -25,20 +25,20 @@
     {
       name: 'Hollywood Regency',
       when: '1930s-1960s',
-      where: 'Dorothy Draper, William Haines; The Greenbrier, West Virginia',
+      where: 'Dorothy Draper, William Haines; Palácio Quitandinha, Petrópolis, Brazil',
       line: "Named after the homes of 1930s Hollywood stars and Britain's elegant Regency style: theatrical glamour with bold colours, oversized patterns, lacquer, mirrors and gilded details.",
       image: 'img/interiors/hollywood-regency.jpg',
-      alt: "Guest room at The Greenbrier in Dorothy Draper's style, with rose-patterned wallpaper, curtains and bedspread, a white fretwork headboard and green carpet",
-      credit: { by: 'Valereee', license: 'CC0', source: 'https://commons.wikimedia.org/wiki/File:Greenbrier_Dorothy_Draper_design.jpg' }
+      alt: "A long white gallery in Dorothy Draper's interiors for the Palácio Quitandinha, Petrópolis, with a bold black-and-white marble floor, arched windows and ornate white chandeliers",
+      credit: { by: 'FlaviaC', license: 'CC BY-SA 3.0', source: 'https://commons.wikimedia.org/wiki/File:QUITANDINHA_2.JPG' }
     },
     {
       name: 'Mid-century modern',
       when: '1945-1970',
-      where: 'Charles and Ray Eames; Eames House, Los Angeles',
+      where: 'Charles and Ray Eames, Eero Saarinen; Miller House, Columbus, Indiana',
       line: 'Named in the 1980s after the middle of the 20th century: open-plan rooms, big windows, organic curves and moulded plywood or plastic furniture made for everyday postwar homes.',
       image: 'img/interiors/mid-century-modern.jpg',
-      alt: 'Photo on a display panel of the Eames House living room in Los Angeles: a double-height room with a steel-framed glass wall, paper lanterns, bookshelves and plants',
-      credit: { by: 'edward stojakovic', license: 'CC BY 2.0', source: 'https://commons.wikimedia.org/wiki/File:Eames_House_Interior.jpg' }
+      alt: 'The living area of the Miller House, Columbus, Indiana (1953-57): a sunken conversation pit with bright cushions, a long storage wall, a grand piano and plants',
+      credit: { by: 'Balthazar Korab', license: 'Public domain', source: 'https://commons.wikimedia.org/wiki/File:Miller_house,_Columbus,_Indiana,_1953-57._Living_area_from_terrace_-_00351v.jpg' }
     },
     {
       name: 'Scandinavian',
@@ -79,11 +79,11 @@
     {
       name: 'Minimalism',
       when: '1990s-now',
-      where: 'John Pawson, Tadao Ando',
+      where: 'John Pawson, Tadao Ando; roots in Mies van der Rohe’s Farnsworth House, Illinois',
       line: "Named after 1960s minimalist art and Mies van der Rohe's motto 'less is more': bare white rooms with hidden storage, few objects and nothing purely decorative.",
       image: 'img/interiors/minimalism.jpg',
-      alt: 'Slim black tube pendant lights over a dining table in a plain white room with a round backlit mirror',
-      credit: { by: 'Shixart1985', license: 'CC BY 2.0', source: 'https://commons.wikimedia.org/wiki/File:Modern_pendant_lights_illuminate_minimalist_interior_design_in_stylish_dining_area_during_evening_hours.jpg' }
+      alt: 'The glass-walled living area of Mies van der Rohe’s Farnsworth House, Illinois: two leather Barcelona chairs and a glass table on a pale floor, with bare trees outside',
+      credit: { by: 'Victor Grigas', license: 'CC BY-SA 3.0', source: 'https://commons.wikimedia.org/wiki/File:Farnsworth_House_by_Mies_Van_Der_Rohe_-_interior.jpg' }
     },
     {
       name: 'Modern farmhouse',
