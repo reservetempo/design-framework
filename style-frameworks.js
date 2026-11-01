@@ -1,8 +1,8 @@
 /*
- * Style frameworks: renders research/style-frameworks.html from window.STYLE_DATA.
+ * Style frameworks: renders index.html from window.STYLE_DATA.
  *
  * DATA FORMAT
- * Each section is one file, research/data/<id>.js, loaded with a plain <script> tag
+ * Each section is one file, data/<id>.js, loaded with a plain <script> tag
  * before this file (no fetch, so the page also works from file://). A file sets:
  *
  *   (window.STYLE_DATA = window.STYLE_DATA || {})['os'] = {
@@ -30,15 +30,15 @@
  * - when    years: '1985', '2001-2013', 'c. 1140-1500', '1990s'.
  * - where   the maker or place: 'Apple, Mac OS X', 'Île-de-France', 'Nintendo'.
  * - line    one sentence, at most ~30 words: where the name comes from and the idea.
- * - image   path relative to style-frameworks.html: 'img/<id>/<slug>.<ext>'.
+ * - image   path relative to index.html: 'img/<id>/<slug>.<ext>'.
  * - alt     alt text describing the picture (also the caption in the enlarged view).
  * - credit  { by, license, source }: shown as "Photo: <by>, <license>", linked to source,
  *           the file's Wikimedia page URL (the "source" that get_image.py prints).
  *
  * Rules:
  * - About 10-12 styles per section, oldest first. The page keeps the file's order.
- * - Images go in research/img/<id>/, about 800px wide and under ~400 KB. Fetch them with
- *   research/tools/get_image.py, which prints the credit.
+ * - Images go in img/<id>/, about 800px wide and under ~400 KB. Fetch them with
+ *   tools/get_image.py, which prints the credit.
  * - Prefer free Wikimedia Commons files. Non-free English Wikipedia screenshots are allowed
  *   for OS, app and game screenshots: credit them as
  *   { by: '(c) <owner>', license: 'non-free, via English Wikipedia', source: <file page> }.

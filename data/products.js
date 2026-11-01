@@ -1,5 +1,5 @@
 // Industrial and product design (group "Objects"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/products/. Free Commons files only.
+// Styles go in `styles`, oldest first; images in img/products/. Free Commons files only.
 (window.STYLE_DATA = window.STYLE_DATA || {})['products'] = {
   title: 'Industrial and product design',
   intro: 'How everyday machines, from stoves and kettles to radios, typewriters and music players, have been styled since the 1850s, from Victorian ornament and Streamline curves to Braun\'s calm functionalism and minimal digital gadgets.',

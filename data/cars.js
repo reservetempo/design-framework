@@ -1,5 +1,5 @@
 // Cars (group "Objects"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/cars/. Free Commons files only.
+// Styles go in `styles`, oldest first; images in img/cars/. Free Commons files only.
 (window.STYLE_DATA = window.STYLE_DATA || {})['cars'] = {
   title: 'Cars',
   intro: 'How car bodies have been shaped since the first horseless carriages, from brass lamps and coachbuilt chassis to streamlined tails, jet-age fins, Italian wedges, wind-tunnel jellybeans and retro revivals.',

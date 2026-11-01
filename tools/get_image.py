@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Find and download Wikimedia images for research/style-frameworks.html.
+"""Find and download Wikimedia images for the Design framework site (index.html).
 
 Usage:
-  python research/tools/get_image.py search "<query>" [--wiki commons|en] [--limit N]
-  python research/tools/get_image.py get "File:<name>" <out path> [--wiki commons|en] [--width 800]
+  python tools/get_image.py search "<query>" [--wiki commons|en] [--limit N]
+  python tools/get_image.py get "File:<name>" <out path> [--wiki commons|en] [--width 800]
 
 search  prints one line per file: title | width x height | licence | MIME type.
 get     saves a <width>px thumbnail (or the original if it is already narrower),
@@ -29,7 +29,7 @@ APIS = {
     "commons": "https://commons.wikimedia.org/w/api.php",
     "en": "https://en.wikipedia.org/w/api.php",
 }
-USER_AGENT = "StyleResearch/1.0 (personal research page; python-urllib)"
+USER_AGENT = "DesignFramework/1.0 (https://reservetempo.github.io/design-framework/; python-urllib)"
 SAFE_ORIGINALS = ("image/jpeg", "image/png", "image/gif", "image/webp")
 
 
@@ -130,7 +130,7 @@ def main():
     s.add_argument("--limit", type=int, default=10)
     g = sub.add_parser("get", help="download one file and print its credit as JSON")
     g.add_argument("title", help='e.g. "File:Example.jpg"')
-    g.add_argument("out", help="output path, e.g. research/img/os/aqua.png")
+    g.add_argument("out", help="output path, e.g. img/os/aqua.png")
     g.add_argument("--wiki", choices=APIS, default="commons")
     g.add_argument("--width", type=int, default=800)
     args = parser.parse_args()

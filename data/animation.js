@@ -1,5 +1,5 @@
 // Animation and comics (group "Art and film"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/animation/. Free Commons files only.
+// Styles go in `styles`, oldest first; images in img/animation/. Free Commons files only.
 (window.STYLE_DATA = window.STYLE_DATA || {})['animation'] = {
   title: 'Animation and comics',
   intro: "How cartoons and comics were drawn and set moving over two centuries, from Hokusai's sketchbooks and the Sunday funnies to traced, bendy and cut-paper animation, newsstand comic books, flat 1950s cartoons, computer-rendered films and comics made for the web.",

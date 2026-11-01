@@ -1,5 +1,5 @@
 // Film looks (group "Art and film"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/film/. Free Commons files only.
+// Styles go in `styles`, oldest first; images in img/film/. Free Commons files only.
 (window.STYLE_DATA = window.STYLE_DATA || {})['film'] = {
   title: 'Film looks',
   intro: 'How live-action films looked over seventy years, from camera tricks and crooked painted sets to clashing cuts, gothic shadows, saturated Technicolor, street realism, muscleman epics and handheld jump cuts.',

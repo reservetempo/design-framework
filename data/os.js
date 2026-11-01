@@ -1,5 +1,5 @@
 // Operating systems (group "Screens"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/os/.
+// Styles go in `styles`, oldest first; images in img/os/.
 (window.STYLE_DATA = window.STYLE_DATA || {})['os'] = {
   title: 'Operating systems',
   intro: 'The look of desktop and phone operating systems, from black-and-white pixel icons through gloss and glass to flat design and back to glass again.',

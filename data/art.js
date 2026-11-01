@@ -1,5 +1,5 @@
 // Art movements (group "Art and film"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/art/. Free Commons files only.
+// Styles go in `styles`, oldest first; images in img/art/. Free Commons files only.
 (window.STYLE_DATA = window.STYLE_DATA || {})['art'] = {
   title: 'Art movements',
   intro: 'How painters changed the look of a picture over two and a half centuries, from Japanese woodblock prints and Romantic drama to visible brushstrokes, dots of pure colour, wild colour, broken cubes and pure geometry.',

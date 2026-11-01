@@ -1,5 +1,5 @@
 // Furniture (group "Objects"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/furniture/. Free Commons files only.
+// Styles go in `styles`, oldest first; images in img/furniture/. Free Commons files only.
 (window.STYLE_DATA = window.STYLE_DATA || {})['furniture'] = {
   title: 'Furniture',
   intro: 'How chairs, tables and cabinets have been shaped over six centuries, from Ming hardwood and French court commodes to bentwood café chairs, steel tubes, hand-made live-edge tables and computer-grown forms.',

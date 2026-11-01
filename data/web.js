@@ -1,5 +1,5 @@
 // Web and app styles (group "Screens"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/web/.
+// Styles go in `styles`, oldest first; images in img/web/.
 (window.STYLE_DATA = window.STYLE_DATA || {})['web'] = {
   title: 'Web and app styles',
   intro: 'How websites and apps have looked, from hand-made 1990s homepages through glossy Web 2.0 and skeuomorphism to flat design and today\'s glass, clay and bento tiles.',

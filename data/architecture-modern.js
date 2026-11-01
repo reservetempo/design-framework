@@ -1,5 +1,5 @@
 // Modern architecture (group "Buildings and spaces"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/architecture-modern/.
+// Styles go in `styles`, oldest first; images in img/architecture-modern/.
 (window.STYLE_DATA = window.STYLE_DATA || {})['architecture-modern'] = {
   title: 'Modern architecture',
   intro: 'How buildings changed after 1900: from Art Nouveau curves and Bauhaus glass boxes to raw concrete, postmodern wit, computer-shaped curves and plant-covered towers.',

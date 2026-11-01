@@ -1,5 +1,5 @@
 // Interior design (group "Buildings and spaces"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/interiors/.
+// Styles go in `styles`, oldest first; images in img/interiors/.
 (window.STYLE_DATA = window.STYLE_DATA || {})['interiors'] = {
   title: 'Interior design',
   intro: 'How rooms have been furnished and decorated over two centuries, from Shaker plainness and Art Deco glamour to mid-century modern, Scandinavian and Japandi calm.',

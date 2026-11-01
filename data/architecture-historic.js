@@ -1,5 +1,5 @@
 // Architecture before 1900 (group "Buildings and spaces"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/architecture-historic/.
+// Styles go in `styles`, oldest first; images in img/architecture-historic/.
 (window.STYLE_DATA = window.STYLE_DATA || {})['architecture-historic'] = {
   title: 'Architecture before 1900',
   intro: 'From Greek temples to Victorian parliaments, most of these styles were named long after they were built, by historians, and some of the names began as insults.',

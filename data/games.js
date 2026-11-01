@@ -1,5 +1,5 @@
 // Game art styles (group "Screens"). Format: see the header of ../style-frameworks.js.
-// Styles go in `styles`, oldest first; images in research/img/games/.
+// Styles go in `styles`, oldest first; images in img/games/.
 (window.STYLE_DATA = window.STYLE_DATA || {})['games'] = {
   title: 'Game art styles',
   intro: 'How video games draw their worlds: looks first forced by the hardware of the day, then kept, revived and mixed on purpose.',
