@@ -2,7 +2,7 @@
 // Styles go in `styles`, oldest first; images in research/img/film/. Free Commons files only.
 (window.STYLE_DATA = window.STYLE_DATA || {})['film'] = {
   title: 'Film looks',
-  intro: 'How live-action films looked over seventy years, from camera tricks and crooked painted sets to clashing cuts, gothic shadows, saturated Technicolor, street realism, wide screens and handheld jump cuts.',
+  intro: 'How live-action films looked over seventy years, from camera tricks and crooked painted sets to clashing cuts, gothic shadows, saturated Technicolor, street realism, muscleman epics and handheld jump cuts.',
   styles: [
     {
       name: 'Trick film',
@@ -26,7 +26,7 @@
       name: 'German Expressionist film',
       when: '1920-1927',
       where: 'Weimar Germany; Wiene, Murnau, Lang',
-      line: 'Borrowed from Expressionist painting: the world as a nightmare seen from inside a troubled mind, with crooked sets with light and shadow painted onto them, and actors moving like puppets.',
+      line: 'Borrowed from Expressionist painting: the world as a nightmare seen from inside a troubled mind, with crooked sets, light and shadow painted onto the walls, and actors moving like puppets.',
       image: 'img/film/german-expressionist-film.jpg',
       alt: 'Publicity still from The Cabinet of Dr. Caligari, 1920: Dr. Caligari in a top hat and cape walks down a narrow street of tilted walls painted with jagged lines',
       credit: { by: 'Robert Wiene / Carl Mayer / Hans Janowitz', license: 'Public domain', source: 'https://commons.wikimedia.org/wiki/File:Publicity_still_for_The_Cabinet_of_Dr._Caligari_(1920)_03.jpg' }
@@ -35,7 +35,7 @@
       name: 'Soviet montage',
       when: '1924-1930',
       where: 'Eisenstein, Pudovkin, Vertov, USSR',
-      line: "From the French for 'assembly': meaning made in the cutting room by smashing short, clashing shots together so the audience feels the idea, as in Potemkin's massacre on the Odessa Steps.",
+      line: "From the French for 'assembly': meaning made in the cutting room by smashing short, clashing shots together so viewers feel the idea, as in Potemkin's massacre on the Odessa Steps.",
       image: 'img/film/soviet-montage.jpg',
       alt: "Frame from Sergei Eisenstein's Battleship Potemkin, 1925: a close-up of soldiers' boots marching in step down the Odessa Steps",
       credit: { by: 'Sergei Eisenstein', license: 'Public domain', source: 'https://commons.wikimedia.org/wiki/File:Odessastepsboots.jpg' }
@@ -86,19 +86,19 @@
       credit: { by: 'Ed Wood', license: 'Public domain', source: 'https://commons.wikimedia.org/wiki/File:Plan9SaucerShadow.jpg' }
     },
     {
-      name: 'Widescreen epic',
-      when: '1953-1966',
-      where: 'CinemaScope, 70mm; MGM, 20th Century Fox',
-      line: 'Named for the extra-wide screens Hollywood launched to fight television: CinemaScope and 70mm frames filled with huge sets, crowds of extras and spectacle, like Ben-Hur\'s chariot race.',
-      image: 'img/film/widescreen-epic.jpg',
-      alt: 'Trailer frame from Ben-Hur, 1959: teams of four horses pull chariots across a vast sandy arena, stretched across a very wide frame',
-      credit: { by: 'Metro-Goldwyn-Mayer', license: 'Public domain', source: 'https://commons.wikimedia.org/wiki/File:Cuadrigas_de_Ben_Hur_(1959).jpg' }
+      name: 'Sword-and-sandal',
+      when: '1958-1965',
+      where: 'Cinecittà, Rome; Pietro Francisci, Steve Reeves',
+      line: "Nicknamed for the heroes' swords and sandals ('peplum' in Italy, after their short tunics): cheap widescreen colour epics of ancient myth starring bodybuilders, launched by Hercules in 1958.",
+      image: 'img/film/sword-and-sandal.jpg',
+      alt: "Frame from Pietro Francisci's Hercules (Le fatiche di Ercole), 1958: a bare-chested Steve Reeves as Hercules, chained between two stone pillars, strains at the chains with outstretched arms",
+      credit: { by: 'Pietro Francisci / Galatea Film', license: 'Public domain', source: 'https://commons.wikimedia.org/wiki/File:Le_fatiche_di_Ercole_-_Reeves.png' }
     },
     {
       name: 'French New Wave',
       when: '1958-1968',
       where: 'Godard, Truffaut, Varda, France',
-      line: "From 'la Nouvelle Vague', a press label for France's young critics turned directors: handheld cameras, real Paris streets, jump cuts and actors talking to the camera, breaking old rules on purpose.",
+      line: "From 'la Nouvelle Vague', a press label for France's young critics turned directors: handheld cameras, real Paris streets, jump cuts and actors addressing the camera, breaking old rules on purpose.",
       image: 'img/film/french-new-wave.jpg',
       alt: "US lobby card for Jean-Luc Godard's Two or Three Things I Know About Her, 1967: Marina Vlady and another young woman smoking side by side in a doorway, in plain natural light",
       credit: { by: 'New Yorker Films', license: 'Public domain', source: 'https://commons.wikimedia.org/wiki/File:Two_or_Three_Things_I_Know_About_Her_-_US_promo_1.jpg' }
@@ -106,11 +106,11 @@
     {
       name: 'Spaghetti western',
       when: '1964-1973',
-      where: 'Sergio Leone, Italy and Spain',
+      where: 'Sergio Leone, Sergio Corbucci; Italy and Spain',
       line: 'A mocking nickname for westerns made by Italians, often in Spain: sun-scorched landscapes, dusty antiheroes, extreme close-ups of squinting eyes and long, silent stand-offs scored by Ennio Morricone.',
       image: 'img/film/spaghetti-western.jpg',
-      alt: 'Publicity photo for A Fistful of Dollars, 1964: an unshaven Clint Eastwood squints in the sun, wrapped in a worn poncho',
-      credit: { by: 'Jolly Film', license: 'Public domain', source: 'https://commons.wikimedia.org/wiki/File:Clint_Eastwood_in_A_Fistful_of_Dollars,_1964.jpg' }
+      alt: "Frame from Sergio Corbucci's Django, 1966: Major Jackson in a grey hat, long coat and red scarf grips a rifle, with a red-scarfed gunman in black behind him in a weathered frontier town",
+      credit: { by: 'Sergio Corbucci / B.R.C. Produzione', license: 'Public domain', source: 'https://commons.wikimedia.org/wiki/File:Eduardo_Fajardo_-_Django_01.jpg' }
     }
   ]
 };
