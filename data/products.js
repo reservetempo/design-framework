@@ -70,7 +70,7 @@
     {
       name: 'Space Age',
       when: '1960s-1970s',
-      where: 'JVC, Panasonic and Weltron, Japan; Europe and the USA',
+      where: 'JVC and Panasonic, Japan; Weltron, USA',
       line: 'Named after the race to the Moon: televisions, radios and lamps shaped like astronaut helmets, globes and pods, moulded in glossy white, orange and red plastic.',
       image: 'img/products/space-age.jpg',
       alt: 'A JVC Videosphere television of about 1970 in a museum case: a round orange set shaped like an astronaut\'s helmet, with a dark visor-like screen and an antenna, on an orange base',
@@ -78,7 +78,7 @@
     },
     {
       name: 'Italian pop design',
-      when: 'Late 1960s-1970s',
+      when: '1965-1970s',
       where: 'Milan and Ivrea; Ettore Sottsass for Olivetti, Brionvega',
       line: "Named after Pop Art: Italian designers turned typewriters and radios into bright, playful plastic objects; Sottsass's red Valentine typewriter was meant for use anywhere except an office.",
       image: 'img/products/italian-pop.jpg',
@@ -96,7 +96,7 @@
     },
     {
       name: 'Blobject',
-      when: '1990s-early 2000s',
+      when: 'c. 1995-2005',
       where: 'Apple iMac G3 (Jony Ive); Karim Rashid',
       line: "A blend of 'blob' and 'object': rounded, translucent, candy-coloured computers and gadgets, like Apple's 1998 iMac, that made technology look friendly and showed off its insides.",
       image: 'img/products/blobject.jpg',

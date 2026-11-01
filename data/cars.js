@@ -86,10 +86,10 @@
       credit: { by: 'High Contrast', license: 'CC BY 3.0 de', source: 'https://commons.wikimedia.org/wiki/File:VW_Golf_I_-_photographed_in_2013.JPG' }
     },
     {
-      name: 'Aero look (jellybean)',
+      name: 'Jellybean',
       when: '1982-1990s',
-      where: 'Audi, Ford: Audi 100, Sierra, Taurus',
-      line: 'Named for wind-cheating smoothness, nicknamed jellybean: flush glass, hidden rain gutters and rounded, sloping noses cut drag after the oil crises, as on the Audi 100, Sierra and Taurus.',
+      where: 'Audi 100; Ford Sierra and Taurus',
+      line: 'Nicknamed for smooth, rounded bodies shaped like jelly beans (Ford called it the aero look): flush glass, hidden rain gutters and sloping noses cut drag after the oil crises.',
       image: 'img/cars/aero-look.jpg',
       alt: 'A silver Audi 100 CS saloon of the 1980s at a show: a smooth body with windows set flush with the sides, a low sloping nose and rounded corners',
       credit: { by: 'Hilarmont', license: 'CC BY-SA 3.0 de', source: 'https://commons.wikimedia.org/wiki/File:Audi_100_C3_Typ_44_Limo_14062014_(Foto_Hilarmont)_(1).JPG' }

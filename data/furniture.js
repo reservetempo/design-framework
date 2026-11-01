@@ -2,7 +2,7 @@
 // Styles go in `styles`, oldest first; images in research/img/furniture/. Free Commons files only.
 (window.STYLE_DATA = window.STYLE_DATA || {})['furniture'] = {
   title: 'Furniture',
-  intro: 'How chairs, tables and cabinets have been shaped over six centuries, from Ming hardwood and French court commodes to bentwood café chairs, steel tubes, moulded plastic and computer-grown forms.',
+  intro: 'How chairs, tables and cabinets have been shaped over six centuries, from Ming hardwood and French court commodes to bentwood café chairs, steel tubes, hand-made live-edge tables and computer-grown forms.',
   styles: [
     {
       name: 'Ming furniture',
@@ -95,13 +95,13 @@
       credit: { by: '14GTR', license: 'CC0', source: 'https://commons.wikimedia.org/wiki/File:Paimio_armchair_by_Alvar_Aalto_01.jpg' }
     },
     {
-      name: 'Pop plastic',
-      when: '1960s-1970s',
-      where: 'Verner Panton for Vitra; Italian makers such as Kartell',
-      line: "Named after Pop Art and the new plastics: Verner Panton's chair was the first moulded in one piece of plastic, a glossy, stackable S-curve in bright colours.",
-      image: 'img/furniture/pop-plastic.jpg',
-      alt: 'A glossy blue Panton chair: seat, back and base formed in one continuous S-shaped piece of moulded plastic, with no separate legs',
-      credit: { by: 'Tokumeigakarinoaoshima', license: 'CC0', source: 'https://commons.wikimedia.org/wiki/File:Panton_Chair_by_Verner_Panton.JPG' }
+      name: 'Studio furniture',
+      when: '1940s-1980s',
+      where: 'George Nakashima, New Hope, Pennsylvania; Wharton Esherick, Sam Maloof, Wendell Castle',
+      line: "Named after the craftsman's own studio rather than a factory: makers such as George Nakashima built furniture by hand, keeping a slab's natural 'live edge', knots and grain.",
+      image: 'img/furniture/studio-furniture.jpg',
+      alt: 'George Nakashima\'s Arlyn table in a museum gallery: a huge, irregular slab of burl wood with wavy natural edges on a dark base, ringed by spindle-backed wooden chairs',
+      credit: { by: 'Jbvic2', license: 'CC0', source: 'https://commons.wikimedia.org/wiki/File:%22Arlyn%22_table_by_George_Nakashima.jpg' }
     },
     {
       name: 'Digital fabrication',
