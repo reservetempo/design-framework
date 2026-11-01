@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-label="Bohemian living room illustration">
+  <!-- terracotta wall and wood floor -->
+  <rect width="960" height="720" fill="#d98f6a"/>
+  <rect y="530" width="960" height="190" fill="#9a6a45"/>
+  <!-- macrame wall hanging -->
+  <line x1="120" y1="120" x2="300" y2="120" stroke="#7a5532" stroke-width="8" stroke-linecap="round"/>
+  <g stroke="#f4e6cc" stroke-width="4" fill="none">
+    <path d="M140 124 L210 230 L280 124"/><path d="M160 124 L210 200 L260 124"/><path d="M140 124 L140 260"/><path d="M280 124 L280 260"/>
+    <path d="M210 230 L210 330"/><path d="M190 230 L180 320"/><path d="M230 230 L240 320"/><path d="M160 200 L160 300"/><path d="M260 200 L260 300"/>
+  </g>
+  <!-- arched window with plants -->
+  <path d="M600 470 L600 210 Q690 110 780 210 L780 470 Z" fill="#f6d9a6"/>
+  <path d="M600 470 L600 210 Q690 110 780 210 L780 470 Z" fill="none" stroke="#7a5532" stroke-width="10"/>
+  <!-- trailing plant on shelf -->
+  <rect x="380" y="150" width="160" height="10" fill="#7a5532"/>
+  <path d="M440 150 L446 120 L474 120 L480 150 Z" fill="#c45d3a"/>
+  <g fill="#4f7a4a"><ellipse cx="450" cy="180" rx="9" ry="6"/><ellipse cx="462" cy="210" rx="9" ry="6"/><ellipse cx="456" cy="240" rx="9" ry="6"/><ellipse cx="470" cy="270" rx="9" ry="6"/><ellipse cx="478" cy="175" rx="9" ry="6"/><ellipse cx="486" cy="200" rx="9" ry="6"/></g>
+  <path d="M460 160 Q448 210 470 280 M470 160 Q490 190 486 205" stroke="#4f7a4a" stroke-width="3" fill="none"/>
+  <!-- patterned rug -->
+  <ellipse cx="480" cy="640" rx="390" ry="62" fill="#a33b32"/>
+  <ellipse cx="480" cy="640" rx="320" ry="46" fill="#e0a43c"/>
+  <ellipse cx="480" cy="640" rx="250" ry="34" fill="#2f5d73"/>
+  <ellipse cx="480" cy="640" rx="160" ry="20" fill="#e9d7b4"/>
+  <!-- rattan chair -->
+  <path d="M110 560 Q60 380 180 330 Q300 380 250 560 Z" fill="#c99a55" stroke="#8b6431" stroke-width="5"/>
+  <g stroke="#8b6431" stroke-width="2" fill="none"><path d="M120 470 Q180 440 240 470"/><path d="M110 420 Q180 380 250 420"/><path d="M180 340 L180 520"/></g>
+  <rect x="120" y="500" width="120" height="40" rx="18" fill="#2f5d73"/>
+  <!-- low sofa with cushions and throw -->
+  <rect x="360" y="440" width="380" height="100" rx="24" fill="#6d4a7a"/>
+  <rect x="380" y="400" width="80" height="70" rx="16" fill="#e0a43c"/>
+  <rect x="470" y="404" width="78" height="66" rx="16" fill="#a33b32"/>
+  <rect x="558" y="400" width="80" height="70" rx="16" fill="#3f7f6a"/>
+  <rect x="648" y="406" width="70" height="64" rx="16" fill="#e9d7b4"/>
+  <path d="M600 440 L700 440 L690 540 L620 540 Z" fill="#e9d7b4"/>
+  <g stroke="#a33b32" stroke-width="4"><line x1="610" y1="470" x2="690" y2="470"/><line x1="614" y1="500" x2="686" y2="500"/></g>
+  <!-- big potted palm and floor pouf -->
+  <path d="M800 600 L812 530 L888 530 L900 600 Z" fill="#c45d3a"/>
+  <g fill="#4f7a4a"><path d="M850 530 Q790 440 760 420 Q830 450 850 530"/><path d="M850 530 Q860 410 900 360 Q880 450 850 530"/><path d="M850 530 Q920 470 950 470 Q900 500 850 530"/><path d="M850 530 Q820 430 840 340 Q850 450 850 530"/></g>
+  <ellipse cx="300" cy="600" rx="60" ry="26" fill="#e0a43c"/>
+  <ellipse cx="300" cy="590" rx="60" ry="24" fill="#f0c25a"/>
+</svg>

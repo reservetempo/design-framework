@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-label="Modern farmhouse kitchen illustration">
+  <!-- white shiplap wall -->
+  <rect width="960" height="720" fill="#f5f3ee"/>
+  <g stroke="#dcd8cf" stroke-width="2">
+    <line x1="0" y1="60" x2="960" y2="60"/><line x1="0" y1="120" x2="960" y2="120"/><line x1="0" y1="180" x2="960" y2="180"/>
+    <line x1="0" y1="240" x2="960" y2="240"/><line x1="0" y1="300" x2="960" y2="300"/><line x1="0" y1="360" x2="960" y2="360"/>
+    <line x1="0" y1="420" x2="960" y2="420"/>
+  </g>
+  <!-- reclaimed wood beam -->
+  <rect y="0" width="960" height="34" fill="#8a6542"/>
+  <!-- black metal pendant lights -->
+  <g fill="#2b2b2b">
+    <line x1="330" y1="34" x2="330" y2="120" stroke="#2b2b2b" stroke-width="3"/><path d="M290 160 L304 120 L356 120 L370 160 Z"/>
+    <line x1="630" y1="34" x2="630" y2="120" stroke="#2b2b2b" stroke-width="3"/><path d="M590 160 L604 120 L656 120 L670 160 Z"/>
+  </g>
+  <!-- open wooden shelf with jars -->
+  <rect x="80" y="230" width="220" height="16" fill="#9b7350"/>
+  <path d="M100 230 L100 190 Q100 180 112 180 L132 180 Q144 180 144 190 L144 230 Z" fill="#e8e3d7" stroke="#b9b2a2" stroke-width="2"/>
+  <rect x="160" y="195" width="40" height="35" rx="4" fill="#c9c1ae"/>
+  <rect x="216" y="200" width="54" height="30" rx="6" fill="#ffffff" stroke="#b9b2a2" stroke-width="2"/>
+  <!-- sliding barn door -->
+  <rect x="740" y="60" width="200" height="8" fill="#2b2b2b"/>
+  <rect x="750" y="70" width="180" height="470" fill="#a0784f"/>
+  <g stroke="#7d5a38" stroke-width="5" fill="none"><rect x="762" y="82" width="156" height="446"/><line x1="762" y1="82" x2="918" y2="528"/><line x1="762" y1="305" x2="918" y2="305"/></g>
+  <circle cx="790" cy="64" r="10" fill="#2b2b2b"/><circle cx="890" cy="64" r="10" fill="#2b2b2b"/>
+  <!-- white cabinets with apron sink -->
+  <rect x="40" y="420" width="660" height="230" fill="#ffffff" stroke="#d6d2c8" stroke-width="3"/>
+  <rect x="30" y="406" width="680" height="18" fill="#3d3d3d"/>
+  <g fill="none" stroke="#d6d2c8" stroke-width="3"><rect x="60" y="440" width="120" height="190"/><rect x="200" y="440" width="120" height="190"/><rect x="540" y="440" width="140" height="190"/></g>
+  <rect x="340" y="424" width="180" height="110" fill="#fbfaf7" stroke="#cfcac0" stroke-width="3"/>
+  <path d="M410 406 L410 360 Q410 340 440 340 L456 340" fill="none" stroke="#2b2b2b" stroke-width="7"/>
+  <g fill="#2b2b2b"><rect x="160" y="530" width="40" height="6"/><rect x="590" y="530" width="40" height="6"/></g>
+  <!-- wooden cutting board and greenery -->
+  <rect x="560" y="330" width="80" height="76" rx="10" fill="#c79a66"/>
+  <circle cx="600" cy="320" r="10" fill="none" stroke="#c79a66" stroke-width="5"/>
+  <path d="M120 406 L126 370 L164 370 L170 406 Z" fill="#c6bfae"/>
+  <g fill="#6f8f5c"><ellipse cx="132" cy="350" rx="12" ry="22"/><ellipse cx="148" cy="340" rx="12" ry="28"/><ellipse cx="164" cy="352" rx="12" ry="20"/></g>
+  <!-- wood floor -->
+  <rect y="650" width="960" height="70" fill="#b58d63"/>
+  <g stroke="#9b7350" stroke-width="2"><line x1="0" y1="680" x2="960" y2="680"/><line x1="240" y1="650" x2="240" y2="680"/><line x1="620" y1="680" x2="620" y2="720"/></g>
+</svg>
