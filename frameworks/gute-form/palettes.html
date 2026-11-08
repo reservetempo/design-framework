@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gute Form palettes</title>
+<meta name="description" content="Six candidate palettes for the Gute Form framework (Braun and the Ulm School), each with its tokens, contrast ratios and the same sample controls.">
+<style>
+  @font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/inter-latin-wght-normal.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Inter";
+    font-style: italic;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/inter-latin-wght-italic.woff2") format("woff2");
+  }
+
+  :root {
+    color-scheme: light;
+    --site-bg: #f6f6f5;
+    --site-ink: #1c1c1c;
+    --site-muted: #575757;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--site-bg);
+    color: var(--site-ink);
+    font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  a { color: inherit; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 2px; }
+
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 24px 16px 64px; }
+  @media (min-width: 720px) { .wrap { padding: 40px 32px 80px; } }
+
+  .back { display: inline-flex; align-items: center; min-height: 24px; margin-bottom: 20px; font-weight: 500; }
+
+  .intro { max-width: 70ch; margin-bottom: 32px; }
+  .intro h1 { margin: 0 0 16px; font-size: clamp(28px, 4vw, 40px); font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; }
+  .intro p { margin: 0 0 10px; }
+  .intro .small { font-size: 14px; color: var(--site-muted); }
+
+  .tag {
+    display: inline-block;
+    margin-right: 4px;
+    padding: 0 5px;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+
+  .foot { margin-top: 40px; font-size: 14px; color: var(--site-muted); }
+
+  /* ---------- Palette tokens (copied from research/visual.md) ---------- */
+  #p-sk4 {
+    --gf-page: #f4f2ec;
+    --gf-surface: #e7e4dc;
+    --gf-line: #7d786f;
+    --gf-ink: #26251f;
+    --gf-muted: #5e5a52;
+    --gf-accent: #2e2f30;
+    --gf-accent-ink: #f4f2ec;
+    --gf-second: #8a5a36;
+    --gf-trim: #b98d63;
+    --on-second: var(--gf-accent-ink);
+  }
+#p-t3 {
+    --gf-page: #f2f2f0;
+    --gf-surface: #e3e4e2;
+    --gf-line: #76787c;
+    --gf-ink: #1f2124;
+    --gf-muted: #5a5d61;
+    --gf-accent: #c4501a;
+    --gf-accent-ink: #ffffff;
+    --gf-second: #3d7a4e;
+    --gf-trim: #c9c9c4;
+    --on-second: var(--gf-accent-ink);
+  }
+#p-et66 {
+    --gf-page: #161616;
+    --gf-surface: #242424;
+    --gf-line: #747474;
+    --gf-ink: #ececea;
+    --gf-muted: #a3a29e;
+    --gf-accent: #f2c230;
+    --gf-accent-ink: #161616;
+    --gf-second: #846044;
+    --gf-trim: #3b3b3a;
+    --on-second: var(--gf-ink);
+    --key: var(--gf-surface);
+    --key-text: var(--gf-ink);
+    --key-edge: var(--gf-line);
+    color-scheme: dark;
+  }
+#p-tp1 {
+    --gf-page: #eceeed;
+    --gf-surface: #f8f8f6;
+    --gf-line: #7d8184;
+    --gf-ink: #1d1f21;
+    --gf-muted: #575b5f;
+    --gf-accent: #3f7f4a;
+    --gf-accent-ink: #ffffff;
+    --gf-second: #8b5e3c;
+    --gf-trim: #a8acaf;
+    --on-second: var(--gf-accent-ink);
+  }
+#p-606 {
+    --gf-page: #f3f1ea;
+    --gf-surface: #e8e6df;
+    --gf-line: #7b7870;
+    --gf-ink: #222222;
+    --gf-muted: #5c5a55;
+    --gf-accent: #46525b;
+    --gf-accent-ink: #ffffff;
+    --gf-second: #93633a;
+    --gf-trim: #b7babc;
+    --on-second: var(--gf-accent-ink);
+  }
+#p-aicher {
+    --gf-page: #f5f5f3;
+    --gf-surface: #e6e8ea;
+    --gf-line: #767c83;
+    --gf-ink: #14181f;
+    --gf-muted: #565c66;
+    --gf-accent: #05164d;
+    --gf-accent-ink: #ffffff;
+    --gf-second: #f9a800;
+    --gf-trim: #b0b4b8;
+    --on-second: var(--gf-ink);
+  }
+
+  /* ---------- Cards ---------- */
+  .cards {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr));
+    align-items: start;
+  }
+
+  .palette {
+    min-width: 0;
+    padding: 16px;
+    background: var(--gf-page);
+    color: var(--gf-ink);
+    border: 1px solid var(--gf-line);
+    border-radius: 2px;
+  }
+  @media (min-width: 720px) { .palette { padding: 20px; } }
+
+  .palette__head { margin-bottom: 12px; }
+  .palette__kind { margin: 0 0 2px; font-size: 12px; font-weight: 500; letter-spacing: .02em; color: var(--gf-muted); }
+  .palette h2 { margin: 0 0 4px; font-size: 26px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; }
+  .palette__object { margin: 0 0 8px; font-size: 13px; color: var(--gf-muted); }
+  .palette__character { margin: 0; font-size: 14px; }
+  .palette__note { margin: 0 0 12px; padding-left: 10px; border-left: 2px solid var(--gf-ink); font-size: 13px; }
+  .palette__label { margin: 20px 0 8px; font-size: 12px; font-weight: 500; letter-spacing: .02em; color: var(--gf-muted); }
+
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .swatch { min-width: 0; font-size: 12px; line-height: 1.35; }
+  .swatch__chip {
+    display: block;
+    height: 40px;
+    margin-bottom: 6px;
+    border-radius: 2px;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gf-ink) 30%, transparent);
+  }
+  .swatch__token { display: block; font: inherit; font-weight: 500; overflow-wrap: anywhere; }
+  .swatch__hex { display: block; color: var(--gf-muted); font-variant-numeric: tabular-nums; }
+  .swatch .tag { margin-top: 4px; }
+
+  .ratios {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0 16px;
+    margin: 0;
+  }
+  .ratios div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--gf-line) 45%, transparent);
+    font-size: 12px;
+  }
+  .ratios dt { min-width: 0; color: var(--gf-muted); }
+  .ratios dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* ---------- Sample panel: one set of rules, read from the card's --gf-* tokens ---------- */
+  .sample {
+    margin-top: 20px;
+    padding: 0 10px;
+    background: var(--gf-trim);
+    border: 1px solid var(--gf-line);
+    border-radius: 2px;
+  }
+  .gf-panel {
+    background: var(--gf-surface);
+    color: var(--gf-ink);
+    border-inline: 1px solid var(--gf-line);
+  }
+  .gf-panel__strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 28px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--gf-line);
+  }
+  .gf-panel__title { margin: 0; font-size: 11px; font-weight: 500; letter-spacing: .02em; color: var(--gf-muted); }
+  .gf-panel__body { display: grid; gap: 16px; padding: 16px; }
+  @media (max-width: 420px) {
+    .gf-panel__strip { padding: 0 12px; }
+    .gf-panel__body { padding: 14px 12px; }
+  }
+  .gf-zone { min-width: 0; }
+  .gf-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+
+  .gf-heading { margin: 0 0 4px; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; }
+  .gf-text { margin: 0; font-size: 14px; line-height: 1.5; }
+  .gf-label { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 500; letter-spacing: .02em; color: var(--gf-muted); }
+  .gf-readout { margin-left: 6px; color: var(--gf-ink); font-variant-numeric: tabular-nums; }
+
+  .palette :focus-visible { outline: 2px solid var(--gf-ink); outline-offset: 2px; }
+
+  /* Push button and accent button */
+  .gf-button {
+    height: 32px;
+    min-width: 64px;
+    margin: 0;
+    padding: 0 14px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    line-height: 1;
+    color: var(--gf-ink);
+    background: var(--gf-surface);
+    border: 1px solid var(--gf-line);
+    border-radius: 2px;
+    box-shadow: inset 0 -1px 0 var(--gf-line);
+    cursor: pointer;
+    transition: transform 80ms ease-out, background-color 80ms ease-out, border-color 80ms ease-out;
+  }
+  .gf-button:hover { border-color: var(--gf-muted); }
+  .gf-button:active {
+    transform: translateY(1px);
+    background: color-mix(in srgb, var(--gf-surface) 70%, var(--gf-line));
+    box-shadow: inset 0 1px 0 var(--gf-line);
+  }
+  .gf-button--accent {
+    color: var(--gf-accent-ink);
+    background: var(--gf-accent);
+    border-color: var(--gf-accent);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--gf-accent) 60%, #000);
+  }
+  .gf-button--accent:hover { border-color: var(--gf-ink); }
+  .gf-button--accent:active {
+    background: color-mix(in srgb, var(--gf-accent) 85%, var(--gf-ink));
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gf-accent) 60%, #000);
+  }
+
+  /* Text field */
+  .gf-field {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    height: 32px;
+    margin: 0;
+    padding: 0 10px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--gf-ink);
+    caret-color: var(--gf-ink);
+    background: var(--gf-page);
+    border: 1px solid var(--gf-line);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 var(--gf-line);
+  }
+  .gf-field::placeholder { color: var(--gf-muted); opacity: 1; }
+  .gf-field:hover { border-color: var(--gf-muted); }
+  .gf-field:focus-visible { border-color: var(--gf-ink); }
+
+  /* Check box and toggle switch: native checkboxes with appearance: none */
+  .gf-check, .gf-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 32px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .gf-check input {
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-grid;
+    place-content: center;
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    background: var(--gf-surface);
+    border: 1px solid var(--gf-ink);
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .gf-check input::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: var(--gf-surface);
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0, 43% 62%);
+    transform: scale(0);
+    transition: transform 80ms ease-out;
+  }
+  .gf-check input:hover { box-shadow: inset 0 0 0 1px var(--gf-ink); }
+  .gf-check input:active { transform: translateY(1px); }
+  .gf-check input:checked { background: var(--gf-ink); }
+  .gf-check input:checked::before { transform: scale(1); }
+
+  .gf-switch input {
+    -webkit-appearance: none;
+    appearance: none;
+    position: relative;
+    order: 2;
+    flex: none;
+    width: 36px;
+    height: 20px;
+    margin: 0;
+    background: var(--gf-page);
+    border: 1px solid var(--gf-line);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out;
+  }
+  .gf-switch input::before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--gf-ink);
+    border-radius: 1px;
+    background:
+      linear-gradient(var(--gf-line), var(--gf-line)) 4px 50% / 1px 8px no-repeat,
+      linear-gradient(var(--gf-line), var(--gf-line)) 9px 50% / 1px 8px no-repeat,
+      var(--gf-surface);
+    transition: transform 120ms ease-out;
+  }
+  .gf-switch input:hover { border-color: var(--gf-muted); }
+  .gf-switch input:checked { background: var(--gf-accent); border-color: var(--gf-accent); }
+  .gf-switch input:checked::before { transform: translateX(16px); }
+  .gf-switch__word { order: 1; font-size: 11px; font-weight: 500; letter-spacing: .02em; color: var(--gf-muted); }
+  .gf-switch__word--on { order: 3; }
+  .gf-switch input:not(:checked) ~ .gf-switch__word--off,
+  .gf-switch input:checked ~ .gf-switch__word--on { color: var(--gf-ink); }
+
+  /* Slider: native range input */
+  .gf-range {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .gf-range:focus-visible { outline: none; }
+  .gf-range::-webkit-slider-runnable-track { height: 2px; background: var(--gf-line); border: 0; }
+  .gf-range::-moz-range-track { height: 2px; background: var(--gf-line); border: 0; }
+  .gf-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    width: 10px;
+    height: 22px;
+    margin-top: -10px;
+    border: 1px solid var(--gf-ink);
+    border-radius: 1px;
+    background: linear-gradient(90deg, transparent calc(50% - .5px), var(--gf-accent) 0 calc(50% + .5px), transparent 0), var(--gf-surface);
+  }
+  .gf-range::-moz-range-thumb {
+    box-sizing: border-box;
+    width: 10px;
+    height: 22px;
+    border: 1px solid var(--gf-ink);
+    border-radius: 1px;
+    background: linear-gradient(90deg, transparent calc(50% - .5px), var(--gf-accent) 0 calc(50% + .5px), transparent 0), var(--gf-surface);
+  }
+  .gf-range:hover::-webkit-slider-thumb { box-shadow: inset 0 0 0 1px var(--gf-ink); }
+  .gf-range:hover::-moz-range-thumb { box-shadow: inset 0 0 0 1px var(--gf-ink); }
+  .gf-range:active::-webkit-slider-thumb { background-color: var(--gf-page); }
+  .gf-range:active::-moz-range-thumb { background-color: var(--gf-page); }
+  .gf-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px var(--gf-surface), 0 0 0 4px var(--gf-ink); }
+  .gf-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 2px var(--gf-surface), 0 0 0 4px var(--gf-ink); }
+
+  .gf-range__scale { margin: 0 5px; }
+  .gf-ticks { display: flex; align-items: flex-start; justify-content: space-between; height: 6px; }
+  .gf-ticks span { width: 1px; height: 6px; background: var(--gf-line); }
+  .gf-nums {
+    position: relative;
+    height: 16px;
+    margin-top: 2px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    color: var(--gf-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .gf-nums span { position: absolute; top: 0; left: calc(var(--at) * (100% - 1px) + .5px); transform: translateX(-50%); }
+
+  /* Scale with numerals and a needle (a <meter> underneath) */
+  .gf-scale {
+    position: relative;
+    padding: 12px 16px 6px;
+    background: var(--gf-page);
+    border: 1px solid var(--gf-line);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 var(--gf-line);
+  }
+  .gf-scale__dial { position: relative; }
+  .gf-ticks--scale { height: 10px; }
+  .gf-ticks--scale .major { height: 10px; background: var(--gf-ink); }
+  .gf-scale .gf-nums { color: var(--gf-ink); }
+  .gf-scale__needle {
+    position: absolute;
+    top: -6px;
+    left: calc(var(--gf-value) * (100% - 1px) - .5px);
+    width: 2px;
+    height: 20px;
+    background: var(--gf-accent);
+    transition: left 200ms ease-out;
+  }
+
+  /* Indicator lamp (on: --gf-second) */
+  .gf-lampword { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; letter-spacing: .02em; }
+  .gf-lamp { flex: none; width: 12px; height: 12px; background: var(--gf-page); border: 1px solid var(--gf-line); border-radius: 50%; }
+  .gf-lamp--on {
+    background: var(--gf-second);
+    border-color: color-mix(in srgb, var(--gf-second) 65%, #000);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--gf-second) 30%, transparent);
+  }
+
+  /* ET 66-style round keys */
+  .gf-row--keys { align-items: stretch; gap: 12px; }
+  .gf-keys {
+    display: flex;
+    gap: 10px;
+    padding: 12px;
+    background: var(--gf-page);
+    border: 1px solid var(--gf-line);
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 var(--gf-line);
+  }
+  .gf-key {
+    --k: var(--key, var(--gf-ink));
+    flex: none;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--key-text, var(--gf-surface));
+    background: radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--k) 88%, #fff) 0, var(--k) 60%);
+    border: 1px solid var(--key-edge, transparent);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 60ms ease-out;
+  }
+  .gf-key--op { --k: var(--gf-second); color: var(--on-second); border-color: transparent; }
+  .gf-key--eq { --k: var(--gf-accent); color: var(--gf-accent-ink); border-color: transparent; }
+  .gf-key:active { transform: scale(.96); background: var(--k); }
+
+  /* Speaker grille: hex-staggered dots, decorative */
+  .gf-grille {
+    flex: 1 1 96px;
+    min-height: 40px;
+    border-radius: 2px;
+    background:
+      radial-gradient(circle, var(--gf-line) 1.5px, transparent 2px) 0 0 / 8px 14px,
+      radial-gradient(circle, var(--gf-line) 1.5px, transparent 2px) 4px 7px / 8px 14px;
+  }
+
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .palette *, .palette *::before { transition: none !important; }
+  }
+
+  @media (forced-colors: active) {
+    .gf-check input, .gf-switch input, .gf-range { -webkit-appearance: auto; appearance: auto; }
+    .gf-check input::before, .gf-switch input::before { content: none; }
+    .gf-scale__needle, .gf-lamp--on { forced-color-adjust: none; background: CanvasText; }
+    .gf-key { border-color: ButtonText; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../../index.html#products">&lsaquo; Back to the design framework</a>
+
+  <header class="intro">
+    <h1>Gute Form palettes</h1>
+    <p>This page is for choosing the palette of the Gute Form framework: the calm, functional look of Braun and the Ulm School (1955 to the 1990s; Dieter Rams, &ldquo;less, but better&rdquo;). Each card is one candidate, with its nine colour tokens, their contrast ratios and the same sample controls drawn in it. Pick one by name; the framework is then built with it.</p>
+    <p>The colours were estimated from museum and press photos (none of these objects has an official colour spec), then adjusted so that text reaches at least 4.5:1 and lines 3:1.</p>
+    <p class="small"><span class="tag">added</span> marks a colour that is not on the object itself. <span class="tag">fill only</span> marks a colour used only behind dark text, never as text or a line.</p>
+  </header>
+
+  <main class="cards">
+    <article class="palette" id="p-sk4" aria-labelledby="p-sk4-title">
+      <header class="palette__head">
+        <p class="palette__kind">light, warm</p>
+        <h2 id="p-sk4-title">SK 4</h2>
+        <p class="palette__object">Braun SK 4 radio-phonograph <span aria-hidden="true">&middot;</span> Hans Gugelot and Dieter Rams <span aria-hidden="true">&middot;</span> 1956</p>
+        <p class="palette__character">Warm white lacquer, a pale grey control plate, elm at the sides, near-black for the one main action.</p>
+      </header>
+
+      <h3 class="palette__label">tokens</h3>
+      <ul class="swatches">
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-page)"></span><code class="swatch__token">--gf-page</code><span class="swatch__hex">#f4f2ec</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-surface)"></span><code class="swatch__token">--gf-surface</code><span class="swatch__hex">#e7e4dc</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-line)"></span><code class="swatch__token">--gf-line</code><span class="swatch__hex">#7d786f</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-ink)"></span><code class="swatch__token">--gf-ink</code><span class="swatch__hex">#26251f</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-muted)"></span><code class="swatch__token">--gf-muted</code><span class="swatch__hex">#5e5a52</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent)"></span><code class="swatch__token">--gf-accent</code><span class="swatch__hex">#2e2f30</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent-ink)"></span><code class="swatch__token">--gf-accent-ink</code><span class="swatch__hex">#f4f2ec</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-second)"></span><code class="swatch__token">--gf-second</code><span class="swatch__hex">#8a5a36</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-trim)"></span><code class="swatch__token">--gf-trim</code><span class="swatch__hex">#b98d63</span></li>
+      </ul>
+
+      <h3 class="palette__label">contrast (WCAG 2.x ratio)</h3>
+      <dl class="ratios">
+          <div><dt>ink / page</dt><dd>13.72</dd></div>
+          <div><dt>muted / page</dt><dd>6.13</dd></div>
+          <div><dt>ink / surface</dt><dd>12.09</dd></div>
+          <div><dt>accent-ink / accent</dt><dd>11.98</dd></div>
+          <div><dt>line / page</dt><dd>3.92</dd></div>
+          <div><dt>line / surface</dt><dd>3.45</dd></div>
+          <div><dt>muted / surface</dt><dd>5.40</dd></div>
+          <div><dt>accent-ink on second</dt><dd>5.22</dd></div>
+      </dl>
+
+      <div class="sample">
+        <section class="gf-panel" aria-labelledby="p-sk4-sample">
+          <div class="gf-panel__strip">
+            <h3 class="gf-panel__title" id="p-sk4-sample">sample</h3>
+            <span class="gf-lampword"><span class="gf-lamp gf-lamp--on" aria-hidden="true"></span>stereo</span>
+          </div>
+          <div class="gf-panel__body">
+            <div class="gf-zone">
+              <h4 class="gf-heading">Less, but better</h4>
+              <p class="gf-text">A quiet face, one signal colour, and controls that show their state by position and print, not by colour alone.</p>
+            </div>
+            <div class="gf-row">
+              <button class="gf-button" type="button">stop</button>
+              <button class="gf-button gf-button--accent" type="button">start</button>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-sk4-station">station</label>
+              <input class="gf-field" id="p-sk4-station" type="text" value="Südwestfunk 1" placeholder="name">
+            </div>
+            <div class="gf-row">
+              <label class="gf-check"><input type="checkbox" checked> loudness</label>
+              <label class="gf-switch">power <input type="checkbox" role="switch" checked><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">aus</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">ein</span></label>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-sk4-volume">volume</label>
+              <input class="gf-range" id="p-sk4-volume" type="range" min="0" max="100" step="5" value="60">
+              <div class="gf-range__scale" aria-hidden="true">
+                <div class="gf-ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="gf-nums"><span style="--at: 0">0</span><span style="--at: .5">50</span><span style="--at: 1">100</span></div>
+              </div>
+            </div>
+            <div class="gf-zone">
+              <span class="gf-label" id="p-sk4-level">level <span class="gf-readout" aria-hidden="true">60</span></span>
+              <div class="gf-scale" style="--gf-value: .6">
+                <div class="gf-scale__dial" aria-hidden="true">
+                  <div class="gf-ticks gf-ticks--scale"><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span></div>
+                  <div class="gf-nums"><span style="--at: 0.0">0</span><span style="--at: 0.25">25</span><span style="--at: 0.5">50</span><span style="--at: 0.75">75</span><span style="--at: 1.0">100</span></div>
+                  <span class="gf-scale__needle"></span>
+                </div>
+                <meter class="visually-hidden" min="0" max="100" value="60" aria-labelledby="p-sk4-level">60</meter>
+              </div>
+            </div>
+            <div class="gf-row gf-row--keys">
+              <div class="gf-keys" role="group" aria-label="calculator keys">
+                <button class="gf-key" type="button">7</button>
+                <button class="gf-key gf-key--op" type="button" aria-label="divide">&divide;</button>
+                <button class="gf-key gf-key--eq" type="button" aria-label="equals">=</button>
+              </div>
+              <div class="gf-grille" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+    <article class="palette" id="p-t3" aria-labelledby="p-t3-title">
+      <header class="palette__head">
+        <p class="palette__kind">light, cool</p>
+        <h2 id="p-t3-title">T 3</h2>
+        <p class="palette__object">Braun T 3 pocket radio <span aria-hidden="true">&middot;</span> Dieter Rams with the HfG Ulm <span aria-hidden="true">&middot;</span> 1958</p>
+        <p class="palette__character">`page`, `surface`, `trim`. The T 3 is colourless; the orange and green are function colours in the Braun manner, added for UI state. A brighter signal orange (`#e2602a`) only reaches 3.54:1 with white text, so it is darkened to `#c4501a`.</p>
+      </header>
+      <p class="palette__note">Not on the object: the orange accent and the green second colour, added as Braun-style function colours for UI state.</p>
+
+      <h3 class="palette__label">tokens</h3>
+      <ul class="swatches">
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-page)"></span><code class="swatch__token">--gf-page</code><span class="swatch__hex">#f2f2f0</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-surface)"></span><code class="swatch__token">--gf-surface</code><span class="swatch__hex">#e3e4e2</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-line)"></span><code class="swatch__token">--gf-line</code><span class="swatch__hex">#76787c</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-ink)"></span><code class="swatch__token">--gf-ink</code><span class="swatch__hex">#1f2124</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-muted)"></span><code class="swatch__token">--gf-muted</code><span class="swatch__hex">#5a5d61</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent)"></span><code class="swatch__token">--gf-accent</code><span class="swatch__hex">#c4501a</span><span class="tag">added</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent-ink)"></span><code class="swatch__token">--gf-accent-ink</code><span class="swatch__hex">#ffffff</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-second)"></span><code class="swatch__token">--gf-second</code><span class="swatch__hex">#3d7a4e</span><span class="tag">added</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-trim)"></span><code class="swatch__token">--gf-trim</code><span class="swatch__hex">#c9c9c4</span></li>
+      </ul>
+
+      <h3 class="palette__label">contrast (WCAG 2.x ratio)</h3>
+      <dl class="ratios">
+          <div><dt>ink / page</dt><dd>14.40</dd></div>
+          <div><dt>muted / page</dt><dd>5.90</dd></div>
+          <div><dt>ink / surface</dt><dd>12.65</dd></div>
+          <div><dt>accent-ink / accent</dt><dd>4.66</dd></div>
+          <div><dt>line / page</dt><dd>3.95</dd></div>
+          <div><dt>line / surface</dt><dd>3.47</dd></div>
+          <div><dt>muted / surface</dt><dd>5.19</dd></div>
+          <div><dt>accent-ink on second</dt><dd>5.13</dd></div>
+      </dl>
+
+      <div class="sample">
+        <section class="gf-panel" aria-labelledby="p-t3-sample">
+          <div class="gf-panel__strip">
+            <h3 class="gf-panel__title" id="p-t3-sample">sample</h3>
+            <span class="gf-lampword"><span class="gf-lamp gf-lamp--on" aria-hidden="true"></span>stereo</span>
+          </div>
+          <div class="gf-panel__body">
+            <div class="gf-zone">
+              <h4 class="gf-heading">Less, but better</h4>
+              <p class="gf-text">A quiet face, one signal colour, and controls that show their state by position and print, not by colour alone.</p>
+            </div>
+            <div class="gf-row">
+              <button class="gf-button" type="button">stop</button>
+              <button class="gf-button gf-button--accent" type="button">start</button>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-t3-station">station</label>
+              <input class="gf-field" id="p-t3-station" type="text" value="Südwestfunk 1" placeholder="name">
+            </div>
+            <div class="gf-row">
+              <label class="gf-check"><input type="checkbox" checked> loudness</label>
+              <label class="gf-switch">power <input type="checkbox" role="switch" checked><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">aus</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">ein</span></label>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-t3-volume">volume</label>
+              <input class="gf-range" id="p-t3-volume" type="range" min="0" max="100" step="5" value="60">
+              <div class="gf-range__scale" aria-hidden="true">
+                <div class="gf-ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="gf-nums"><span style="--at: 0">0</span><span style="--at: .5">50</span><span style="--at: 1">100</span></div>
+              </div>
+            </div>
+            <div class="gf-zone">
+              <span class="gf-label" id="p-t3-level">level <span class="gf-readout" aria-hidden="true">60</span></span>
+              <div class="gf-scale" style="--gf-value: .6">
+                <div class="gf-scale__dial" aria-hidden="true">
+                  <div class="gf-ticks gf-ticks--scale"><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span></div>
+                  <div class="gf-nums"><span style="--at: 0.0">0</span><span style="--at: 0.25">25</span><span style="--at: 0.5">50</span><span style="--at: 0.75">75</span><span style="--at: 1.0">100</span></div>
+                  <span class="gf-scale__needle"></span>
+                </div>
+                <meter class="visually-hidden" min="0" max="100" value="60" aria-labelledby="p-t3-level">60</meter>
+              </div>
+            </div>
+            <div class="gf-row gf-row--keys">
+              <div class="gf-keys" role="group" aria-label="calculator keys">
+                <button class="gf-key" type="button">7</button>
+                <button class="gf-key gf-key--op" type="button" aria-label="divide">&divide;</button>
+                <button class="gf-key gf-key--eq" type="button" aria-label="equals">=</button>
+              </div>
+              <div class="gf-grille" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+    <article class="palette" id="p-et66" aria-labelledby="p-et66-title">
+      <header class="palette__head">
+        <p class="palette__kind">dark</p>
+        <h2 id="p-et66-title">ET 66</h2>
+        <p class="palette__object">Braun ET 66 pocket calculator <span aria-hidden="true">&middot;</span> Dieter Rams and Dietrich Lubs <span aria-hidden="true">&middot;</span> 1987</p>
+        <p class="palette__character">Matte black, one yellow signal, warm brown as the secondary key colour.</p>
+      </header>
+
+      <h3 class="palette__label">tokens</h3>
+      <ul class="swatches">
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-page)"></span><code class="swatch__token">--gf-page</code><span class="swatch__hex">#161616</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-surface)"></span><code class="swatch__token">--gf-surface</code><span class="swatch__hex">#242424</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-line)"></span><code class="swatch__token">--gf-line</code><span class="swatch__hex">#747474</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-ink)"></span><code class="swatch__token">--gf-ink</code><span class="swatch__hex">#ececea</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-muted)"></span><code class="swatch__token">--gf-muted</code><span class="swatch__hex">#a3a29e</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent)"></span><code class="swatch__token">--gf-accent</code><span class="swatch__hex">#f2c230</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent-ink)"></span><code class="swatch__token">--gf-accent-ink</code><span class="swatch__hex">#161616</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-second)"></span><code class="swatch__token">--gf-second</code><span class="swatch__hex">#846044</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-trim)"></span><code class="swatch__token">--gf-trim</code><span class="swatch__hex">#3b3b3a</span></li>
+      </ul>
+
+      <h3 class="palette__label">contrast (WCAG 2.x ratio)</h3>
+      <dl class="ratios">
+          <div><dt>ink / page</dt><dd>15.30</dd></div>
+          <div><dt>muted / page</dt><dd>7.08</dd></div>
+          <div><dt>ink / surface</dt><dd>13.12</dd></div>
+          <div><dt>accent-ink / accent</dt><dd>10.80</dd></div>
+          <div><dt>line / page</dt><dd>3.87</dd></div>
+          <div><dt>line / surface</dt><dd>3.32</dd></div>
+          <div><dt>muted / surface</dt><dd>6.08</dd></div>
+          <div><dt>ink on second</dt><dd>4.75</dd></div>
+      </dl>
+
+      <div class="sample">
+        <section class="gf-panel" aria-labelledby="p-et66-sample">
+          <div class="gf-panel__strip">
+            <h3 class="gf-panel__title" id="p-et66-sample">sample</h3>
+            <span class="gf-lampword"><span class="gf-lamp gf-lamp--on" aria-hidden="true"></span>stereo</span>
+          </div>
+          <div class="gf-panel__body">
+            <div class="gf-zone">
+              <h4 class="gf-heading">Less, but better</h4>
+              <p class="gf-text">A quiet face, one signal colour, and controls that show their state by position and print, not by colour alone.</p>
+            </div>
+            <div class="gf-row">
+              <button class="gf-button" type="button">stop</button>
+              <button class="gf-button gf-button--accent" type="button">start</button>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-et66-station">station</label>
+              <input class="gf-field" id="p-et66-station" type="text" value="Südwestfunk 1" placeholder="name">
+            </div>
+            <div class="gf-row">
+              <label class="gf-check"><input type="checkbox" checked> loudness</label>
+              <label class="gf-switch">power <input type="checkbox" role="switch" checked><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">aus</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">ein</span></label>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-et66-volume">volume</label>
+              <input class="gf-range" id="p-et66-volume" type="range" min="0" max="100" step="5" value="60">
+              <div class="gf-range__scale" aria-hidden="true">
+                <div class="gf-ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="gf-nums"><span style="--at: 0">0</span><span style="--at: .5">50</span><span style="--at: 1">100</span></div>
+              </div>
+            </div>
+            <div class="gf-zone">
+              <span class="gf-label" id="p-et66-level">level <span class="gf-readout" aria-hidden="true">60</span></span>
+              <div class="gf-scale" style="--gf-value: .6">
+                <div class="gf-scale__dial" aria-hidden="true">
+                  <div class="gf-ticks gf-ticks--scale"><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span></div>
+                  <div class="gf-nums"><span style="--at: 0.0">0</span><span style="--at: 0.25">25</span><span style="--at: 0.5">50</span><span style="--at: 0.75">75</span><span style="--at: 1.0">100</span></div>
+                  <span class="gf-scale__needle"></span>
+                </div>
+                <meter class="visually-hidden" min="0" max="100" value="60" aria-labelledby="p-et66-level">60</meter>
+              </div>
+            </div>
+            <div class="gf-row gf-row--keys">
+              <div class="gf-keys" role="group" aria-label="calculator keys">
+                <button class="gf-key" type="button">7</button>
+                <button class="gf-key gf-key--op" type="button" aria-label="divide">&divide;</button>
+                <button class="gf-key gf-key--eq" type="button" aria-label="equals">=</button>
+              </div>
+              <div class="gf-grille" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+    <article class="palette" id="p-tp1" aria-labelledby="p-tp1-title">
+      <header class="palette__head">
+        <p class="palette__kind">light, silver</p>
+        <h2 id="p-tp1-title">TP 1</h2>
+        <p class="palette__object">Braun TP 1 portable radio and record player <span aria-hidden="true">&middot;</span> Dieter Rams <span aria-hidden="true">&middot;</span> 1959</p>
+        <p class="palette__character">An aluminium-grey page with white plastic panels, tan leather, one green signal.</p>
+      </header>
+      <p class="palette__note">Not on the object: the green accent, added as a Braun-style function colour for UI state.</p>
+
+      <h3 class="palette__label">tokens</h3>
+      <ul class="swatches">
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-page)"></span><code class="swatch__token">--gf-page</code><span class="swatch__hex">#eceeed</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-surface)"></span><code class="swatch__token">--gf-surface</code><span class="swatch__hex">#f8f8f6</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-line)"></span><code class="swatch__token">--gf-line</code><span class="swatch__hex">#7d8184</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-ink)"></span><code class="swatch__token">--gf-ink</code><span class="swatch__hex">#1d1f21</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-muted)"></span><code class="swatch__token">--gf-muted</code><span class="swatch__hex">#575b5f</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent)"></span><code class="swatch__token">--gf-accent</code><span class="swatch__hex">#3f7f4a</span><span class="tag">added</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent-ink)"></span><code class="swatch__token">--gf-accent-ink</code><span class="swatch__hex">#ffffff</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-second)"></span><code class="swatch__token">--gf-second</code><span class="swatch__hex">#8b5e3c</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-trim)"></span><code class="swatch__token">--gf-trim</code><span class="swatch__hex">#a8acaf</span></li>
+      </ul>
+
+      <h3 class="palette__label">contrast (WCAG 2.x ratio)</h3>
+      <dl class="ratios">
+          <div><dt>ink / page</dt><dd>14.19</dd></div>
+          <div><dt>muted / page</dt><dd>5.88</dd></div>
+          <div><dt>ink / surface</dt><dd>15.55</dd></div>
+          <div><dt>accent-ink / accent</dt><dd>4.83</dd></div>
+          <div><dt>line / page</dt><dd>3.37</dd></div>
+          <div><dt>line / surface</dt><dd>3.69</dd></div>
+          <div><dt>muted / surface</dt><dd>6.44</dd></div>
+          <div><dt>accent-ink on second</dt><dd>5.58</dd></div>
+      </dl>
+
+      <div class="sample">
+        <section class="gf-panel" aria-labelledby="p-tp1-sample">
+          <div class="gf-panel__strip">
+            <h3 class="gf-panel__title" id="p-tp1-sample">sample</h3>
+            <span class="gf-lampword"><span class="gf-lamp gf-lamp--on" aria-hidden="true"></span>stereo</span>
+          </div>
+          <div class="gf-panel__body">
+            <div class="gf-zone">
+              <h4 class="gf-heading">Less, but better</h4>
+              <p class="gf-text">A quiet face, one signal colour, and controls that show their state by position and print, not by colour alone.</p>
+            </div>
+            <div class="gf-row">
+              <button class="gf-button" type="button">stop</button>
+              <button class="gf-button gf-button--accent" type="button">start</button>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-tp1-station">station</label>
+              <input class="gf-field" id="p-tp1-station" type="text" value="Südwestfunk 1" placeholder="name">
+            </div>
+            <div class="gf-row">
+              <label class="gf-check"><input type="checkbox" checked> loudness</label>
+              <label class="gf-switch">power <input type="checkbox" role="switch" checked><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">aus</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">ein</span></label>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-tp1-volume">volume</label>
+              <input class="gf-range" id="p-tp1-volume" type="range" min="0" max="100" step="5" value="60">
+              <div class="gf-range__scale" aria-hidden="true">
+                <div class="gf-ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="gf-nums"><span style="--at: 0">0</span><span style="--at: .5">50</span><span style="--at: 1">100</span></div>
+              </div>
+            </div>
+            <div class="gf-zone">
+              <span class="gf-label" id="p-tp1-level">level <span class="gf-readout" aria-hidden="true">60</span></span>
+              <div class="gf-scale" style="--gf-value: .6">
+                <div class="gf-scale__dial" aria-hidden="true">
+                  <div class="gf-ticks gf-ticks--scale"><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span></div>
+                  <div class="gf-nums"><span style="--at: 0.0">0</span><span style="--at: 0.25">25</span><span style="--at: 0.5">50</span><span style="--at: 0.75">75</span><span style="--at: 1.0">100</span></div>
+                  <span class="gf-scale__needle"></span>
+                </div>
+                <meter class="visually-hidden" min="0" max="100" value="60" aria-labelledby="p-tp1-level">60</meter>
+              </div>
+            </div>
+            <div class="gf-row gf-row--keys">
+              <div class="gf-keys" role="group" aria-label="calculator keys">
+                <button class="gf-key" type="button">7</button>
+                <button class="gf-key gf-key--op" type="button" aria-label="divide">&divide;</button>
+                <button class="gf-key gf-key--eq" type="button" aria-label="equals">=</button>
+              </div>
+              <div class="gf-grille" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+    <article class="palette" id="p-606" aria-labelledby="p-606-title">
+      <header class="palette__head">
+        <p class="palette__kind">light, warm</p>
+        <h2 id="p-606-title">606</h2>
+        <p class="palette__object">Vitsœ 606 Universal Shelving System <span aria-hidden="true">&middot;</span> Dieter Rams <span aria-hidden="true">&middot;</span> 1960</p>
+        <p class="palette__character">Off-white planes, aluminium structure, beech warmth, a quiet slate for actions.</p>
+      </header>
+      <p class="palette__note">Not on the object: the slate accent, a darkened anodised-aluminium tone rather than a 606 colour.</p>
+
+      <h3 class="palette__label">tokens</h3>
+      <ul class="swatches">
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-page)"></span><code class="swatch__token">--gf-page</code><span class="swatch__hex">#f3f1ea</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-surface)"></span><code class="swatch__token">--gf-surface</code><span class="swatch__hex">#e8e6df</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-line)"></span><code class="swatch__token">--gf-line</code><span class="swatch__hex">#7b7870</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-ink)"></span><code class="swatch__token">--gf-ink</code><span class="swatch__hex">#222222</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-muted)"></span><code class="swatch__token">--gf-muted</code><span class="swatch__hex">#5c5a55</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent)"></span><code class="swatch__token">--gf-accent</code><span class="swatch__hex">#46525b</span><span class="tag">added</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent-ink)"></span><code class="swatch__token">--gf-accent-ink</code><span class="swatch__hex">#ffffff</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-second)"></span><code class="swatch__token">--gf-second</code><span class="swatch__hex">#93633a</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-trim)"></span><code class="swatch__token">--gf-trim</code><span class="swatch__hex">#b7babc</span></li>
+      </ul>
+
+      <h3 class="palette__label">contrast (WCAG 2.x ratio)</h3>
+      <dl class="ratios">
+          <div><dt>ink / page</dt><dd>14.08</dd></div>
+          <div><dt>muted / page</dt><dd>6.09</dd></div>
+          <div><dt>ink / surface</dt><dd>12.74</dd></div>
+          <div><dt>accent-ink / accent</dt><dd>8.02</dd></div>
+          <div><dt>line / page</dt><dd>3.90</dd></div>
+          <div><dt>line / surface</dt><dd>3.53</dd></div>
+          <div><dt>muted / surface</dt><dd>5.52</dd></div>
+          <div><dt>accent-ink on second</dt><dd>5.14</dd></div>
+      </dl>
+
+      <div class="sample">
+        <section class="gf-panel" aria-labelledby="p-606-sample">
+          <div class="gf-panel__strip">
+            <h3 class="gf-panel__title" id="p-606-sample">sample</h3>
+            <span class="gf-lampword"><span class="gf-lamp gf-lamp--on" aria-hidden="true"></span>stereo</span>
+          </div>
+          <div class="gf-panel__body">
+            <div class="gf-zone">
+              <h4 class="gf-heading">Less, but better</h4>
+              <p class="gf-text">A quiet face, one signal colour, and controls that show their state by position and print, not by colour alone.</p>
+            </div>
+            <div class="gf-row">
+              <button class="gf-button" type="button">stop</button>
+              <button class="gf-button gf-button--accent" type="button">start</button>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-606-station">station</label>
+              <input class="gf-field" id="p-606-station" type="text" value="Südwestfunk 1" placeholder="name">
+            </div>
+            <div class="gf-row">
+              <label class="gf-check"><input type="checkbox" checked> loudness</label>
+              <label class="gf-switch">power <input type="checkbox" role="switch" checked><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">aus</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">ein</span></label>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-606-volume">volume</label>
+              <input class="gf-range" id="p-606-volume" type="range" min="0" max="100" step="5" value="60">
+              <div class="gf-range__scale" aria-hidden="true">
+                <div class="gf-ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="gf-nums"><span style="--at: 0">0</span><span style="--at: .5">50</span><span style="--at: 1">100</span></div>
+              </div>
+            </div>
+            <div class="gf-zone">
+              <span class="gf-label" id="p-606-level">level <span class="gf-readout" aria-hidden="true">60</span></span>
+              <div class="gf-scale" style="--gf-value: .6">
+                <div class="gf-scale__dial" aria-hidden="true">
+                  <div class="gf-ticks gf-ticks--scale"><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span></div>
+                  <div class="gf-nums"><span style="--at: 0.0">0</span><span style="--at: 0.25">25</span><span style="--at: 0.5">50</span><span style="--at: 0.75">75</span><span style="--at: 1.0">100</span></div>
+                  <span class="gf-scale__needle"></span>
+                </div>
+                <meter class="visually-hidden" min="0" max="100" value="60" aria-labelledby="p-606-level">60</meter>
+              </div>
+            </div>
+            <div class="gf-row gf-row--keys">
+              <div class="gf-keys" role="group" aria-label="calculator keys">
+                <button class="gf-key" type="button">7</button>
+                <button class="gf-key gf-key--op" type="button" aria-label="divide">&divide;</button>
+                <button class="gf-key gf-key--eq" type="button" aria-label="equals">=</button>
+              </div>
+              <div class="gf-grille" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+    <article class="palette" id="p-aicher" aria-labelledby="p-aicher-title">
+      <header class="palette__head">
+        <p class="palette__kind">light, cool</p>
+        <h2 id="p-aicher-title">Aicher</h2>
+        <p class="palette__object">Lufthansa corporate design <span aria-hidden="true">&middot;</span> Otl Aicher and Development Group E5, HfG Ulm <span aria-hidden="true">&middot;</span> 1962</p>
+        <p class="palette__character">White and cool grey with a deep navy for actions and yellow as a fill-only signal.</p>
+      </header>
+      <p class="palette__note">The yellow is used only as a fill with ink text on it (9.01:1), never as text, a line or a focus ring.</p>
+
+      <h3 class="palette__label">tokens</h3>
+      <ul class="swatches">
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-page)"></span><code class="swatch__token">--gf-page</code><span class="swatch__hex">#f5f5f3</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-surface)"></span><code class="swatch__token">--gf-surface</code><span class="swatch__hex">#e6e8ea</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-line)"></span><code class="swatch__token">--gf-line</code><span class="swatch__hex">#767c83</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-ink)"></span><code class="swatch__token">--gf-ink</code><span class="swatch__hex">#14181f</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-muted)"></span><code class="swatch__token">--gf-muted</code><span class="swatch__hex">#565c66</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent)"></span><code class="swatch__token">--gf-accent</code><span class="swatch__hex">#05164d</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-accent-ink)"></span><code class="swatch__token">--gf-accent-ink</code><span class="swatch__hex">#ffffff</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-second)"></span><code class="swatch__token">--gf-second</code><span class="swatch__hex">#f9a800</span><span class="tag">fill only</span></li>
+          <li class="swatch"><span class="swatch__chip" style="background: var(--gf-trim)"></span><code class="swatch__token">--gf-trim</code><span class="swatch__hex">#b0b4b8</span></li>
+      </ul>
+
+      <h3 class="palette__label">contrast (WCAG 2.x ratio)</h3>
+      <dl class="ratios">
+          <div><dt>ink / page</dt><dd>16.30</dd></div>
+          <div><dt>muted / page</dt><dd>6.17</dd></div>
+          <div><dt>ink / surface</dt><dd>14.49</dd></div>
+          <div><dt>accent-ink / accent</dt><dd>17.10</dd></div>
+          <div><dt>line / page</dt><dd>3.86</dd></div>
+          <div><dt>line / surface</dt><dd>3.43</dd></div>
+          <div><dt>muted / surface</dt><dd>5.48</dd></div>
+          <div><dt>ink on second</dt><dd>9.01</dd></div>
+      </dl>
+
+      <div class="sample">
+        <section class="gf-panel" aria-labelledby="p-aicher-sample">
+          <div class="gf-panel__strip">
+            <h3 class="gf-panel__title" id="p-aicher-sample">sample</h3>
+            <span class="gf-lampword"><span class="gf-lamp gf-lamp--on" aria-hidden="true"></span>stereo</span>
+          </div>
+          <div class="gf-panel__body">
+            <div class="gf-zone">
+              <h4 class="gf-heading">Less, but better</h4>
+              <p class="gf-text">A quiet face, one signal colour, and controls that show their state by position and print, not by colour alone.</p>
+            </div>
+            <div class="gf-row">
+              <button class="gf-button" type="button">stop</button>
+              <button class="gf-button gf-button--accent" type="button">start</button>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-aicher-station">station</label>
+              <input class="gf-field" id="p-aicher-station" type="text" value="Südwestfunk 1" placeholder="name">
+            </div>
+            <div class="gf-row">
+              <label class="gf-check"><input type="checkbox" checked> loudness</label>
+              <label class="gf-switch">power <input type="checkbox" role="switch" checked><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">aus</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">ein</span></label>
+            </div>
+            <div class="gf-zone">
+              <label class="gf-label" for="p-aicher-volume">volume</label>
+              <input class="gf-range" id="p-aicher-volume" type="range" min="0" max="100" step="5" value="60">
+              <div class="gf-range__scale" aria-hidden="true">
+                <div class="gf-ticks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="gf-nums"><span style="--at: 0">0</span><span style="--at: .5">50</span><span style="--at: 1">100</span></div>
+              </div>
+            </div>
+            <div class="gf-zone">
+              <span class="gf-label" id="p-aicher-level">level <span class="gf-readout" aria-hidden="true">60</span></span>
+              <div class="gf-scale" style="--gf-value: .6">
+                <div class="gf-scale__dial" aria-hidden="true">
+                  <div class="gf-ticks gf-ticks--scale"><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span><span></span><span></span><span></span><span></span><span class="major"></span></div>
+                  <div class="gf-nums"><span style="--at: 0.0">0</span><span style="--at: 0.25">25</span><span style="--at: 0.5">50</span><span style="--at: 0.75">75</span><span style="--at: 1.0">100</span></div>
+                  <span class="gf-scale__needle"></span>
+                </div>
+                <meter class="visually-hidden" min="0" max="100" value="60" aria-labelledby="p-aicher-level">60</meter>
+              </div>
+            </div>
+            <div class="gf-row gf-row--keys">
+              <div class="gf-keys" role="group" aria-label="calculator keys">
+                <button class="gf-key" type="button">7</button>
+                <button class="gf-key gf-key--op" type="button" aria-label="divide">&divide;</button>
+                <button class="gf-key gf-key--eq" type="button" aria-label="equals">=</button>
+              </div>
+              <div class="gf-grille" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <footer class="foot">
+    <p>Type: Inter by Rasmus Andersson (variable), under the <a href="fonts/OFL.txt">SIL Open Font License 1.1</a>, served from this site.</p>
+  </footer>
+</div>
+
+<script>
+  // Moving the volume slider moves the level needle (and the meter under it).
+  for (const card of document.querySelectorAll('.palette')) {
+    const range = card.querySelector('.gf-range');
+    const scale = card.querySelector('.gf-scale');
+    const meter = scale.querySelector('meter');
+    const readout = card.querySelector('.gf-readout');
+    range.addEventListener('input', () => {
+      const v = Number(range.value);
+      scale.style.setProperty('--gf-value', String(v / 100));
+      meter.value = v;
+      meter.textContent = String(v);
+      readout.textContent = String(v);
+    });
+  }
+</script>
+</body>
+</html>
