@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Gute Form</title>
+<meta name="description" content="Gute Form, the calm product design of Braun and the Ulm School (1955-1990s), as a small CSS library: panels, push keys, fields, switches, band-selector tabs, menus and dialogs in the SK 4 palette.">
+<link rel="stylesheet" href="gute-form.css">
+<style>
+  html {
+    scroll-padding-top: 48px;
+  }
+
+  .demo-menubar {
+    position: sticky;
+    z-index: 10;
+    top: 0;
+  }
+
+  .demo-hero,
+  .demo {
+    box-sizing: border-box;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: 24px;
+  }
+
+  .demo-hero {
+    display: grid;
+    align-items: center;
+    gap: 24px 56px;
+    padding-top: 56px;
+    padding-bottom: 24px;
+  }
+
+  @media (min-width: 860px) {
+    .demo-hero { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  }
+
+  .demo-hero__lead {
+    max-width: 38ch;
+    margin: 16px 0 0;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .demo-hero .gf-label { margin-bottom: 12px; }
+
+  .demo {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    align-items: start;
+    gap: 32px 24px;
+    padding-top: 32px;
+    padding-bottom: 72px;
+  }
+
+  .demo-wide { grid-column: 1 / -1; }
+
+  .demo-stack { display: grid; gap: 8px; }
+
+  .demo-fields { align-items: flex-start; }
+  .demo-fields > div { flex: 1 1 220px; }
+
+  .demo-readout { font-variant-numeric: tabular-nums; }
+
+  @media (max-width: 420px) {
+    .demo-hero,
+    .demo { padding-inline: 16px; }
+    .demo-hero { padding-top: 32px; }
+  }
+
+  /* The SK 4 drawing: flat planes in the tokens, not to scale. */
+  .gf-product__drawing * { vector-effect: non-scaling-stroke; }
+  .d-shadow { fill: var(--gf-line); opacity: 0.2; }
+  .d-top { fill: var(--gf-surface); stroke: var(--gf-line); }
+  .d-front { fill: var(--gf-page); stroke: var(--gf-line); }
+  .d-platter { fill: var(--gf-line); }
+  .d-mat { fill: var(--gf-muted); }
+  .d-spindle { fill: var(--gf-page); }
+  .d-arm { fill: none; stroke: var(--gf-accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .d-pivot { fill: var(--gf-accent); }
+  .d-scale { fill: var(--gf-page); stroke: var(--gf-line); }
+  .d-ticks { fill: none; stroke: var(--gf-ink); }
+  .d-knob { fill: var(--gf-page); stroke: var(--gf-ink); }
+  .d-slot { fill: var(--gf-ink); }
+  .d-wood { fill: var(--gf-trim); stroke: color-mix(in srgb, var(--gf-trim) 70%, #000); }
+  .d-grain { fill: none; stroke: color-mix(in srgb, var(--gf-trim) 72%, #000); opacity: 0.55; }
+  .d-lid { fill: var(--gf-page); fill-opacity: 0.22; stroke: var(--gf-line); }
+  .d-glint { fill: none; stroke: #fff; stroke-width: 2; opacity: 0.8; }
+</style>
+</head>
+<body class="gf-page">
+<header class="demo-menubar">
+  <nav class="gf-menubar" aria-label="Menu bar">
+    <a class="gf-menubar__item gf-menubar__item--app" href="../../index.html#products">&lsaquo; design framework</a>
+    <details class="gf-menu">
+      <summary class="gf-menubar__item">tuner</summary>
+      <ul class="gf-menu__list">
+        <li><button class="gf-menu__item" type="button" data-open-dialog>reset all&hellip; <kbd class="gf-menu__key">Ctrl+R</kbd></button></li>
+        <li><button class="gf-menu__item" type="button" disabled>store preset <kbd class="gf-menu__key">Ctrl+S</kbd></button></li>
+        <li class="gf-menu__separator" role="separator"></li>
+        <li><button class="gf-menu__item" type="button" aria-pressed="true" data-latch>stereo</button></li>
+        <li><button class="gf-menu__item" type="button" aria-pressed="false" data-latch>loudness</button></li>
+      </ul>
+    </details>
+    <details class="gf-menu">
+      <summary class="gf-menubar__item">view</summary>
+      <ul class="gf-menu__list">
+        <li><a class="gf-menu__item" href="#about">about</a></li>
+        <li><a class="gf-menu__item" href="#buttons">buttons</a></li>
+        <li><a class="gf-menu__item" href="#fields">text fields</a></li>
+        <li><a class="gf-menu__item" href="#checks">check boxes and switches</a></li>
+        <li><a class="gf-menu__item" href="#tabs">tabs</a></li>
+        <li><a class="gf-menu__item" href="#form">sample form</a></li>
+      </ul>
+    </details>
+    <details class="gf-menu gf-menu--end">
+      <summary class="gf-menubar__item">help</summary>
+      <ul class="gf-menu__list">
+        <li><a class="gf-menu__item" href="#how">how to use</a></li>
+        <li><a class="gf-menu__item" href="gute-form.css">gute-form.css</a></li>
+        <li><a class="gf-menu__item" href="research/visual.md">visual research</a></li>
+        <li><a class="gf-menu__item" href="research/components.md">component research</a></li>
+        <li class="gf-menu__separator" role="separator"></li>
+        <li><a class="gf-menu__item" href="../../index.html#products">back to the design framework</a></li>
+      </ul>
+    </details>
+  </nav>
+</header>
+
+<section class="demo-hero" id="hero" aria-labelledby="hero-title">
+  <div>
+    <p class="gf-label">braun and the ulm school, 1955&ndash;1990s</p>
+    <h1 class="gf-display" id="hero-title">Gute Form</h1>
+    <p class="demo-hero__lead">Less, but better: a small CSS library of flat plates, push keys and printed lowercase labels, in the colours of the SK 4 radio-phonograph.</p>
+  </div>
+  <figure class="gf-product" data-gf-3d="hero" data-gf-3d-turn="sway" data-gf-3d-trim="wood">
+    <div class="gf-product__stage">
+      <svg class="gf-product__drawing" viewBox="0 0 640 300" role="img" aria-label="Radio-phonograph: white body, wooden ends, clear lid">
+        <defs>
+          <pattern id="sk4-slots" width="8" height="16" patternUnits="userSpaceOnUse">
+            <rect class="d-slot" x="2.5" y="2" width="3" height="12" rx="1.5"/>
+          </pattern>
+        </defs>
+        <ellipse class="d-shadow" cx="320" cy="262" rx="304" ry="9"/>
+        <rect class="d-top" x="58" y="96" width="524" height="56"/>
+        <ellipse class="d-platter" cx="206" cy="124" rx="114" ry="21"/>
+        <ellipse class="d-mat" cx="206" cy="123" rx="100" ry="17"/>
+        <ellipse class="d-spindle" cx="206" cy="122" rx="5" ry="2"/>
+        <path class="d-arm" d="M354 110 L314 132 L292 133"/>
+        <circle class="d-pivot" cx="354" cy="110" r="6"/>
+        <rect class="d-scale" x="388" y="102" width="172" height="14" rx="1"/>
+        <path class="d-ticks" d="M396 104v8M404 104v4M412 104v4M420 104v4M428 104v8M436 104v4M444 104v4M452 104v4M460 104v8M468 104v4M476 104v4M484 104v4M492 104v8M500 104v4M508 104v4M516 104v4M524 104v8M532 104v4M540 104v4M548 104v4"/>
+        <ellipse class="d-knob" cx="404" cy="136" rx="12" ry="6"/>
+        <ellipse class="d-knob" cx="444" cy="136" rx="12" ry="6"/>
+        <ellipse class="d-knob" cx="484" cy="136" rx="12" ry="6"/>
+        <ellipse class="d-knob" cx="524" cy="136" rx="12" ry="6"/>
+        <ellipse class="d-knob" cx="556" cy="136" rx="8" ry="4"/>
+        <rect class="d-front" x="58" y="152" width="524" height="100"/>
+        <rect x="84" y="170" width="304" height="64" fill="url(#sk4-slots)"/>
+        <rect class="d-lid" x="58" y="70" width="524" height="82" rx="2"/>
+        <path class="d-glint" d="M74 78 L250 78"/>
+        <rect class="d-wood" x="40" y="96" width="18" height="156" rx="2"/>
+        <rect class="d-wood" x="582" y="96" width="18" height="156" rx="2"/>
+        <path class="d-grain" d="M46 104v140M52 112v128M588 108v136M594 100v120"/>
+      </svg>
+    </div>
+    <figcaption>After the Braun SK 4 radio-phonograph, 1956, by Hans Gugelot and Dieter Rams. A flat drawing, not to scale.</figcaption>
+  </figure>
+</section>
+
+<main class="demo">
+  <section class="gf-panel demo-wide" id="about" aria-labelledby="about-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="about-title">about</h2></div>
+    <div class="gf-panel__body">
+      <p><strong>Gute Form</strong> (German for &ldquo;good form&rdquo;) is the sober, functional product culture of West Germany from the mid-1950s, centred on the Ulm School of Design (HfG Ulm, 1953&ndash;68) and Braun. From 1955 Hans Gugelot, Dieter Rams and their colleagues gave Braun radios, record players, shavers and calculators calm white, grey and black bodies, with colour kept for a control that matters. Rams summed it up as <i lang="de">weniger, aber besser</i>: less, but better.</p>
+      <p>This is the look as a small CSS library, <code>gute-form.css</code>: flat plates with a printed label strip, small lowercase labels, 1px seams, tight 2px corners and keys that sink when pressed. The colours are the SK 4 palette, after the 1956 radio-phonograph: warm white lacquer, a pale grey control plate, elm and anthracite. Press Tab to see the focus rings. Not affiliated with Braun.</p>
+      <p>Background: the <a href="research/visual.md">visual research</a> (history, traits, materials, type and six palettes), the <a href="research/components.md">component research</a> and the <a href="palettes.html">palette comparison</a>.</p>
+    </div>
+  </section>
+
+  <section class="gf-panel gf-panel--trim" id="panels" aria-labelledby="panels-title">
+    <div class="gf-panel__strip">
+      <h2 class="gf-panel__title" id="panels-title">panels</h2>
+      <button class="gf-button" type="button" aria-pressed="false" data-latch>mono</button>
+    </div>
+    <div class="gf-panel__body">
+      <p>A panel is one flat plate: a label strip with a small heading on the left and room for a key on the right, then the body.</p>
+      <hr>
+      <p>Zones inside are split by a gap or a 1px rule, never by boxes in boxes. This one has the elm side strips of the SK 4 (<code>gf-panel--trim</code>).</p>
+    </div>
+  </section>
+
+  <section class="gf-panel" id="buttons" aria-labelledby="buttons-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="buttons-title">buttons</h2></div>
+    <div class="gf-panel__body">
+      <div class="gf-row">
+        <button class="gf-button" type="button">cancel</button>
+        <button class="gf-button gf-button--accent" type="button">play</button>
+      </div>
+      <div>
+        <p class="gf-label" id="latch-label">latching keys: press to lock, again to release</p>
+        <div class="gf-row" role="group" aria-labelledby="latch-label">
+          <button class="gf-button" type="button" aria-pressed="true" data-latch>stereo</button>
+          <button class="gf-button" type="button" aria-pressed="false" data-latch>filter</button>
+          <button class="gf-button" type="button" aria-pressed="false" data-latch>mono</button>
+        </div>
+      </div>
+      <div class="gf-row">
+        <a class="gf-button" href="#how">a link</a>
+        <button class="gf-button" type="button" disabled>disabled</button>
+      </div>
+      <p class="gf-note">The accent key is the one coloured control on the face: one per panel. A locked key sits 1px lower with its lamp lit.</p>
+    </div>
+  </section>
+
+  <section class="gf-panel" id="fields" aria-labelledby="fields-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="fields-title">text fields</h2></div>
+    <div class="gf-panel__body">
+      <div>
+        <label class="gf-label" for="tf-station">station</label>
+        <input class="gf-field" id="tf-station" value="Hessischer Rundfunk" aria-describedby="tf-station-note">
+        <p class="gf-note" id="tf-station-note">Up to 30 letters.</p>
+      </div>
+      <div>
+        <label class="gf-label" for="tf-search">search</label>
+        <input class="gf-field" id="tf-search" type="search" placeholder="a station or a frequency">
+      </div>
+      <div>
+        <label class="gf-label" for="tf-freq">frequency (MHz)</label>
+        <input class="gf-field" id="tf-freq" inputmode="decimal" value="120.0" aria-invalid="true" aria-describedby="tf-freq-error">
+        <p class="gf-error" id="tf-freq-error">Enter a frequency from 87.5 to 108 MHz.</p>
+      </div>
+      <div>
+        <label class="gf-label" for="tf-notes">notes</label>
+        <textarea class="gf-field" id="tf-notes" rows="3">Concert on Sunday at eight.</textarea>
+      </div>
+      <div>
+        <label class="gf-label" for="tf-off">serial number</label>
+        <input class="gf-field" id="tf-off" value="SK 4 / 1956" disabled>
+      </div>
+    </div>
+  </section>
+
+  <section class="gf-panel" id="checks" aria-labelledby="checks-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="checks-title">check boxes, switches and radios</h2></div>
+    <div class="gf-panel__body">
+      <fieldset class="gf-group">
+        <legend>check boxes</legend>
+        <div class="gf-row">
+          <label class="gf-check"><input type="checkbox" checked> loudness</label>
+          <label class="gf-check"><input type="checkbox"> filter</label>
+          <label class="gf-check"><input type="checkbox" id="cb-mixed"> all speakers</label>
+          <label class="gf-check"><input type="checkbox" disabled> tape</label>
+        </div>
+      </fieldset>
+      <fieldset class="gf-group">
+        <legend>switches</legend>
+        <div class="gf-row">
+          <label class="gf-switch">power <input type="checkbox" role="switch" checked><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">off</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">on</span></label>
+          <label class="gf-switch">mono <input type="checkbox" role="switch"><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">off</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">on</span></label>
+          <label class="gf-switch">aux <input type="checkbox" role="switch" disabled><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">aus</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">ein</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="gf-group">
+        <legend>source</legend>
+        <div class="gf-row">
+          <label class="gf-radio"><input type="radio" name="source" checked> radio</label>
+          <label class="gf-radio"><input type="radio" name="source"> phono</label>
+          <label class="gf-radio"><input type="radio" name="source"> tape</label>
+          <label class="gf-radio"><input type="radio" name="source" disabled> tv</label>
+        </div>
+      </fieldset>
+      <p class="gf-note">A switch shows its state by position and by the word printed in ink, not by colour alone.</p>
+    </div>
+  </section>
+
+  <section class="gf-panel" id="lists" aria-labelledby="lists-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="lists-title">selects and list boxes</h2></div>
+    <div class="gf-panel__body">
+      <div class="gf-row">
+        <div>
+          <label class="gf-label" for="sel-band">band</label>
+          <select class="gf-select" id="sel-band">
+            <option>ukw (fm)</option>
+            <option>mw (medium wave)</option>
+            <option>lw (long wave)</option>
+            <option>kw (short wave)</option>
+          </select>
+        </div>
+        <div>
+          <label class="gf-label" for="sel-off">speed</label>
+          <select class="gf-select" id="sel-off" disabled>
+            <option>33 rpm</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="gf-label" for="lb-programme">programme</label>
+        <select class="gf-listbox" id="lb-programme" size="5">
+          <option>news</option>
+          <option selected>chamber music</option>
+          <option>jazz hour</option>
+          <option>radio play</option>
+          <option>weather</option>
+          <option>late concert</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="gf-panel" id="progress" aria-labelledby="progress-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="progress-title">progress</h2></div>
+    <div class="gf-panel__body">
+      <div class="demo-stack">
+        <label class="gf-label" for="pg-copy">copying side a</label>
+        <progress class="gf-progress" id="pg-copy" value="40" max="100">40%</progress>
+        <p class="gf-note demo-readout">40%</p>
+      </div>
+      <div class="demo-stack">
+        <label class="gf-label" for="pg-full">done</label>
+        <progress class="gf-progress" id="pg-full" value="100" max="100">100%</progress>
+      </div>
+      <div class="demo-stack">
+        <label class="gf-label" for="pg-search">searching</label>
+        <progress class="gf-progress" id="pg-search" aria-describedby="pg-search-note"></progress>
+        <p class="gf-note" id="pg-search-note">Searching for the next station&hellip;</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="gf-panel" id="tabs" aria-labelledby="tabs-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="tabs-title">tabs</h2></div>
+    <div class="gf-panel__body">
+      <div class="gf-tabs">
+        <div class="gf-tabs__list" role="tablist" aria-label="Band">
+          <button class="gf-tab" type="button" role="tab" id="tab-ukw" aria-selected="true" aria-controls="band-ukw">ukw</button>
+          <button class="gf-tab" type="button" role="tab" id="tab-mw" aria-selected="false" aria-controls="band-mw" tabindex="-1">mw</button>
+          <button class="gf-tab" type="button" role="tab" id="tab-lw" aria-selected="false" aria-controls="band-lw" tabindex="-1">lw</button>
+          <button class="gf-tab" type="button" role="tab" id="tab-kw" aria-selected="false" aria-controls="band-kw" tabindex="-1">kw</button>
+        </div>
+        <div class="gf-tabs__panel" role="tabpanel" id="band-ukw" aria-labelledby="tab-ukw">
+          <p><i lang="de">Ultrakurzwelle</i>: FM, 87.5 to 108 MHz. Clear sound and stereo, a short reach.</p>
+        </div>
+        <div class="gf-tabs__panel" role="tabpanel" id="band-mw" aria-labelledby="tab-mw" hidden>
+          <p><i lang="de">Mittelwelle</i>: medium wave, roughly 0.5 to 1.6 MHz. Further by night.</p>
+        </div>
+        <div class="gf-tabs__panel" role="tabpanel" id="band-lw" aria-labelledby="tab-lw" hidden>
+          <p><i lang="de">Langwelle</i>: long wave, roughly 150 to 280 kHz. A few strong stations.</p>
+        </div>
+        <div class="gf-tabs__panel" role="tabpanel" id="band-kw" aria-labelledby="tab-kw" hidden>
+          <p><i lang="de">Kurzwelle</i>: short wave, roughly 3 to 30 MHz. Stations from far away.</p>
+        </div>
+      </div>
+      <p class="gf-note">Like a band selector: pressing one key releases the others. Arrow keys, Home and End move between them.</p>
+    </div>
+  </section>
+
+  <section class="gf-panel" id="menus" aria-labelledby="menus-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="menus-title">menus</h2></div>
+    <div class="gf-panel__body">
+      <ul class="gf-menu__list" aria-label="A menu, drawn in place">
+        <li><button class="gf-menu__item" type="button" data-open-dialog>reset all&hellip; <kbd class="gf-menu__key">Ctrl+R</kbd></button></li>
+        <li><button class="gf-menu__item" type="button" disabled>store preset <kbd class="gf-menu__key">Ctrl+S</kbd></button></li>
+        <li class="gf-menu__separator" role="separator"></li>
+        <li><button class="gf-menu__item" type="button" aria-pressed="true" data-latch>stereo</button></li>
+        <li><button class="gf-menu__item" type="button" aria-pressed="false" data-latch>loudness</button></li>
+      </ul>
+      <p class="gf-note">The bar at the top of the page has working menus: open one with a click, Enter or Space; the up and down arrows move; Escape or a click elsewhere closes it.</p>
+    </div>
+  </section>
+
+  <section class="gf-panel" id="dialog" aria-labelledby="dialog-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="dialog-title">dialog</h2></div>
+    <div class="gf-panel__body">
+      <p>A dialog is a panel laid over the page, like the lid over the set.</p>
+      <div class="gf-row">
+        <button class="gf-button" type="button" data-open-dialog>reset all&hellip;</button>
+      </div>
+      <p class="gf-note" id="dialog-result" role="status"></p>
+    </div>
+  </section>
+
+  <section class="gf-panel" id="groups" aria-labelledby="groups-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="groups-title">group boxes, notes and errors</h2></div>
+    <div class="gf-panel__body">
+      <fieldset class="gf-group">
+        <legend>reception</legend>
+        <div class="gf-row">
+          <label class="gf-check"><input type="checkbox" checked> automatic tuning</label>
+          <label class="gf-check"><input type="checkbox"> local stations only</label>
+        </div>
+        <p class="gf-note">Printed small, like the instructions on a lid.</p>
+      </fieldset>
+      <div>
+        <p class="gf-error">The record is not on the turntable.</p>
+        <p class="gf-note">An error is led by a circled &ldquo;!&rdquo; and printed in record red, so it never relies on colour alone.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Braun extras (sliders, knob, lamp, scale, keypad, grille) and a calculator come after this point. -->
+
+  <section class="gf-panel demo-wide" id="form" aria-labelledby="form-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="form-title">sample form: store a preset</h2></div>
+    <form class="gf-panel__body" id="preset-form" novalidate>
+      <p class="gf-note">The frequency is out of range, so the form opens with its error showing. Press store to check the rest; nothing is sent.</p>
+      <div class="gf-row demo-fields">
+        <div>
+          <label class="gf-label" for="pf-name">station name</label>
+          <input class="gf-field" id="pf-name" name="name" required maxlength="30" placeholder="e.g. jazz" aria-describedby="pf-name-error">
+          <p class="gf-error" id="pf-name-error" hidden>Enter a station name.</p>
+        </div>
+        <div>
+          <label class="gf-label" for="pf-freq">frequency (MHz)</label>
+          <input class="gf-field" id="pf-freq" name="freq" type="number" required min="87.5" max="108" step="0.05" value="112.4" aria-invalid="true" aria-describedby="pf-freq-note pf-freq-error">
+          <p class="gf-note" id="pf-freq-note">ukw: 87.5 to 108 MHz.</p>
+          <p class="gf-error" id="pf-freq-error">Enter a frequency from 87.5 to 108 MHz.</p>
+        </div>
+      </div>
+      <fieldset class="gf-group">
+        <legend>preset key</legend>
+        <div class="gf-row">
+          <label class="gf-radio"><input type="radio" name="key" value="1" checked> 1</label>
+          <label class="gf-radio"><input type="radio" name="key" value="2"> 2</label>
+          <label class="gf-radio"><input type="radio" name="key" value="3"> 3</label>
+          <label class="gf-radio"><input type="radio" name="key" value="4"> 4</label>
+          <label class="gf-radio"><input type="radio" name="key" value="5"> 5</label>
+        </div>
+      </fieldset>
+      <div class="gf-row">
+        <label class="gf-check"><input type="checkbox" name="loudness"> loudness</label>
+        <label class="gf-switch">stereo <input type="checkbox" role="switch" name="stereo" checked><span class="gf-switch__word gf-switch__word--off" aria-hidden="true">off</span><span class="gf-switch__word gf-switch__word--on" aria-hidden="true">on</span></label>
+      </div>
+      <div>
+        <label class="gf-label" for="pf-notes">notes (optional)</label>
+        <textarea class="gf-field" id="pf-notes" name="notes" rows="2"></textarea>
+      </div>
+      <div class="gf-buttons">
+        <button class="gf-button" type="reset">clear</button>
+        <button class="gf-button gf-button--accent" type="submit">store</button>
+      </div>
+      <p class="gf-note" id="pf-status" role="status"></p>
+    </form>
+  </section>
+
+  <section class="gf-panel demo-wide" id="how" aria-labelledby="how-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="how-title">how to use</h2></div>
+    <div class="gf-panel__body">
+      <p>Copy <a href="gute-form.css">gute-form.css</a> and its <code>fonts</code> folder next to your page, and link the CSS. It loads Inter from that folder, so no request leaves your site:</p>
+      <pre tabindex="0" aria-label="The link line"><code>&lt;link rel="stylesheet" href="gute-form.css"&gt;
+&lt;body class="gf-page"&gt;</code></pre>
+      <p>A panel is a label strip with a heading, then a body:</p>
+      <pre tabindex="0" aria-label="Panel markup"><code>&lt;section class="gf-panel" aria-labelledby="p1"&gt;
+  &lt;div class="gf-panel__strip"&gt;
+    &lt;h2 class="gf-panel__title" id="p1"&gt;tuner&lt;/h2&gt;
+  &lt;/div&gt;
+  &lt;div class="gf-panel__body"&gt;
+    &lt;label class="gf-label" for="f1"&gt;station&lt;/label&gt;
+    &lt;input class="gf-field" id="f1"&gt;
+    &lt;div class="gf-buttons"&gt;
+      &lt;button class="gf-button" type="button"&gt;cancel&lt;/button&gt;
+      &lt;button class="gf-button gf-button--accent"&gt;store&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+      <p>For a palette of your own, set the tokens on <code>:root</code> after the link. Keep text 4.5:1 and <code>--gf-line</code> 3:1 against <code>--gf-page</code> and <code>--gf-surface</code>:</p>
+      <pre tabindex="0" aria-label="Token example"><code>:root {
+  --gf-page: #f4f2ec;      /* page, and the fill of fields */
+  --gf-surface: #e7e4dc;   /* panels, buttons, selects */
+  --gf-line: #7d786f;      /* 1px seams */
+  --gf-ink: #26251f;       /* text, ticks, the focus ring */
+  --gf-muted: #5e5a52;     /* printed labels */
+  --gf-accent: #2e2f30;    /* the main button */
+  --gf-accent-ink: #f4f2ec;
+  --gf-second: #8a5a36;    /* "on" states only */
+  --gf-on-second: #f4f2ec;
+  --gf-trim: #b98d63;      /* the material: side strips */
+  --gf-error: #b3261e;     /* errors, always with a symbol and words */
+}</code></pre>
+      <p>Write labels in lowercase, as Braun printed them. The comment at the top of <code>gute-form.css</code> gives the markup for every component; this page&rsquo;s own script (tabs, menus, the dialog, the mixed check box) is at the bottom of its source.</p>
+    </div>
+  </section>
+
+  <section class="gf-panel demo-wide" id="credits" aria-labelledby="credits-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="credits-title">credits</h2></div>
+    <div class="gf-panel__body">
+      <ul>
+        <li>Type: <a href="https://rsms.me/inter/">Inter</a> by Rasmus Andersson, under the <a href="fonts/OFL.txt">SIL Open Font License 1.1</a>, served from this folder.</li>
+        <li>The SK 4 drawing was made for this page from the palette; it is flat and not to scale.</li>
+        <li>History, traits, palettes and component specs: the <a href="research/visual.md">visual research</a> and the <a href="research/components.md">component research</a>, with their sources.</li>
+        <li>Braun and SK 4 are names of Braun GmbH; this page is not affiliated with Braun.</li>
+      </ul>
+      <p><a href="../../index.html#products">&lsaquo; Back to the design framework</a></p>
+    </div>
+  </section>
+</main>
+
+<dialog class="gf-panel gf-dialog" id="reset-dialog" aria-labelledby="reset-title">
+  <div class="gf-panel__strip"><h2 class="gf-panel__title" id="reset-title">reset the tuner</h2></div>
+  <form class="gf-panel__body" method="dialog">
+    <p><strong>Clear every preset and go back to ukw?</strong></p>
+    <p class="gf-note">The five preset keys will be empty.</p>
+    <div class="gf-buttons">
+      <button class="gf-button" value="cancel">cancel</button>
+      <button class="gf-button gf-button--accent" value="reset">reset</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  (function () {
+    var menus = Array.prototype.slice.call(document.querySelectorAll(".gf-menu"));
+
+    // Menus: one open at a time; closed by choosing an item, Escape or a click elsewhere;
+    // up and down arrows move through the items.
+    menus.forEach(function (d) {
+      d.addEventListener("toggle", function () {
+        if (d.open) menus.forEach(function (o) { if (o !== d) o.open = false; });
+      });
+      d.addEventListener("click", function (e) {
+        if (!e.target.closest(".gf-menu__item")) return;
+        d.open = false;
+        // Focus would be left on a hidden item; hand it back to the menu's title.
+        if (d.contains(document.activeElement)) d.querySelector("summary").focus();
+      });
+      d.addEventListener("keydown", function (e) {
+        if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+        var items = Array.prototype.slice.call(d.querySelectorAll(".gf-menu__item:not(:disabled)"));
+        if (!items.length) return;
+        e.preventDefault();
+        d.open = true;
+        var i = items.indexOf(document.activeElement);
+        var next = e.key === "ArrowDown" ? (i + 1) % items.length : (i <= 0 ? items.length - 1 : i - 1);
+        items[next].focus();
+      });
+    });
+    document.addEventListener("click", function (e) {
+      menus.forEach(function (d) { if (d.open && !d.contains(e.target)) d.open = false; });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      menus.forEach(function (d) {
+        if (d.open) { d.open = false; d.querySelector("summary").focus(); }
+      });
+    });
+
+    // Latching keys and ticked menu items: aria-pressed flips on each press.
+    document.querySelectorAll("[data-latch]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"));
+      });
+    });
+
+    // The mixed check box.
+    document.getElementById("cb-mixed").indeterminate = true;
+
+    // Tabs: click or arrow keys, Home and End.
+    document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+      var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+      function choose(tab) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute("aria-selected", String(on));
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+        });
+      }
+      list.addEventListener("click", function (e) {
+        var t = e.target.closest('[role="tab"]');
+        if (t) choose(t);
+      });
+      list.addEventListener("keydown", function (e) {
+        var i = tabs.indexOf(document.activeElement);
+        var j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (j === undefined) return;
+        e.preventDefault();
+        var t = tabs[(j + tabs.length) % tabs.length];
+        choose(t);
+        t.focus();
+      });
+    });
+
+    // The dialog: opened from the button or the tuner menu; Escape or a button closes it.
+    var dialog = document.getElementById("reset-dialog");
+    var result = document.getElementById("dialog-result");
+    document.querySelectorAll("[data-open-dialog]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        dialog.returnValue = "";
+        dialog.showModal();
+        dialog.querySelector(".gf-button--accent").focus();
+      });
+    });
+    dialog.addEventListener("close", function () {
+      result.textContent = "Closed with: " + (dialog.returnValue || "Escape") + ".";
+    });
+
+    // The sample form: checks the name and the frequency, sends nothing.
+    var form = document.getElementById("preset-form");
+    var status = document.getElementById("pf-status");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var first = null;
+      ["pf-name", "pf-freq"].forEach(function (id) {
+        var field = document.getElementById(id);
+        var bad = !field.checkValidity();
+        field.setAttribute("aria-invalid", String(bad));
+        document.getElementById(id + "-error").hidden = !bad;
+        if (bad && !first) first = field;
+      });
+      if (first) {
+        status.textContent = "";
+        first.focus();
+      } else {
+        var key = form.querySelector('input[name="key"]:checked').value;
+        status.textContent = "Stored " + document.getElementById("pf-name").value + " at " +
+          document.getElementById("pf-freq").value + " MHz on key " + key + ". (Nothing was sent: this is a demo.)";
+      }
+    });
+    form.addEventListener("reset", function () {
+      form.querySelectorAll("[aria-invalid]").forEach(function (f) { f.removeAttribute("aria-invalid"); });
+      form.querySelectorAll(".gf-error").forEach(function (p) { p.hidden = true; });
+      status.textContent = "";
+    });
+  })();
+</script>
+</body>
+</html>

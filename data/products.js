@@ -65,7 +65,8 @@
       line: "German for 'good form': the Ulm School and Braun made calm white and grey radios, record players and shavers where every detail had a purpose, or 'less, but better'.",
       image: 'img/products/gute-form.jpg',
       alt: 'The Braun SK 4 radio and record player of 1956, a white metal box with light wooden sides, a clear plastic lid and neat rows of controls',
-      credit: { by: 'Hilarmont', license: 'CC BY-SA 3.0 de', source: 'https://commons.wikimedia.org/wiki/File:Braun_Radio_mit_Plattenspieler_Pinakothek_der_Moderne_(Foto_Hilarmont).jpg' }
+      credit: { by: 'Hilarmont', license: 'CC BY-SA 3.0 de', source: 'https://commons.wikimedia.org/wiki/File:Braun_Radio_mit_Plattenspieler_Pinakothek_der_Moderne_(Foto_Hilarmont).jpg' },
+      demo: 'frameworks/gute-form/'
     },
     {
       name: 'Space Age',

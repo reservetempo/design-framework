@@ -1,0 +1,1127 @@
+/* gute-form.css: "Gute Form" (German for "good form") as a small CSS library: the calm
+   product design of Braun and the Ulm School of Design, 1955 to the 1990s (Dieter Rams,
+   Hans Gugelot; "less, but better"). Not affiliated with Braun.
+   Plain CSS, no JavaScript. Menus open and close by themselves (<details>); tabs, the
+   mixed check box and dialogs need a few lines of your own script (index.html beside this
+   file has them). Background: research/visual.md and research/components.md.
+
+   USE
+     <link rel="stylesheet" href="gute-form.css">
+     <body class="gf-page">   optional: the page in --gf-page, text in Inter 14px
+
+   FONT
+     Inter (variable, 100-900, roman and italic; SIL Open Font License 1.1) is loaded by the
+     @font-face rules below from fonts/ next to this file: copy the fonts folder
+     (inter-latin-wght-normal.woff2, inter-latin-wght-italic.woff2, OFL.txt) with the CSS.
+     No request leaves your site. Without the files the stack falls back to Helvetica Neue,
+     Helvetica, Arial. Set --gf-font for another face.
+
+   TOKENS (on :root; set them yourself for a palette of your own). The values are the
+   SK 4 palette: the Braun SK 4 radio-phonograph of 1956 (Hans Gugelot, Dieter Rams).
+     --gf-page        page behind panels; also the recessed fill of fields, tracks, wells
+     --gf-surface     the face of a panel, button, select or key (the control plate)
+     --gf-line        1px seams: borders, ticks, separators (3:1 on page and surface)
+     --gf-ink         text, check marks, selected rows, the focus ring (4.5:1 everywhere)
+     --gf-muted       printed labels and secondary text (4.5:1 on page and surface)
+     --gf-accent      the one signal colour: the main button, the progress pointer
+     --gf-accent-ink  text on --gf-accent (4.5:1)
+     --gf-second      "on" states only: a switch that is on, the lamp of a latching key
+                      (later: lamps and keypad function keys). Never decoration.
+     --gf-on-second   text on --gf-second (4.5:1)
+     --gf-trim        the object's material (elm wood on the SK 4): side strips only
+     --gf-error       a record-button red for errors: text 4.5:1 and field edge 3:1 on
+                      page and surface; always shown with a symbol and words
+     Also: --gf-font, --gf-radius (2px), --gf-pressed (the fill of a pressed key, derived).
+     Keep one accent per view; colour is never the only signal (state also shows by
+     position, a lamp, a bar or words).
+
+   COMPONENTS (write labels in lowercase, as Braun printed them; names stay real words)
+     Panel: a flat plate with a label strip instead of a title bar
+       <section class="gf-panel" aria-labelledby="p1">
+         <div class="gf-panel__strip">
+           <h2 class="gf-panel__title" id="p1">tuner</h2>
+           (room on the right for a small button)
+         </div>
+         <div class="gf-panel__body">...</div>
+       </section>
+       .gf-panel--trim adds side strips in --gf-trim (the SK 4's elm ends);
+       .gf-panel--roomy pads the body 24px. In the body: h3, h4, p, a, code, pre, ul,
+       <hr> (a 1px rule between zones), .gf-row (a wrapping row of controls), .gf-label,
+       .gf-note, .gf-error, .gf-buttons (a right-aligned row of buttons), .gf-group.
+     Buttons
+       <button class="gf-button" type="button">cancel</button>
+       <button class="gf-button gf-button--accent">save</button>   one per panel, last
+       <button class="gf-button" type="button" aria-pressed="false">mono</button>
+         a latching key: aria-pressed="true" keeps it down with its lamp lit (your script
+         flips the attribute). Also on <a>. Disabled: the disabled attribute (or
+         aria-disabled="true" on a link).
+     Text field and text area
+       <label class="gf-label" for="f1">station</label>
+       <input class="gf-field" id="f1" aria-describedby="f1-note">
+       <p class="gf-note" id="f1-note">up to 20 letters</p>
+       <textarea class="gf-field" id="f2"></textarea>
+       Invalid: aria-invalid="true" (or the browser's :user-invalid), with the message in
+       <p class="gf-error" id="f1-error"> added to aria-describedby. Disabled: disabled.
+     Check box (mixed: set input.indeterminate = true in script), radio, toggle switch
+       <label class="gf-check"><input type="checkbox"> loudness</label>
+       <label class="gf-radio"><input type="radio" name="r"> phono</label>
+       <label class="gf-switch">power <input type="checkbox" role="switch">
+         <span class="gf-switch__word gf-switch__word--off" aria-hidden="true">off</span>
+         <span class="gf-switch__word gf-switch__word--on" aria-hidden="true">on</span></label>
+       (the words sit either side of the switch; the active one is printed in ink)
+     Select and list box (the open list of a select stays the browser's own)
+       <select class="gf-select">...</select>
+       <select class="gf-listbox" size="5">...</select>
+     Progress: a tuning scale with ticks every 10%
+       <progress class="gf-progress" value="40" max="100">40%</progress>
+       Without value: indeterminate, a pointer sweeping the scale (still and centred under
+       prefers-reduced-motion, so say in words what is happening).
+     Tabs: a band selector (your script sets aria-selected, tabindex and hidden)
+       <div class="gf-tabs">
+         <div class="gf-tabs__list" role="tablist" aria-label="Band">
+           <button class="gf-tab" role="tab" id="t-a" aria-selected="true" aria-controls="b-a">ukw</button>
+           <button class="gf-tab" role="tab" id="t-b" aria-selected="false" aria-controls="b-b" tabindex="-1">mw</button>
+         </div>
+         <div class="gf-tabs__panel" role="tabpanel" id="b-a" aria-labelledby="t-a">...</div>
+         <div class="gf-tabs__panel" role="tabpanel" id="b-b" aria-labelledby="t-b" hidden>...</div>
+       </div>
+     Menu bar and menus
+       <nav class="gf-menubar" aria-label="Menu bar">
+         <a class="gf-menubar__item gf-menubar__item--app" href="/">app</a>
+         <details class="gf-menu">
+           <summary class="gf-menubar__item">file</summary>
+           <ul class="gf-menu__list">
+             <li><button class="gf-menu__item" type="button">new <kbd class="gf-menu__key">Ctrl+N</kbd></button></li>
+             <li class="gf-menu__separator" role="separator"></li>
+             <li><button class="gf-menu__item" type="button" aria-pressed="true">ticked</button></li>
+             <li><button class="gf-menu__item" type="button" disabled>dimmed</button></li>
+           </ul>
+         </details>
+       </nav>
+       .gf-menu--end opens its list leftwards (near the right edge); on screens 480px wide
+       or less every list spans the bar. A .gf-menu__list outside .gf-menu is drawn in
+       place, as a static menu. Close menus on Escape and on a click elsewhere with your
+       own script.
+     Dialog: a panel laid over the page, opened with dialog.showModal()
+       <dialog class="gf-panel gf-dialog" aria-labelledby="d1">strip and body as a
+       panel, with a .gf-buttons row (accent button last)</dialog>
+     Group box
+       <fieldset class="gf-group"><legend>source</legend>...</fieldset>
+     Notes and errors
+       <p class="gf-note">muted small print</p>
+       <p class="gf-error" id="e1">Enter a frequency from 87.5 to 108 MHz.</p>
+       (an error is led by a circled "!" and printed in --gf-error; link it to its field
+       with aria-describedby)
+     Product figure: a stage with a flat drawing (an inline SVG) and a caption
+       <figure class="gf-product" data-gf-3d="hero">
+         <div class="gf-product__stage"><svg class="gf-product__drawing" role="img" aria-label="...">...</svg></div>
+         <figcaption>...</figcaption>
+       </figure>
+       (the data-gf-3d attributes are reserved for an optional script; the CSS needs none)
+
+   ACCESSIBILITY
+     Native elements under every look (buttons, check boxes, radios, selects, progress,
+     details, dialog, fieldset); text 4.5:1 and control edges 3:1 on page and surface; a
+     2px ink focus ring (3:1 or more) on every control; hit areas 24px or more; no
+     transitions and no moving pointer under prefers-reduced-motion; native controls and
+     system colours under forced colours (Windows contrast themes). */
+
+/* ---------- Font ---------- */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/inter-latin-wght-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/inter-latin-wght-italic.woff2") format("woff2");
+}
+
+/* ---------- Tokens: the SK 4 palette ---------- */
+
+:root {
+  color-scheme: light;
+  --gf-page: #f4f2ec;        /* white lacquered metal, slightly warm */
+  --gf-surface: #e7e4dc;     /* light grey control plate */
+  --gf-line: #7d786f;        /* warm grey seams: 3.92 on page, 3.45 on surface */
+  --gf-ink: #26251f;         /* warm near-black: 13.72 on page, 12.09 on surface */
+  --gf-muted: #5e5a52;       /* printed labels: 6.13 on page, 5.40 on surface */
+  --gf-accent: #2e2f30;      /* anthracite of the tonearm: the main button */
+  --gf-accent-ink: #f4f2ec;  /* 11.98 on accent */
+  --gf-second: #8a5a36;      /* darkened elm: "on" states; 4.60 on surface */
+  --gf-on-second: #f4f2ec;   /* 5.22 on second */
+  --gf-trim: #b98d63;        /* elm side panels */
+  --gf-error: #b3261e;       /* record red: 5.84 on page, 5.14 on surface */
+  --gf-font: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --gf-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --gf-radius: 2px;
+  --gf-pressed: color-mix(in srgb, var(--gf-surface) 70%, var(--gf-line));
+}
+
+/* ---------- Base type ---------- */
+
+.gf-page {
+  margin: 0;
+  background: var(--gf-page);
+  color: var(--gf-ink);
+  font: 400 14px/1.5 var(--gf-font);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.gf-page a:not([class]),
+.gf-panel a:not([class]) {
+  color: var(--gf-ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.gf-page a:not([class]):hover,
+.gf-panel a:not([class]):hover { text-decoration-thickness: 2px; }
+
+.gf-page :focus-visible,
+.gf-panel :focus-visible {
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 2px;
+}
+
+.gf-display {
+  margin: 0;
+  font-size: clamp(36px, 7vw, 64px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+.gf-heading {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.gf-label {
+  display: block;
+  margin: 0 0 4px;
+  font-family: var(--gf-font);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  color: var(--gf-muted);
+}
+
+.gf-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+/* ---------- Panel ---------- */
+
+.gf-panel {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  background: var(--gf-surface);
+  color: var(--gf-ink);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  font-family: var(--gf-font);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.gf-panel--trim {
+  border-inline: 10px solid var(--gf-trim);
+}
+
+.gf-panel__strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 28px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--gf-line);
+}
+
+.gf-panel__title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  color: var(--gf-muted);
+}
+
+.gf-panel__body {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.gf-panel--roomy > .gf-panel__body { padding: 24px; }
+
+:where(.gf-panel__body > *) { min-width: 0; margin-block: 0; }
+
+.gf-panel__body h3,
+.gf-panel__body h4 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+}
+
+.gf-panel__body h4 { font-size: 14px; }
+
+.gf-panel__body p { max-width: 70ch; }
+
+.gf-panel__body > hr {
+  width: 100%;
+  height: 0;
+  border: 0;
+  border-top: 1px solid var(--gf-line);
+}
+
+.gf-panel__body code,
+.gf-panel__body kbd {
+  font-family: var(--gf-mono);
+  font-size: 0.92em;
+}
+
+.gf-panel__body pre {
+  overflow: auto;
+  padding: 12px;
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  box-shadow: inset 0 1px 0 var(--gf-line);
+  font: 12px/1.55 var(--gf-mono);
+}
+
+.gf-panel__body pre code { font-size: inherit; }
+
+@media (max-width: 420px) {
+  .gf-panel__strip { padding: 0 12px; }
+  .gf-panel__body,
+  .gf-panel--roomy > .gf-panel__body { padding: 14px 12px; }
+}
+
+/* ---------- Buttons ---------- */
+
+.gf-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 64px;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 14px;
+  font-family: var(--gf-font);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: var(--gf-ink);
+  text-decoration: none;
+  background: var(--gf-surface);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  box-shadow: inset 0 -1px 0 var(--gf-line);
+  cursor: pointer;
+  transition: transform 80ms ease-out, background-color 80ms ease-out, border-color 80ms ease-out;
+}
+
+.gf-button:hover { border-color: var(--gf-muted); }
+
+.gf-button:active,
+.gf-button[aria-pressed="true"] {
+  transform: translateY(1px);
+  background: var(--gf-pressed);
+  box-shadow: inset 0 1px 0 var(--gf-line);
+}
+
+/* A latching key's lamp: unlit when up, lit in --gf-second when down. */
+.gf-button[aria-pressed]::before {
+  content: "";
+  flex: none;
+  box-sizing: border-box;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--gf-line);
+  border-radius: 50%;
+}
+
+.gf-button[aria-pressed="true"]::before { border: 3px solid var(--gf-second); }
+
+.gf-button--accent {
+  color: var(--gf-accent-ink);
+  background: var(--gf-accent);
+  border-color: var(--gf-accent);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--gf-accent) 60%, #000);
+}
+
+.gf-button--accent:hover { border-color: var(--gf-ink); }
+
+.gf-button--accent:active {
+  background: color-mix(in srgb, var(--gf-accent) 85%, var(--gf-ink));
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gf-accent) 60%, #000);
+}
+
+.gf-button:focus-visible {
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 2px;
+}
+
+.gf-button:disabled,
+.gf-button[aria-disabled="true"] {
+  opacity: 0.45;
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.gf-button:disabled:hover,
+.gf-button[aria-disabled="true"]:hover { border-color: var(--gf-line); }
+
+.gf-button--accent:disabled:hover { border-color: var(--gf-accent); }
+
+.gf-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ---------- Text field and text area ---------- */
+
+.gf-field {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 32px;
+  margin: 0;
+  padding: 0 10px;
+  font-family: var(--gf-font);
+  font-size: 14px;
+  color: var(--gf-ink);
+  caret-color: var(--gf-ink);
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  box-shadow: inset 0 1px 0 var(--gf-line);
+}
+
+textarea.gf-field {
+  height: auto;
+  min-height: 96px;
+  padding: 6px 10px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.gf-field::placeholder { color: var(--gf-muted); opacity: 1; }
+
+.gf-field:hover { border-color: var(--gf-muted); }
+
+.gf-field:focus-visible {
+  border-color: var(--gf-ink);
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 2px;
+}
+
+/* Two rules, so a browser without :user-invalid still keeps the first. */
+.gf-field[aria-invalid="true"] {
+  border-color: var(--gf-error);
+  box-shadow: inset 2px 0 0 var(--gf-error), inset 0 1px 0 var(--gf-line);
+}
+
+.gf-field:user-invalid {
+  border-color: var(--gf-error);
+  box-shadow: inset 2px 0 0 var(--gf-error), inset 0 1px 0 var(--gf-line);
+}
+
+.gf-field:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.gf-field:disabled:hover { border-color: var(--gf-line); }
+
+/* ---------- Check box, radio and toggle switch: native inputs, appearance: none ---------- */
+
+.gf-check,
+.gf-radio,
+.gf-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  font-family: var(--gf-font);
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--gf-ink);
+  cursor: pointer;
+}
+
+.gf-check input,
+.gf-radio input {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  display: inline-grid;
+  place-content: center;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  background: var(--gf-surface);
+  border: 1px solid var(--gf-ink);
+  border-radius: var(--gf-radius);
+  cursor: pointer;
+  transition: transform 80ms ease-out;
+}
+
+.gf-radio input { border-radius: 50%; }
+
+.gf-check input::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: var(--gf-surface);
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0, 43% 62%);
+  transform: scale(0);
+  transition: transform 80ms ease-out;
+}
+
+.gf-check input:checked,
+.gf-check input:indeterminate { background: var(--gf-ink); }
+
+.gf-check input:checked::before { transform: scale(1); }
+
+.gf-check input:indeterminate::before {
+  width: 8px;
+  height: 2px;
+  clip-path: none;
+  transform: scale(1);
+}
+
+.gf-radio input::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--gf-ink);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 80ms ease-out;
+}
+
+.gf-radio input:checked::before { transform: scale(1); }
+
+.gf-check input:hover,
+.gf-radio input:hover { box-shadow: inset 0 0 0 1px var(--gf-ink); }
+
+.gf-check input:active,
+.gf-radio input:active { transform: translateY(1px); }
+
+.gf-switch input {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  position: relative;
+  order: 2;
+  flex: none;
+  width: 36px;
+  height: 20px;
+  margin: 0;
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  cursor: pointer;
+  transition: background-color 120ms ease-out, border-color 120ms ease-out;
+}
+
+.gf-switch input::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--gf-ink);
+  border-radius: 1px;
+  background:
+    linear-gradient(var(--gf-line), var(--gf-line)) 4px 50% / 1px 8px no-repeat,
+    linear-gradient(var(--gf-line), var(--gf-line)) 9px 50% / 1px 8px no-repeat,
+    var(--gf-surface);
+  transition: transform 120ms ease-out;
+}
+
+.gf-switch input:hover { border-color: var(--gf-muted); }
+
+.gf-switch input:checked {
+  background: var(--gf-second);
+  border-color: var(--gf-second);
+}
+
+.gf-switch input:checked::before { transform: translateX(16px); }
+
+.gf-switch__word {
+  order: 1;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--gf-muted);
+}
+
+.gf-switch__word--on { order: 3; }
+
+.gf-switch input:not(:checked) ~ .gf-switch__word--off,
+.gf-switch input:checked ~ .gf-switch__word--on { color: var(--gf-ink); }
+
+.gf-check input:focus-visible,
+.gf-radio input:focus-visible,
+.gf-switch input:focus-visible {
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 2px;
+}
+
+.gf-check:has(input:disabled),
+.gf-radio:has(input:disabled),
+.gf-switch:has(input:disabled) {
+  color: var(--gf-muted);
+  cursor: not-allowed;
+}
+
+.gf-check input:disabled,
+.gf-radio input:disabled,
+.gf-switch input:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.gf-switch input:disabled:hover { border-color: var(--gf-line); }
+
+/* ---------- Select and list box ---------- */
+
+.gf-select {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  min-width: 120px;
+  max-width: 100%;
+  height: 32px;
+  margin: 0;
+  padding: 0 30px 0 10px;
+  font-family: var(--gf-font);
+  font-size: 13px;
+  color: var(--gf-ink);
+  background-color: var(--gf-surface);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--gf-ink) 50%),
+    linear-gradient(135deg, var(--gf-ink) 50%, transparent 50%);
+  background-position: calc(100% - 15px) 50%, calc(100% - 10px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  box-shadow: inset 0 -1px 0 var(--gf-line);
+  cursor: pointer;
+}
+
+.gf-select:hover { border-color: var(--gf-muted); }
+
+.gf-listbox {
+  box-sizing: border-box;
+  min-width: 160px;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--gf-font);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--gf-ink);
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  box-shadow: inset 0 1px 0 var(--gf-line);
+}
+
+.gf-listbox option { padding: 5px 10px; }
+
+.gf-listbox option:checked {
+  background: linear-gradient(var(--gf-ink), var(--gf-ink));
+  color: var(--gf-surface);
+}
+
+.gf-select:focus-visible,
+.gf-listbox:focus-visible {
+  border-color: var(--gf-ink);
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 2px;
+}
+
+.gf-select:disabled,
+.gf-listbox:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.gf-select:disabled:hover { border-color: var(--gf-line); }
+
+/* ---------- Progress: a scale with a bar, or a sweeping pointer ---------- */
+
+.gf-progress {
+  --gf-ticks: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), var(--gf-line) calc(10% - 1px) 10%);
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: content-box;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 6px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: var(--gf-ink);
+  background: var(--gf-ticks), var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: 1px;
+}
+
+.gf-progress::-webkit-progress-bar { background: transparent; }
+.gf-progress::-webkit-progress-value { background: var(--gf-ink); }
+.gf-progress::-moz-progress-bar { background: var(--gf-ink); }
+
+.gf-progress:indeterminate {
+  background:
+    linear-gradient(var(--gf-accent), var(--gf-accent)) 0 0 / 20% 100% no-repeat,
+    var(--gf-ticks),
+    var(--gf-page);
+  animation: gf-sweep 1.6s ease-in-out infinite alternate;
+}
+
+.gf-progress:indeterminate::-moz-progress-bar { background: transparent; }
+
+@keyframes gf-sweep {
+  from { background-position: 0% 0, 0 0, 0 0; }
+  to { background-position: 100% 0, 0 0, 0 0; }
+}
+
+/* ---------- Tabs: a row of joined band keys ---------- */
+
+.gf-tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
+.gf-tab {
+  box-sizing: border-box;
+  position: relative;
+  min-width: 48px;
+  min-height: 32px;
+  margin: 0 0 0 -1px;
+  padding: 0 14px;
+  font-family: var(--gf-font);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: var(--gf-ink);
+  background: var(--gf-surface);
+  border: 1px solid var(--gf-line);
+  border-radius: 0;
+  box-shadow: inset 0 -1px 0 var(--gf-line);
+  cursor: pointer;
+  transition: transform 80ms ease-out, background-color 80ms ease-out;
+}
+
+.gf-tab:first-child { margin-left: 0; border-radius: var(--gf-radius) 0 0 var(--gf-radius); }
+.gf-tab:last-child { border-radius: 0 var(--gf-radius) var(--gf-radius) 0; }
+.gf-tab:only-child { border-radius: var(--gf-radius); }
+
+.gf-tab:hover { z-index: 1; border-color: var(--gf-muted); }
+
+.gf-tab[aria-selected="true"] {
+  transform: translateY(1px);
+  background: var(--gf-pressed);
+  box-shadow: inset 0 1px 0 var(--gf-line);
+}
+
+.gf-tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--gf-ink);
+}
+
+.gf-tab:focus-visible {
+  z-index: 2;
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 2px;
+}
+
+.gf-tab:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.gf-tabs__panel { padding-top: 16px; }
+.gf-tabs__panel[hidden] { display: none; }
+
+/* ---------- Menu bar and menus ---------- */
+
+.gf-menubar {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 4px;
+  background: var(--gf-surface);
+  color: var(--gf-ink);
+  border-bottom: 1px solid var(--gf-line);
+  font-family: var(--gf-font);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.gf-menubar__item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--gf-ink);
+  text-decoration: none;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.gf-menubar__item::-webkit-details-marker { display: none; }
+.gf-menubar__item::marker { content: ""; }
+
+.gf-menubar__item--app { font-weight: 600; }
+
+.gf-menubar__item:hover { background: var(--gf-page); }
+
+.gf-menu[open] > .gf-menubar__item {
+  background: var(--gf-pressed);
+  box-shadow: inset 0 -2px 0 var(--gf-ink), inset 0 1px 0 var(--gf-line);
+}
+
+.gf-menubar__item:focus-visible {
+  outline: 2px solid var(--gf-ink);
+  outline-offset: -2px;
+}
+
+.gf-menu { position: relative; }
+
+.gf-menu__list {
+  box-sizing: border-box;
+  min-width: 200px;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: var(--gf-surface);
+  color: var(--gf-ink);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  font-family: var(--gf-font);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.gf-menu > .gf-menu__list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 1px);
+  left: 0;
+  box-shadow: 0 2px 0 var(--gf-line);
+}
+
+.gf-menu--end > .gf-menu__list { right: 0; left: auto; }
+
+.gf-menu__item {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 12px 0 24px;
+  font: inherit;
+  color: var(--gf-ink);
+  text-align: left;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.gf-menu__item:hover,
+.gf-menu__item:focus-visible { background: var(--gf-page); }
+
+.gf-menu__item:focus-visible {
+  outline: 2px solid var(--gf-ink);
+  outline-offset: -2px;
+}
+
+.gf-menu__item[aria-pressed="true"]::before,
+.gf-menu__item[aria-checked="true"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 9px;
+  width: 0;
+  height: 0;
+  margin-top: -3px;
+  border: 3px solid var(--gf-ink);
+  border-radius: 50%;
+}
+
+.gf-menu__key {
+  margin-left: auto;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--gf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.gf-menu__separator {
+  height: 0;
+  margin: 4px 0;
+  border-top: 1px solid var(--gf-line);
+}
+
+.gf-menu__item:disabled,
+.gf-menu__item[aria-disabled="true"] {
+  color: var(--gf-muted);
+  background: none;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .gf-menu { position: static; }
+  .gf-menu > .gf-menu__list,
+  .gf-menu--end > .gf-menu__list {
+    right: 0;
+    left: 0;
+    min-width: 0;
+  }
+}
+
+/* ---------- Dialog ---------- */
+
+.gf-dialog {
+  box-sizing: border-box;
+  width: min(28rem, calc(100% - 32px));
+  max-width: none;
+  margin: auto;
+  padding: 0;
+}
+
+.gf-dialog > .gf-panel__body { padding: 24px; }
+
+.gf-dialog[open] { animation: gf-fade 120ms ease-out; }
+
+.gf-dialog::backdrop {
+  background: color-mix(in srgb, var(--gf-ink, #26251f) 40%, transparent);
+}
+
+@keyframes gf-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---------- Group box ---------- */
+
+.gf-group {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 8px 16px 12px;
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+}
+
+.gf-group > legend {
+  padding: 0 4px;
+  font-family: var(--gf-font);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--gf-muted);
+}
+
+/* ---------- Notes and errors ---------- */
+
+.gf-note {
+  max-width: 60ch;
+  margin: 4px 0 0;
+  font-family: var(--gf-font);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--gf-muted);
+}
+
+.gf-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  max-width: 60ch;
+  margin: 4px 0 0;
+  font-family: var(--gf-font);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--gf-error);
+}
+
+.gf-error[hidden] { display: none; }
+
+.gf-error::before {
+  content: "!";
+  content: "!" / "";
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gf-page);
+  background: var(--gf-error);
+  border: 1px solid var(--gf-error);
+  border-radius: 50%;
+}
+
+/* ---------- Product figure ---------- */
+
+.gf-product { margin: 0; }
+
+.gf-product__stage {
+  position: relative;
+  aspect-ratio: 32 / 15;
+}
+
+.gf-product__drawing,
+.gf-product__stage > canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gf-product > figcaption {
+  margin-top: 8px;
+  font-family: var(--gf-font);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--gf-muted);
+}
+
+/* ---------- Braun extras (sliders, knob, lamp, scale, keypad, grille) come here ---------- */
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .gf-button,
+  .gf-tab,
+  .gf-check input,
+  .gf-check input::before,
+  .gf-radio input,
+  .gf-radio input::before,
+  .gf-switch input,
+  .gf-switch input::before { transition: none; }
+
+  .gf-dialog[open] { animation: none; }
+
+  .gf-progress:indeterminate {
+    animation: none;
+    background-position: 50% 0, 0 0, 0 0;
+  }
+}
+
+/* ---------- Forced colours (Windows contrast themes) ---------- */
+
+@media (forced-colors: active) {
+  .gf-check input,
+  .gf-radio input,
+  .gf-switch input {
+    -webkit-appearance: auto;
+    appearance: auto;
+    width: auto;
+    height: auto;
+  }
+
+  .gf-check input::before,
+  .gf-radio input::before,
+  .gf-switch input::before { content: none; }
+
+  .gf-select { -webkit-appearance: auto; appearance: auto; padding-right: 10px; }
+
+  .gf-panel--trim { border-inline-width: 1px; }
+
+  .gf-progress,
+  .gf-progress:indeterminate {
+    forced-color-adjust: none;
+    background: Canvas;
+    border-color: CanvasText;
+  }
+
+  .gf-progress:indeterminate {
+    background: linear-gradient(Highlight, Highlight) 0 0 / 20% 100% no-repeat, Canvas;
+  }
+
+  .gf-progress::-webkit-progress-value { forced-color-adjust: none; background: Highlight; }
+  .gf-progress::-moz-progress-bar { forced-color-adjust: none; background: Highlight; }
+  .gf-progress:indeterminate::-moz-progress-bar { background: transparent; }
+
+  .gf-tab[aria-selected="true"]::after,
+  .gf-error::before {
+    forced-color-adjust: none;
+    background: CanvasText;
+    color: Canvas;
+  }
+
+  .gf-listbox option:checked {
+    forced-color-adjust: none;
+    background: SelectedItem;
+    color: SelectedItemText;
+  }
+
+  .gf-menu[open] > .gf-menubar__item { outline: 2px solid CanvasText; outline-offset: -2px; }
+}
+
+@media (forced-colors: active) and (prefers-reduced-motion: reduce) {
+  .gf-progress:indeterminate { background-position: 50% 0, 0 0; }
+}
