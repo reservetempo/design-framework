@@ -89,6 +89,13 @@
   .d-grain { fill: none; stroke: color-mix(in srgb, var(--gf-trim) 72%, #000); opacity: 0.55; }
   .d-lid { fill: var(--gf-page); fill-opacity: 0.22; stroke: var(--gf-line); }
   .d-glint { fill: none; stroke: #fff; stroke-width: 2; opacity: 0.8; }
+
+  /* Braun extras */
+  .demo-value { margin-left: 4px; color: var(--gf-ink); font-variant-numeric: tabular-nums; }
+  .demo-faders { align-items: flex-start; gap: 16px 24px; }
+  .demo-control { display: grid; justify-items: center; gap: 6px; }
+  .demo-keys { gap: 16px; }
+  .demo-grille { flex: 1 1 80px; min-height: 64px; }
 </style>
 </head>
 <body class="gf-page">
@@ -112,6 +119,8 @@
         <li><a class="gf-menu__item" href="#buttons">buttons</a></li>
         <li><a class="gf-menu__item" href="#fields">text fields</a></li>
         <li><a class="gf-menu__item" href="#checks">check boxes and switches</a></li>
+        <li><a class="gf-menu__item" href="#controls">sliders and knobs</a></li>
+        <li><a class="gf-menu__item" href="#signals">lamps, scales and keys</a></li>
         <li><a class="gf-menu__item" href="#tabs">tabs</a></li>
         <li><a class="gf-menu__item" href="#form">sample form</a></li>
       </ul>
@@ -401,7 +410,93 @@
     </div>
   </section>
 
-  <!-- Braun extras (sliders, knob, lamp, scale, keypad, grille) and a calculator come after this point. -->
+  <section class="gf-panel" id="controls" aria-labelledby="controls-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="controls-title">sliders and knobs</h2></div>
+    <div class="gf-panel__body">
+      <div>
+        <label class="gf-label" for="sl-vol">volume <span class="demo-value" data-readout="sl-vol" aria-hidden="true">60</span></label>
+        <input class="gf-slider" type="range" id="sl-vol" min="0" max="100" step="10" value="60">
+        <div class="gf-slider__scale" style="--gf-steps: 10" aria-hidden="true"><span style="--at: 0">0</span><span style="--at: .5">50</span><span style="--at: 1">100</span></div>
+      </div>
+      <div>
+        <label class="gf-label" for="sl-bal">balance (not available)</label>
+        <input class="gf-slider" type="range" id="sl-bal" min="-5" max="5" value="0" disabled>
+      </div>
+      <fieldset class="gf-group">
+        <legend>tone</legend>
+        <div class="gf-row demo-faders">
+          <div class="demo-control"><input class="gf-slider gf-slider--vertical" type="range" id="sl-bass" min="-6" max="6" value="2" style="--gf-slider-length: 120px"><label class="gf-label" for="sl-bass">bass <span class="demo-value" data-readout="sl-bass" aria-hidden="true">2</span></label></div>
+          <div class="demo-control"><input class="gf-slider gf-slider--vertical" type="range" id="sl-treble" min="-6" max="6" value="-1" style="--gf-slider-length: 120px"><label class="gf-label" for="sl-treble">treble <span class="demo-value" data-readout="sl-treble" aria-hidden="true">-1</span></label></div>
+          <div class="demo-control"><input class="gf-slider gf-slider--vertical" type="range" id="sl-pres" min="-6" max="6" value="0" style="--gf-slider-length: 120px"><label class="gf-label" for="sl-pres">presence <span class="demo-value" data-readout="sl-pres" aria-hidden="true">0</span></label></div>
+        </div>
+      </fieldset>
+      <fieldset class="gf-group">
+        <legend>knobs</legend>
+        <div class="gf-row demo-faders">
+          <div class="demo-control">
+            <label class="gf-label" for="kn-vol">volume <span class="demo-value" data-readout="kn-vol" aria-hidden="true">5</span></label>
+            <div class="gf-knob" style="--gf-value: 0.5">
+              <div class="gf-knob__scale" aria-hidden="true"><span style="--at: 0">0</span><span style="--at: .5">5</span><span style="--at: 1">10</span></div>
+              <span class="gf-knob__cap" aria-hidden="true"></span>
+              <input class="gf-knob__input" type="range" id="kn-vol" min="0" max="10" value="5">
+            </div>
+          </div>
+          <div class="demo-control">
+            <label class="gf-label" for="kn-tune">tuning <span class="demo-value" data-readout="kn-tune" aria-hidden="true">3</span></label>
+            <div class="gf-knob gf-knob--large" style="--gf-value: 0.3">
+              <div class="gf-knob__scale" aria-hidden="true"><span style="--at: 0">0</span><span style="--at: .2">2</span><span style="--at: .4">4</span><span style="--at: .6">6</span><span style="--at: .8">8</span><span style="--at: 1">10</span></div>
+              <span class="gf-knob__cap" aria-hidden="true"></span>
+              <input class="gf-knob__input" type="range" id="kn-tune" min="0" max="10" value="3">
+            </div>
+          </div>
+          <div class="demo-control">
+            <label class="gf-label" for="kn-off">loudness (off)</label>
+            <div class="gf-knob" style="--gf-value: 0">
+              <div class="gf-knob__scale" aria-hidden="true"><span style="--at: 0">0</span><span style="--at: 1">10</span></div>
+              <span class="gf-knob__cap" aria-hidden="true"></span>
+              <input class="gf-knob__input" type="range" id="kn-off" min="0" max="10" value="0" disabled>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <p class="gf-note">Sliders and knobs are native range inputs: arrow keys, Page Up, Page Down, Home and End move them, and dragging up turns a knob up. A knob follows its input through a few lines of script.</p>
+    </div>
+  </section>
+
+  <section class="gf-panel gf-panel--trim" id="signals" aria-labelledby="signals-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="signals-title">lamps, scales, keys and grille</h2></div>
+    <div class="gf-panel__body">
+      <div class="gf-row">
+        <span class="gf-lamp gf-lamp--on"><span class="gf-lamp__dot" aria-hidden="true"></span>power <span class="gf-visually-hidden">on</span></span>
+        <span class="gf-lamp"><span class="gf-lamp__dot" aria-hidden="true"></span>stereo <span class="gf-visually-hidden">off</span></span>
+        <span class="gf-lamp gf-lamp--large gf-lamp--on gf-lamp--blink"><span class="gf-lamp__dot" aria-hidden="true"></span>record <span class="gf-visually-hidden">on</span></span>
+      </div>
+      <div>
+        <span class="gf-label" id="mt-level">level <span class="demo-value" aria-hidden="true">60</span></span>
+        <div class="gf-scale" style="--gf-value: 0.6">
+          <div class="gf-scale__dial" aria-hidden="true">
+            <span style="--at: 0">0</span><span style="--at: .25">25</span><span style="--at: .5">50</span><span style="--at: .75">75</span><span style="--at: 1">100</span>
+            <span class="gf-scale__needle"></span>
+          </div>
+          <meter class="gf-visually-hidden" min="0" max="100" value="60" aria-labelledby="mt-level">60</meter>
+        </div>
+      </div>
+      <div class="gf-row demo-keys">
+        <div class="gf-keypad" style="--gf-keypad-columns: 5" role="group" aria-label="sample keys">
+          <button class="gf-key" type="button">7</button>
+          <button class="gf-key" type="button">8</button>
+          <button class="gf-key" type="button">9</button>
+          <button class="gf-key gf-key--op" type="button" aria-label="divide">&divide;</button>
+          <button class="gf-key gf-key--accent" type="button" aria-label="equals">=</button>
+        </div>
+        <div class="gf-grille demo-grille" aria-hidden="true"></div>
+        <div class="gf-grille gf-grille--lines" style="--gf-grille-size: 64px" aria-hidden="true"></div>
+      </div>
+      <p class="gf-note">Lamps light in the second colour and always sit beside a word; the state is in the words as well. The keys only show the look: digits in ink, an operator in the second colour, the one equals key in the accent. Each sinks a little while pressed.</p>
+    </div>
+  </section>
+
+  <!-- Calculator (#keypad) comes here: a working ET 66-style calculator built from .gf-keypad and .gf-key. -->
 
   <section class="gf-panel demo-wide" id="form" aria-labelledby="form-title">
     <div class="gf-panel__strip"><h2 class="gf-panel__title" id="form-title">sample form: store a preset</h2></div>
@@ -595,6 +690,17 @@
     });
     dialog.addEventListener("close", function () {
       result.textContent = "Closed with: " + (dialog.returnValue || "Escape") + ".";
+    });
+
+    // Sliders and knobs: a knob turns with its input (--gf-value, 0 to 1); readouts print the value.
+    document.querySelectorAll(".gf-slider, .gf-knob__input").forEach(function (input) {
+      var out = document.querySelector('[data-readout="' + input.id + '"]');
+      input.addEventListener("input", function () {
+        if (input.classList.contains("gf-knob__input")) {
+          input.parentNode.style.setProperty("--gf-value", (input.value - input.min) / (input.max - input.min));
+        }
+        if (out) out.textContent = input.value;
+      });
     });
 
     // The sample form: checks the name and the frequency, sends nothing.

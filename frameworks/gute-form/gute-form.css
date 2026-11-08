@@ -2,8 +2,8 @@
    product design of Braun and the Ulm School of Design, 1955 to the 1990s (Dieter Rams,
    Hans Gugelot; "less, but better"). Not affiliated with Braun.
    Plain CSS, no JavaScript. Menus open and close by themselves (<details>); tabs, the
-   mixed check box and dialogs need a few lines of your own script (index.html beside this
-   file has them). Background: research/visual.md and research/components.md.
+   mixed check box, dialogs and the knob need a few lines of your own script (index.html
+   beside this file has them). Background: research/visual.md and research/components.md.
 
    USE
      <link rel="stylesheet" href="gute-form.css">
@@ -26,7 +26,7 @@
      --gf-accent      the one signal colour: the main button, the progress pointer
      --gf-accent-ink  text on --gf-accent (4.5:1)
      --gf-second      "on" states only: a switch that is on, the lamp of a latching key
-                      (later: lamps and keypad function keys). Never decoration.
+                      an indicator lamp, keypad operator keys. Never decoration.
      --gf-on-second   text on --gf-second (4.5:1)
      --gf-trim        the object's material (elm wood on the SK 4): side strips only
      --gf-error       a record-button red for errors: text 4.5:1 and field edge 3:1 on
@@ -119,12 +119,77 @@
        </figure>
        (the data-gf-3d attributes are reserved for an optional script; the CSS needs none)
 
+   BRAUN EXTRAS
+     Slider: a native range input as a slide control, with an optional printed scale
+       <label class="gf-label" for="s1">volume</label>
+       <input class="gf-slider" type="range" id="s1" min="0" max="100" step="10" value="60">
+       <div class="gf-slider__scale" style="--gf-steps: 10" aria-hidden="true">
+         <span style="--at: 0">0</span><span style="--at: .5">50</span><span style="--at: 1">100</span>
+       </div>
+       --gf-steps: the number of tick spaces; --at (0 to 1) places a numeral.
+       Vertical: class="gf-slider gf-slider--vertical" (writing-mode: vertical-lr with
+       direction: rtl, so up is more, in current Chrome, Firefox and Safari; older
+       browsers draw it horizontal). --gf-slider-length sets its height (160px).
+     Rotary knob: a transparent range input laid over a drawn knob. Set --gf-value (0 to 1)
+     in the style attribute and keep it in step with the input in a few lines of script:
+       <label class="gf-label" for="k1">volume</label>
+       <div class="gf-knob" style="--gf-value: 0.5">
+         <div class="gf-knob__scale" aria-hidden="true">
+           <span style="--at: 0">0</span><span style="--at: .5">5</span><span style="--at: 1">10</span>
+         </div>
+         <span class="gf-knob__cap" aria-hidden="true"></span>
+         <input class="gf-knob__input" type="range" id="k1" min="0" max="10" value="5">
+       </div>
+       <script>
+         document.querySelectorAll(".gf-knob__input").forEach(function (i) {
+           i.addEventListener("input", function () {
+             i.parentNode.style.setProperty("--gf-value", (i.value - i.min) / (i.max - i.min));
+           });
+         });
+       </script>
+       (min and max are needed. Arrow keys, Page Up/Down, Home and End turn it; dragging
+       up turns it up. .gf-knob--large: a 56px knob; --gf-steps: tick spaces (10).)
+     Indicator lamp: a dot beside a printed word; the words carry the state
+       <span class="gf-lamp gf-lamp--on"><span class="gf-lamp__dot" aria-hidden="true"></span>
+         stereo <span class="gf-visually-hidden">on</span></span>
+       .gf-lamp--on lights it in --gf-second; .gf-lamp--large: a 12px dot; .gf-lamp--blink
+       blinks once a second (lit and still under prefers-reduced-motion). When the state
+       changes, change the hidden word with it.
+     Scale / meter: numerals and a needle drawn over a native <meter>
+       <span class="gf-label" id="m1">level</span>
+       <div class="gf-scale" style="--gf-value: 0.6">
+         <div class="gf-scale__dial" aria-hidden="true">
+           <span style="--at: 0">0</span><span style="--at: .5">50</span><span style="--at: 1">100</span>
+           <span class="gf-scale__needle"></span>
+         </div>
+         <meter class="gf-visually-hidden" min="0" max="100" value="60" aria-labelledby="m1">60</meter>
+       </div>
+       --gf-value (0 to 1) places the needle: keep it equal to the meter's value.
+       --gf-steps (20) minor and --gf-majors (4) major tick spaces.
+     Keypad keys (ET 66): round buttons in a recessed well, laid out as a grid
+       <div class="gf-keypad" role="group" aria-label="keypad">
+         <button class="gf-key" type="button">7</button>
+         <button class="gf-key gf-key--op" type="button" aria-label="divide">&divide;</button>
+         <button class="gf-key gf-key--accent" type="button" aria-label="equals">=</button>
+       </div>
+       Digit keys in --gf-ink; .gf-key--op (operator and function keys) in --gf-second;
+       .gf-key--accent (one per keypad, the = key) in --gf-accent. --gf-keypad-columns (4)
+       sets the grid. A key sinks while pressed, or while it has a data-gf-pressed
+       attribute (set it from script when the key is typed on a keyboard). Give symbols
+       an aria-label (divide, multiply, minus, plus).
+     Speaker grille: decorative dots, never with text on top
+       <div class="gf-grille" aria-hidden="true"></div>   dots on a hexagonal stagger
+       .gf-grille--square: a square grid; .gf-grille--lines: lines in a circle, sized by
+       --gf-grille-size (96px). Otherwise size it yourself (at least 48px high).
+     Hidden text: .gf-visually-hidden keeps text for screen readers only.
+
    ACCESSIBILITY
-     Native elements under every look (buttons, check boxes, radios, selects, progress,
-     details, dialog, fieldset); text 4.5:1 and control edges 3:1 on page and surface; a
-     2px ink focus ring (3:1 or more) on every control; hit areas 24px or more; no
-     transitions and no moving pointer under prefers-reduced-motion; native controls and
-     system colours under forced colours (Windows contrast themes). */
+     Native elements under every look (buttons, check boxes, radios, range inputs,
+     selects, meter, progress, details, dialog, fieldset); text 4.5:1 and control edges
+     3:1 on page and surface; a 2px ink focus ring (3:1 or more) on every control; hit
+     areas 24px or more; no transitions, no blinking and no moving pointer under
+     prefers-reduced-motion; native controls and system colours under forced colours
+     (Windows contrast themes). */
 
 /* ---------- Font ---------- */
 
@@ -1049,7 +1114,367 @@ textarea.gf-field {
   color: var(--gf-muted);
 }
 
-/* ---------- Braun extras (sliders, knob, lamp, scale, keypad, grille) come here ---------- */
+/* ---------- Braun extras: slider, rotary knob, lamp, scale, keypad, grille ---------- */
+
+/* Visually hidden text (for a lamp's state or the <meter> under a scale) */
+.gf-visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Slider: a native range input as a Braun slide control. A 6px groove in --gf-page, a
+   10x22px tab with an accent centre line. Sizes use logical properties so the same rules
+   serve the vertical slider (writing-mode turns the input; direction: rtl puts the
+   minimum at the bottom). */
+.gf-slider {
+  --gf-slider-line: 90deg;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  inline-size: 100%;
+  block-size: 32px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.gf-slider--vertical {
+  --gf-slider-line: 0deg;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  inline-size: var(--gf-slider-length, 160px);
+}
+
+.gf-slider::-webkit-slider-runnable-track {
+  box-sizing: border-box;
+  block-size: 6px;
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: 1px;
+}
+
+.gf-slider::-moz-range-track {
+  box-sizing: border-box;
+  block-size: 6px;
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: 1px;
+}
+
+.gf-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  inline-size: 10px;
+  block-size: 22px;
+  margin-block-start: -9px;
+  background: linear-gradient(var(--gf-slider-line), transparent calc(50% - 0.5px), var(--gf-accent) 0 calc(50% + 0.5px), transparent 0), var(--gf-surface);
+  border: 1px solid var(--gf-ink);
+  border-radius: 1px;
+}
+
+.gf-slider::-moz-range-thumb {
+  box-sizing: border-box;
+  inline-size: 10px;
+  block-size: 22px;
+  background: linear-gradient(var(--gf-slider-line), transparent calc(50% - 0.5px), var(--gf-accent) 0 calc(50% + 0.5px), transparent 0), var(--gf-surface);
+  border: 1px solid var(--gf-ink);
+  border-radius: 1px;
+}
+
+.gf-slider:hover::-webkit-slider-thumb { box-shadow: inset 0 0 0 1px var(--gf-ink); }
+.gf-slider:hover::-moz-range-thumb { box-shadow: inset 0 0 0 1px var(--gf-ink); }
+.gf-slider:active::-webkit-slider-thumb { background-color: var(--gf-page); }
+.gf-slider:active::-moz-range-thumb { background-color: var(--gf-page); }
+
+.gf-slider:focus-visible { outline: none; }
+.gf-slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px var(--gf-surface), 0 0 0 4px var(--gf-ink); }
+.gf-slider:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 2px var(--gf-surface), 0 0 0 4px var(--gf-ink); }
+
+.gf-slider:disabled { opacity: 0.45; cursor: not-allowed; }
+.gf-slider:disabled::-webkit-slider-thumb { box-shadow: none; }
+.gf-slider:disabled::-moz-range-thumb { box-shadow: none; }
+
+/* The printed scale under a horizontal slider: ticks every 1/--gf-steps, numerals at --at
+   (0 to 1). Inset by half the tab so the ticks meet the tab's centre line. */
+.gf-slider__scale {
+  position: relative;
+  height: 22px;
+  margin: 0 5px;
+  background: repeating-linear-gradient(90deg, var(--gf-line) 0 1px, transparent 1px calc((100% - 1px) / var(--gf-steps, 10))) 0 0 / 100% 6px no-repeat;
+}
+
+:is(.gf-slider__scale, .gf-scale__dial) > span {
+  position: absolute;
+  top: 8px;
+  left: calc(var(--at, 0) * (100% - 1px) + 0.5px);
+  transform: translateX(-50%);
+  font-family: var(--gf-font);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  color: var(--gf-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Rotary knob: a flat cylinder with one ink marker, turned from -135deg to +135deg by
+   --gf-value (0 to 1) on .gf-knob. A transparent vertical range input lies over the face,
+   so arrows, Page Up/Down, Home and End and dragging up work natively. */
+.gf-knob {
+  --gf-knob-size: 40px;
+  --gf-knob-turn: calc(-135deg + var(--gf-value, 0) * 270deg);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: calc(var(--gf-knob-size) + 48px);
+  height: calc(var(--gf-knob-size) + 48px);
+}
+
+.gf-knob--large { --gf-knob-size: 56px; }
+
+.gf-knob__scale {
+  position: absolute;
+  inset: 0;
+  font-family: var(--gf-font);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  color: var(--gf-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The tick ring: one tick every 270deg / --gf-steps, the gap at the bottom masked off */
+.gf-knob__scale::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from calc(-135deg - 0.75deg), var(--gf-line) 0 1.5deg, transparent 1.5deg calc(270deg / var(--gf-steps, 10)));
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 5px), #000 calc(100% - 5px)), conic-gradient(#000 0 136deg, transparent 0 224deg, #000 0);
+  -webkit-mask-composite: source-in;
+  mask: radial-gradient(closest-side, transparent calc(100% - 5px), #000 calc(100% - 5px)), conic-gradient(#000 0 136deg, transparent 0 224deg, #000 0);
+  mask-composite: intersect;
+}
+
+.gf-knob__scale > span {
+  --a: calc(-135deg + var(--at, 0) * 270deg);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(var(--gf-knob-size) / -2 - 18px)) rotate(calc(-1 * var(--a)));
+}
+
+.gf-knob__cap {
+  position: relative;
+  grid-area: 1 / 1;
+  box-sizing: border-box;
+  width: var(--gf-knob-size);
+  height: var(--gf-knob-size);
+  background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--gf-surface) 60%, #fff) 0, var(--gf-surface) 70%);
+  border: 1px solid var(--gf-line);
+  border-radius: 50%;
+  box-shadow: 0 1px 0 var(--gf-line), 0 2px 3px color-mix(in srgb, var(--gf-ink) 18%, transparent);
+  transform: rotate(var(--gf-knob-turn));
+  transition: transform 80ms linear;
+}
+
+.gf-knob__cap::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: calc(var(--gf-knob-size) * 0.3);
+  background: var(--gf-ink);
+  border-radius: 1px;
+}
+
+.gf-knob__input {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  z-index: 1;
+  grid-area: 1 / 1;
+  box-sizing: border-box;
+  inline-size: var(--gf-knob-size);
+  block-size: var(--gf-knob-size);
+  margin: 0;
+  padding: 0;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  background: transparent;
+  border-radius: 50%;
+  opacity: 0;
+  cursor: ns-resize;
+}
+
+.gf-knob:has(.gf-knob__input:hover) .gf-knob__cap { border-color: var(--gf-muted); }
+
+.gf-knob:has(.gf-knob__input:focus-visible) .gf-knob__cap {
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 2px;
+}
+
+.gf-knob:has(.gf-knob__input:disabled) { opacity: 0.45; }
+.gf-knob__input:disabled { cursor: not-allowed; }
+
+/* Indicator lamp: a dot beside a printed word. Off: --gf-page; on: --gf-second. The dot
+   is aria-hidden, so the words must carry the state. */
+.gf-lamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--gf-font);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  color: var(--gf-ink);
+}
+
+.gf-lamp__dot {
+  flex: none;
+  box-sizing: border-box;
+  width: 8px;
+  height: 8px;
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: 50%;
+}
+
+.gf-lamp--large .gf-lamp__dot { width: 12px; height: 12px; }
+
+.gf-lamp--on .gf-lamp__dot {
+  background: var(--gf-second);
+  border-color: color-mix(in srgb, var(--gf-second) 65%, #000);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gf-second) 30%, transparent);
+}
+
+.gf-lamp--blink .gf-lamp__dot { animation: gf-blink 1s steps(1, end) infinite; }
+
+@keyframes gf-blink {
+  50% { background: var(--gf-page); box-shadow: none; border-color: var(--gf-line); }
+}
+
+/* Scale / meter: minor ticks in --gf-line, major ticks in --gf-ink, numerals, and one
+   accent needle at --gf-value (0 to 1). The value itself is a <meter> underneath. */
+.gf-scale {
+  position: relative;
+  padding: 12px 16px 6px;
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  box-shadow: inset 0 1px 0 var(--gf-line);
+}
+
+.gf-scale__dial {
+  position: relative;
+  height: 28px;
+  background:
+    repeating-linear-gradient(90deg, var(--gf-ink) 0 1px, transparent 1px calc((100% - 1px) / var(--gf-majors, 4))) 0 0 / 100% 10px no-repeat,
+    repeating-linear-gradient(90deg, var(--gf-line) 0 1px, transparent 1px calc((100% - 1px) / var(--gf-steps, 20))) 0 0 / 100% 6px no-repeat;
+}
+
+.gf-scale__dial > span { top: 12px; color: var(--gf-ink); }
+
+.gf-scale__dial > .gf-scale__needle {
+  top: -6px;
+  left: calc(var(--gf-value, 0) * (100% - 1px) - 0.5px);
+  width: 2px;
+  height: 20px;
+  transform: none;
+  background: var(--gf-accent);
+  transition: left 200ms ease-out;
+}
+
+/* Keypad keys (ET 66 style): round convex keys in a recessed --gf-page well */
+.gf-keypad {
+  display: inline-grid;
+  grid-template-columns: repeat(var(--gf-keypad-columns, 4), 40px);
+  gap: 10px;
+  max-width: 100%;
+  padding: 12px;
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  box-shadow: inset 0 1px 0 var(--gf-line);
+}
+
+.gf-key {
+  --gf-key: var(--gf-ink);
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  font-family: var(--gf-font);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--gf-page);
+  background: radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--gf-key) 85%, var(--gf-surface)) 0, var(--gf-key) 60%);
+  border: 1px solid transparent;
+  border-radius: 50%;
+  box-shadow: 0 1px 0 var(--gf-line);
+  cursor: pointer;
+  transition: transform 60ms ease-out;
+}
+
+.gf-key--op { --gf-key: var(--gf-second); color: var(--gf-on-second); }
+.gf-key--accent { --gf-key: var(--gf-accent); color: var(--gf-accent-ink); }
+
+.gf-key:active,
+.gf-key[data-gf-pressed] {
+  transform: translateY(1px) scale(0.96);
+  background: var(--gf-key);
+  box-shadow: none;
+}
+
+.gf-key:focus-visible {
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 2px;
+}
+
+.gf-key:disabled {
+  opacity: 0.45;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* Speaker grille: dots on a hexagonal stagger (default), a square grid, or lines in a
+   circle. Decorative only. */
+.gf-grille {
+  --gf-grille-colour: var(--gf-line);
+  min-height: 48px;
+  border-radius: var(--gf-radius);
+  background:
+    radial-gradient(circle, var(--gf-grille-colour) 1.5px, transparent 2px) 0 0 / 8px 14px,
+    radial-gradient(circle, var(--gf-grille-colour) 1.5px, transparent 2px) 4px 7px / 8px 14px;
+}
+
+.gf-grille--square {
+  background: radial-gradient(circle, var(--gf-grille-colour) 1.5px, transparent 2px) 0 0 / 8px 8px;
+}
+
+.gf-grille--lines {
+  width: var(--gf-grille-size, 96px);
+  min-height: 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-linear-gradient(transparent 0 3px, var(--gf-grille-colour) 3px 4px);
+}
 
 /* ---------- Reduced motion ---------- */
 
@@ -1069,6 +1494,13 @@ textarea.gf-field {
     animation: none;
     background-position: 50% 0, 0 0, 0 0;
   }
+
+  .gf-knob__cap,
+  .gf-key { transition: none; }
+
+  .gf-scale__dial > .gf-scale__needle { transition: none; }
+
+  .gf-lamp--blink .gf-lamp__dot { animation: none; }
 }
 
 /* ---------- Forced colours (Windows contrast themes) ---------- */
@@ -1120,6 +1552,35 @@ textarea.gf-field {
   }
 
   .gf-menu[open] > .gf-menubar__item { outline: 2px solid CanvasText; outline-offset: -2px; }
+
+  .gf-slider { -webkit-appearance: auto; appearance: auto; }
+
+  .gf-slider::-webkit-slider-runnable-track,
+  .gf-slider::-webkit-slider-thumb { -webkit-appearance: inherit; appearance: inherit; }
+
+  .gf-slider:focus-visible { outline: 2px solid CanvasText; outline-offset: 2px; }
+
+  .gf-knob__scale::before,
+  .gf-scale__dial,
+  .gf-lamp__dot,
+  .gf-grille {
+    forced-color-adjust: none;
+    --gf-page: Canvas;
+    --gf-ink: CanvasText;
+    --gf-line: CanvasText;
+    --gf-second: Highlight;
+    --gf-grille-colour: GrayText;
+  }
+
+  .gf-knob__cap::before { forced-color-adjust: none; background: CanvasText; }
+
+  .gf-scale__dial > .gf-scale__needle { background: Highlight; }
+
+  .gf-lamp--on .gf-lamp__dot { border-color: CanvasText; box-shadow: none; }
+
+  .gf-key { border-color: ButtonText; }
+  .gf-key--op,
+  .gf-key--accent { border-width: 3px; }
 }
 
 @media (forced-colors: active) and (prefers-reduced-motion: reduce) {
