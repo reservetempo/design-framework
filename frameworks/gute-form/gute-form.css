@@ -193,7 +193,9 @@
          </div>
        </div>
        data-key names each key for the script and the 3D add-on. data-gf-error on the
-       display prints it in --gf-error. Announce results in a separate polite live region,
+       display prints it in --gf-error. With the add-on gute-form-3d.js, data-gf-3d="keypad"
+       draws round 3D keys on an aria-hidden canvas behind the buttons; .gf-3d-ready on
+       the .gf-calc then makes the buttons' fills transparent (labels and focus rings stay). Announce results in a separate polite live region,
        not every digit.
      Speaker grille: decorative dots, never with text on top
        <div class="gf-grille" aria-hidden="true"></div>   dots on a hexagonal stagger
@@ -1438,6 +1440,8 @@ textarea.gf-field {
 
 /* Keypad keys (ET 66 style): round convex keys in a recessed --gf-page well */
 .gf-keypad {
+  position: relative;   /* for the 3D add-on's canvas */
+  isolation: isolate;
   display: inline-grid;
   grid-template-columns: repeat(var(--gf-keypad-columns, 4), 40px);
   gap: 10px;
@@ -1490,6 +1494,29 @@ textarea.gf-field {
   opacity: 0.45;
   transform: none;
   cursor: not-allowed;
+}
+
+/* The 3D add-on draws the keys on a canvas behind the buttons (.gf-3d-ready on the
+   [data-gf-3d="keypad"] element). The buttons keep their labels, hit areas and focus
+   rings and only drop their own fill; the label moves 1px as its key sinks. */
+.gf-keypad > canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.gf-3d-ready[data-gf-3d="keypad"] .gf-key {
+  background: transparent;
+  box-shadow: none;
+}
+
+.gf-3d-ready[data-gf-3d="keypad"] .gf-key:active,
+.gf-3d-ready[data-gf-3d="keypad"] .gf-key[data-gf-pressed] {
+  transform: translateY(1px);
+  background: transparent;
 }
 
 /* Calculator: a recessed display window over a keypad */

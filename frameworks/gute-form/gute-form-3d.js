@@ -4,8 +4,8 @@
   It turns marked figures into small three.js scenes. It is optional: the CSS library
   works without it, and if anything is missing or fails (no import maps, no WebGL 2,
   forced colours, data saver, a failed download, a lost GPU context) the CSS-only look
-  stays, here the flat SVG drawing. Nothing is downloaded unless a marked element exists
-  and WebGL 2 works.
+  stays: the flat SVG drawing, the CSS keys. Nothing is downloaded unless a marked element
+  exists and WebGL 2 works.
 
   Use: put an import map and this module in the page's <head>:
 
@@ -26,12 +26,23 @@
                              sway (a gentle swing of 45 degrees each way) or off
     data-gf-3d-trim          wood (default: grained --gf-trim ends) or aluminium
     data-gf-3d-range         sway and drag limit in degrees for "sway" (default 45)
+    data-gf-3d="keypad"      on a .gf-calc (or a .gf-keypad): round ET 66 keys, slightly
+                             domed, in holes in the CSS well, drawn behind the real
+                             buttons and coloured from each button's --gf-key-fill
+    data-gf-3d-travel        keypad: how far a pressed key sinks, in CSS px (default 3)
     data-gf-3d-dpr           maximum pixel ratio (default 2)
     data-gf-3d-auto="off"    on <html>: don't start by itself; call mount(el)
   Drag (mouse or touch) turns the model; the turn resumes gently afterwards. Under
   prefers-reduced-motion there is no auto-turn: a still three-quarter view you can drag.
   The canvas is aria-hidden; the SVG stays as the accessible image (faded out, not
-  removed, once the first 3D frame is drawn). State classes on the element:
+  removed, once the first 3D frame is drawn).
+  The keypad's canvas lies behind the grid with pointer-events: none. The buttons stay on
+  top and keep their clicks, focus rings and labels; once ready the CSS makes their fills
+  transparent. A key sinks while its button is held (pointer, Space, :active or a
+  data-gf-pressed attribute) and briefly for a keyless click or the calculator's gf-key
+  event {key, button}; it springs back quickly, instantly under prefers-reduced-motion.
+  It only renders when a key moves, the size changes or the palette changes. Keys are
+  read when the effect starts. State classes on the element:
   .gf-3d-loading, .gf-3d-ready. Events (bubbling): gf3d:ready {type},
   gf3d:fallback {type, reason}. Exports: mount(el), unmount(el), refresh() (re-read
   the colour tokens), inspect(el) (debug state).
@@ -43,9 +54,8 @@
 const DEG = Math.PI / 180;
 
 /* ---------- Effects: data-gf-3d value -> build(stage) ---------- */
-/* A build returns { fit(), paint(colours), tick(dt) -> keep animating?, state() }.
-   "keypad" (the ET 66 keys) is to be added here. */
-const EFFECTS = { hero: buildHero };
+/* A build returns { fit(), paint(colours), tick(dt) -> keep animating?, state() }. */
+const EFFECTS = { hero: buildHero, keypad: buildKeypad };
 
 const TOKENS = ['page', 'surface', 'line', 'ink', 'muted', 'accent', 'second', 'trim'];
 const instances = new Map();
@@ -88,23 +98,31 @@ function skipReason() {
    paint the result into a 1x1 canvas and read back sRGB bytes. */
 
 let pixel;
-function readColours(el, THREE) {
+function makeProbe(parent) {
   pixel ??= Object.assign(document.createElement('canvas'), { width: 1, height: 1 })
     .getContext('2d', { willReadFrequently: true });
   const probe = document.createElement('i');
   probe.setAttribute('aria-hidden', 'true');
   probe.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
-  el.append(probe);
+  parent.append(probe);
+  return probe;
+}
+
+/* The CSS colour value (e.g. var(--gf-ink)) as the probe's parent resolves it. */
+function probeColour(probe, value, THREE) {
+  probe.style.color = value;
+  pixel.clearRect(0, 0, 1, 1);
+  pixel.fillStyle = '#808080';
+  pixel.fillStyle = getComputedStyle(probe).color;
+  pixel.fillRect(0, 0, 1, 1);
+  const [r, g, b] = pixel.getImageData(0, 0, 1, 1).data;
+  return new THREE.Color().setRGB(r / 255, g / 255, b / 255, THREE.SRGBColorSpace);
+}
+
+function readColours(el, THREE) {
+  const probe = makeProbe(el);
   const out = {};
-  for (const name of TOKENS) {
-    probe.style.color = `var(--gf-${name}, #808080)`;
-    pixel.clearRect(0, 0, 1, 1);
-    pixel.fillStyle = '#808080';
-    pixel.fillStyle = getComputedStyle(probe).color;
-    pixel.fillRect(0, 0, 1, 1);
-    const [r, g, b] = pixel.getImageData(0, 0, 1, 1).data;
-    out[name] = new THREE.Color().setRGB(r / 255, g / 255, b / 255, THREE.SRGBColorSpace);
-  }
+  for (const name of TOKENS) out[name] = probeColour(probe, `var(--gf-${name}, #808080)`, THREE);
   probe.remove();
   return out;
 }
@@ -486,6 +504,219 @@ function buildHero(stage) {
   return { fit, paint, tick, state: () => ({ turn, yaw: yaw / DEG, dragging }) };
 }
 
+/* ---------- Keypad: ET 66 keys behind the real buttons (1 unit = 1 CSS px) ---------- */
+/* The buttons stay on top and do all the work (clicks, focus, labels); this only draws a
+   round key under each one and sinks it while it is pressed. The camera looks straight at
+   the plane z = 0 from (h / 2) / tan(fov / 2), so a resting key's rim, at z = 0, lines up
+   with its button. The plate is the CSS well; the add-on adds the holes and the shadows. */
+
+function buildKeypad(stage) {
+  const { THREE, el, host, scene, camera, renderer, signal } = stage;
+  const FOV = 20;
+  const t = parseFloat(attr(el, 'travel'));
+  const travel = Number.isFinite(t) ? Math.min(10, Math.max(0, t)) : 3;
+  const keys = [...host.querySelectorAll('.gf-key')].map((button) => ({
+    button, key: button.dataset.key || button.textContent.trim(),
+    x: 0, y: 0, r: 0, depth: 0, pointer: null, space: false, until: 0, released: 0,
+  }));
+  const byButton = new Map(keys.map((k) => [k.button, k]));
+  let lift = 6, w = 1, h = 1;   // how far a resting key stands above the plate
+
+  renderer.toneMappingExposure = 1;
+  renderer.shadowMap.enabled = true;   // PCF, softened by the radius below
+  scene.environmentIntensity = 0.35;   // matte plastic: no big room reflection on the domes
+
+  /* One cap of radius 1, rim at z = 0: straight side, small fillet, shallow dome (12%). */
+  const V = (x, y) => new THREE.Vector2(x, y);
+  const profile = [V(1, -1.6), V(1, -0.06)];
+  for (let i = 1; i <= 4; i++) {
+    const a = i * Math.PI / 8;
+    profile.push(V(0.94 + 0.06 * Math.cos(a), -0.06 + 0.06 * Math.sin(a)));
+  }
+  for (let i = 1; i <= 8; i++) {
+    const p = 1 - i / 8;
+    profile.push(V(0.94 * p, 0.12 * (1 - p * p)));
+  }
+  const capGeo = new THREE.LatheGeometry(profile, 48).rotateX(Math.PI / 2);   // lathe y -> z
+
+  const caps = new THREE.InstancedMesh(capGeo,
+    new THREE.MeshPhysicalMaterial({ roughness: 0.6, clearcoat: 0.25, clearcoatRoughness: 0.45 }),
+    Math.max(keys.length, 1));
+  caps.count = keys.length;
+  caps.castShadow = true;
+  caps.frustumCulled = false;
+  caps.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+  /* The gap between key and plate: a dark ring on the plate. */
+  const holeMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.45, depthWrite: false });
+  const holes = new THREE.InstancedMesh(new THREE.RingGeometry(0.96, 1.1, 48), holeMat, Math.max(keys.length, 1));
+  holes.count = keys.length;
+  holes.frustumCulled = false;
+  /* The plate only catches shadows; the CSS well shows through everywhere else. */
+  const plate = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.ShadowMaterial({ opacity: 0.3 }));
+  plate.receiveShadow = true;
+  scene.add(caps, holes, plate);
+
+  /* Key light from the top left, a little in front, as the CSS shadows suggest. */
+  const sunDir = new THREE.Vector3(-0.55, 0.65, 1).normalize();
+  const sun = new THREE.DirectionalLight(0xffffff, 2.4);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(1024, 1024);
+  sun.shadow.radius = 5;
+  sun.shadow.bias = -0.0005;
+  scene.add(sun, sun.target);
+  signal.addEventListener('abort', () => sun.dispose());
+
+  const m = new THREE.Matrix4();
+  function place(k, i) {
+    caps.setMatrixAt(i, m.makeScale(k.r, k.r, k.r).setPosition(k.x, k.y, -k.depth));
+  }
+
+  /* Measure in layout pixels (offsets ignore a pressed key's CSS transform). */
+  function fit() {
+    w = host.clientWidth || 1;
+    h = host.clientHeight || 1;
+    const box = host.getBoundingClientRect();
+    keys.forEach((k, i) => {
+      const b = k.button;
+      let x = b.offsetLeft, y = b.offsetTop, bw = b.offsetWidth, bh = b.offsetHeight;
+      if (b.offsetParent !== host) {
+        const r = b.getBoundingClientRect();
+        x = r.left - box.left - host.clientLeft;
+        y = r.top - box.top - host.clientTop;
+        bw = r.width;
+        bh = r.height;
+      }
+      k.r = Math.min(bw, bh) / 2;
+      k.x = x + bw / 2 - w / 2;
+      k.y = h / 2 - (y + bh / 2);
+      place(k, i);
+    });
+    const r = Math.max(...keys.map((k) => k.r), 1);
+    lift = Math.max(0.3 * r, travel + 1.5);
+    keys.forEach((k, i) => {
+      holes.setMatrixAt(i, m.makeScale(k.r, k.r, 1).setPosition(k.x, k.y, 0.05 - lift));
+    });
+    caps.instanceMatrix.needsUpdate = true;
+    holes.instanceMatrix.needsUpdate = true;
+    plate.scale.set(w + 2, h + 2, 1);
+    plate.position.z = -lift;
+
+    const dist = (h / 2) / Math.tan(FOV * DEG / 2);
+    camera.fov = FOV;
+    camera.near = dist / 2;
+    camera.far = dist * 2;
+    camera.position.set(0, 0, dist);
+    camera.lookAt(0, 0, 0);
+
+    const s = Math.hypot(w, h) / 2 + 20, cam = sun.shadow.camera;
+    sun.target.position.set(0, 0, -lift);
+    sun.position.copy(sunDir).multiplyScalar(800).add(sun.target.position);
+    Object.assign(cam, { left: -s, right: s, top: s, bottom: -s, near: 400, far: 1200 });
+    cam.updateProjectionMatrix();
+  }
+
+  function paint(c) {
+    holeMat.color.copy(c.ink);
+    keys.forEach((k, i) => {
+      const probe = makeProbe(k.button);
+      caps.setColorAt(i, probeColour(probe, 'var(--gf-key-fill, #808080)', THREE));
+      probe.remove();
+    });
+    if (caps.instanceColor) caps.instanceColor.needsUpdate = true;
+  }
+
+  /* Down while held (pointer, Space, :active, data-gf-pressed) or briefly after a tap. */
+  function tick(dt) {
+    const now = performance.now();
+    let moving = false, moved = false;
+    keys.forEach((k, i) => {
+      const tap = now < k.until;
+      const down = tap || k.pointer !== null || k.space ||
+        k.button.matches(':active') || k.button.hasAttribute('data-gf-pressed');
+      const aim = down ? travel : 0;
+      if (tap) moving = true;
+      if (k.depth === aim) return;
+      if (stage.reduced) k.depth = aim;
+      else {
+        k.depth += (aim - k.depth) * (1 - Math.exp(-(dt || 1 / 60) * (down ? 55 : 28)));
+        if (Math.abs(aim - k.depth) < 0.02) k.depth = aim;
+        else moving = true;
+      }
+      place(k, i);
+      moved = true;
+    });
+    if (moved) caps.instanceMatrix.needsUpdate = true;
+    return moving;
+  }
+
+  const keyOf = (target) => byButton.get(target?.closest?.('.gf-key'));
+  const tap = (k) => { k.until = performance.now() + 90; stage.request(); };
+  const on = (target, type, fn) => target.addEventListener(type, fn, { signal });
+
+  on(host, 'pointerdown', (e) => {
+    const k = keyOf(e.target);
+    if (!k || e.button > 0 || k.button.disabled) return;
+    k.pointer = e.pointerId;
+    stage.request();
+  });
+  const up = (e) => {
+    for (const k of keys) if (k.pointer === e.pointerId) k.pointer = null;
+    stage.request();   // also lets go of :active after a drag off the key
+  };
+  on(document, 'pointerup', up);
+  on(document, 'pointercancel', up);
+  for (const k of keys) {
+    on(k.button, 'pointerleave', (e) => {
+      if (k.pointer === e.pointerId) { k.pointer = null; stage.request(); }
+    });
+  }
+  on(host, 'keydown', (e) => {
+    const k = keyOf(e.target);
+    if (k && e.key === ' ' && !e.repeat) { k.space = true; stage.request(); }
+  });
+  on(host, 'keyup', (e) => {
+    const k = keyOf(e.target);
+    if (k?.space && e.key === ' ') { k.space = false; k.released = performance.now(); stage.request(); }
+  });
+  on(host, 'focusout', (e) => {
+    const k = keyOf(e.target);
+    if (k?.space) { k.space = false; stage.request(); }
+  });
+  /* A click with no pointer (Enter, or button.click()) plays a short press. */
+  on(host, 'click', (e) => {
+    const k = keyOf(e.target);
+    if (k && e.detail === 0 && performance.now() - k.released > 100) tap(k);
+  });
+  /* The calculator's own keyboard: it names the button it pressed. */
+  on(el, 'gf-key', (e) => {
+    const k = byButton.get(e.detail?.button) || keyOf(e.target);
+    if (k) tap(k);
+  });
+  const pressedAttr = new MutationObserver(() => stage.request());
+  pressedAttr.observe(host, { subtree: true, attributes: true, attributeFilter: ['data-gf-pressed'] });
+  signal.addEventListener('abort', () => pressedAttr.disconnect());
+  document.fonts?.ready.then(() => {
+    if (signal.aborted) return;
+    fit();
+    camera.updateProjectionMatrix();
+    stage.request();
+  });
+
+  const round = (v) => Math.round(v * 10) / 10;
+  function state() {
+    const v = new THREE.Vector3();
+    return {
+      travel,
+      keys: keys.map((k) => {
+        v.set(k.x, k.y, -k.depth).project(camera);
+        return { key: k.key, x: round((v.x + 1) / 2 * w), y: round((1 - v.y) / 2 * h), r: k.r, depth: round(k.depth) };
+      }),
+    };
+  }
+
+  return { fit, paint, tick, state };
+}
+
 /* ---------- Mounting ---------- */
 
 let leaving;
@@ -513,7 +744,7 @@ async function start(el, rec, build) {
   try {
     lib = await loadThree();
     if (instances.get(el) !== rec) return;
-    const host = el.querySelector('.gf-product__stage') || el;
+    const host = el.querySelector('.gf-product__stage, .gf-keypad') || el;   // where the canvas goes
     const stage = createStage(el, host, lib, build, rec, () => fail(el, 'context-lost'));
     await stage.ready;
     if (instances.get(el) !== rec) return;
