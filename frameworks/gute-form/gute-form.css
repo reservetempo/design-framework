@@ -29,6 +29,9 @@
                       an indicator lamp, keypad operator keys. Never decoration.
      --gf-on-second   text on --gf-second (4.5:1)
      --gf-trim        the object's material (elm wood on the SK 4): side strips only
+     --gf-key-accent  ET 66 yellow, for the keypad's accent key (the = key) only; the key
+                      keeps a --gf-ink edge (13.7:1 on the well) as yellow is 1.5:1 on page
+     --gf-key-accent-ink  the symbol on --gf-key-accent (10.8:1)
      --gf-error       a record-button red for errors: text 4.5:1 and field edge 3:1 on
                       page and surface; always shown with a symbol and words
      Also: --gf-font, --gf-radius (2px), --gf-pressed (the fill of a pressed key, derived).
@@ -173,7 +176,7 @@
          <button class="gf-key gf-key--accent" type="button" aria-label="equals">=</button>
        </div>
        Digit keys in --gf-ink; .gf-key--op (operators) in --gf-second;
-       .gf-key--accent (one per keypad, the = key) in --gf-accent; .gf-key--fn (clear,
+       .gf-key--accent (one per keypad, the = key) in --gf-key-accent (yellow); .gf-key--fn (clear,
        memory, %, root) in --gf-muted. Each key's fill is --gf-key-fill. --gf-keypad-columns
        (4) sets the grid. A key sinks while pressed, or while it has a data-gf-pressed
        attribute (set it from script when the key is typed on a keyboard). Give symbols
@@ -236,6 +239,8 @@
   --gf-second: #8a5a36;      /* darkened elm: "on" states; 4.60 on surface */
   --gf-on-second: #f4f2ec;   /* 5.22 on second */
   --gf-trim: #b98d63;        /* elm side panels */
+  --gf-key-accent: #f2c230;  /* ET 66 yellow: the keypad's accent key only; 1.50 on page, so it has an ink edge (13.72) */
+  --gf-key-accent-ink: #161616; /* symbol on key-accent: 10.80 */
   --gf-error: #b3261e;       /* record red: 5.84 on page, 5.14 on surface */
   --gf-font: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --gf-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -1446,7 +1451,7 @@ textarea.gf-field {
 }
 
 .gf-key--op { --gf-key-fill: var(--gf-second); color: var(--gf-on-second); }
-.gf-key--accent { --gf-key-fill: var(--gf-accent); color: var(--gf-accent-ink); }
+.gf-key--accent { --gf-key-fill: var(--gf-key-accent); color: var(--gf-key-accent-ink); border-color: var(--gf-ink); }
 .gf-key--fn { --gf-key-fill: var(--gf-muted); color: var(--gf-page); }
 
 .gf-key:active,
