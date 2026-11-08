@@ -120,7 +120,9 @@
          <div class="gf-product__stage"><svg class="gf-product__drawing" role="img" aria-label="...">...</svg></div>
          <figcaption>...</figcaption>
        </figure>
-       (the data-gf-3d attributes are reserved for an optional script; the CSS needs none)
+       (the CSS needs no script. The optional add-on gute-form-3d.js reads the data-gf-3d
+       attributes and adds an aria-hidden <canvas> to the stage; .gf-3d-ready on the figure
+       fades the canvas in and the drawing out, which stays the accessible image)
 
    BRAUN EXTRAS
      Slider: a native range input as a slide control, with an optional printed scale
@@ -1124,6 +1126,24 @@ textarea.gf-field {
   height: 100%;
 }
 
+/* The 3D add-on's canvas lies over the drawing; the drawing keeps the layout and its name. */
+.gf-product__stage > canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: grab;
+  touch-action: pan-y;
+  transition: opacity 300ms ease;
+}
+
+.gf-product__stage > canvas:active { cursor: grabbing; }
+
+.gf-product.gf-3d-ready .gf-product__stage > canvas { opacity: 1; }
+
+.gf-product .gf-product__drawing { transition: opacity 300ms ease; }
+
+.gf-product.gf-3d-ready .gf-product__drawing { opacity: 0; }
+
 .gf-product > figcaption {
   margin-top: 8px;
   font-family: var(--gf-font);
@@ -1558,6 +1578,9 @@ textarea.gf-field {
   .gf-scale__dial > .gf-scale__needle { transition: none; }
 
   .gf-lamp--blink .gf-lamp__dot { animation: none; }
+
+  .gf-product .gf-product__drawing,
+  .gf-product__stage > canvas { transition: none; }
 }
 
 /* ---------- Forced colours (Windows contrast themes) ---------- */
