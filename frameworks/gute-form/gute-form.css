@@ -172,11 +172,24 @@
          <button class="gf-key gf-key--op" type="button" aria-label="divide">&divide;</button>
          <button class="gf-key gf-key--accent" type="button" aria-label="equals">=</button>
        </div>
-       Digit keys in --gf-ink; .gf-key--op (operator and function keys) in --gf-second;
-       .gf-key--accent (one per keypad, the = key) in --gf-accent. --gf-keypad-columns (4)
-       sets the grid. A key sinks while pressed, or while it has a data-gf-pressed
+       Digit keys in --gf-ink; .gf-key--op (operators) in --gf-second;
+       .gf-key--accent (one per keypad, the = key) in --gf-accent; .gf-key--fn (clear,
+       memory, %, root) in --gf-muted. Each key's fill is --gf-key-fill. --gf-keypad-columns
+       (4) sets the grid. A key sinks while pressed, or while it has a data-gf-pressed
        attribute (set it from script when the key is typed on a keyboard). Give symbols
        an aria-label (divide, multiply, minus, plus).
+     Calculator: a display window over a keypad (the arithmetic is the page's own script)
+       <div class="gf-calc" data-gf-3d="keypad">
+         <output class="gf-calc__display" aria-live="off">
+           <span class="gf-calc__memory" hidden>M</span><span class="gf-calc__value">0</span>
+         </output>
+         <div class="gf-keypad" role="group" aria-label="calculator keys">
+           <button class="gf-key" type="button" data-key="7">7</button> …
+         </div>
+       </div>
+       data-key names each key for the script and the 3D add-on. data-gf-error on the
+       display prints it in --gf-error. Announce results in a separate polite live region,
+       not every digit.
      Speaker grille: decorative dots, never with text on top
        <div class="gf-grille" aria-hidden="true"></div>   dots on a hexagonal stagger
        .gf-grille--square: a square grid; .gf-grille--lines: lines in a circle, sized by
@@ -1412,7 +1425,7 @@ textarea.gf-field {
 }
 
 .gf-key {
-  --gf-key: var(--gf-ink);
+  --gf-key-fill: var(--gf-ink);
   box-sizing: border-box;
   width: 40px;
   height: 40px;
@@ -1424,7 +1437,7 @@ textarea.gf-field {
   line-height: 1;
   font-variant-numeric: tabular-nums;
   color: var(--gf-page);
-  background: radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--gf-key) 85%, var(--gf-surface)) 0, var(--gf-key) 60%);
+  background: radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--gf-key-fill) 85%, var(--gf-surface)) 0, var(--gf-key-fill) 60%);
   border: 1px solid transparent;
   border-radius: 50%;
   box-shadow: 0 1px 0 var(--gf-line);
@@ -1432,13 +1445,14 @@ textarea.gf-field {
   transition: transform 60ms ease-out;
 }
 
-.gf-key--op { --gf-key: var(--gf-second); color: var(--gf-on-second); }
-.gf-key--accent { --gf-key: var(--gf-accent); color: var(--gf-accent-ink); }
+.gf-key--op { --gf-key-fill: var(--gf-second); color: var(--gf-on-second); }
+.gf-key--accent { --gf-key-fill: var(--gf-accent); color: var(--gf-accent-ink); }
+.gf-key--fn { --gf-key-fill: var(--gf-muted); color: var(--gf-page); }
 
 .gf-key:active,
 .gf-key[data-gf-pressed] {
   transform: translateY(1px) scale(0.96);
-  background: var(--gf-key);
+  background: var(--gf-key-fill);
   box-shadow: none;
 }
 
@@ -1452,6 +1466,44 @@ textarea.gf-field {
   transform: none;
   cursor: not-allowed;
 }
+
+/* Calculator: a recessed display window over a keypad */
+.gf-calc {
+  display: inline-grid;
+  gap: 10px;
+  max-width: 100%;
+}
+
+.gf-calc__display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0 14px;
+  overflow: hidden;
+  font-family: var(--gf-font);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--gf-ink);
+  background: var(--gf-page);
+  border: 1px solid var(--gf-line);
+  border-radius: var(--gf-radius);
+  box-shadow: inset 0 1px 0 var(--gf-line);
+}
+
+.gf-calc__memory {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gf-muted);
+}
+
+.gf-calc__value { margin-left: auto; }
+
+.gf-calc__display[data-gf-error] { color: var(--gf-error); }
 
 /* Speaker grille: dots on a hexagonal stagger (default), a square grid, or lines in a
    circle. Decorative only. */

@@ -96,6 +96,8 @@
   .demo-control { display: grid; justify-items: center; gap: 6px; }
   .demo-keys { gap: 16px; }
   .demo-grille { flex: 1 1 80px; min-height: 64px; }
+  .demo-calc { align-items: flex-start; gap: 24px; }
+  .demo-calc > .gf-note { flex: 1 1 260px; margin: 0; }
 </style>
 </head>
 <body class="gf-page">
@@ -121,6 +123,7 @@
         <li><a class="gf-menu__item" href="#checks">check boxes and switches</a></li>
         <li><a class="gf-menu__item" href="#controls">sliders and knobs</a></li>
         <li><a class="gf-menu__item" href="#signals">lamps, scales and keys</a></li>
+        <li><a class="gf-menu__item" href="#keypad">calculator</a></li>
         <li><a class="gf-menu__item" href="#tabs">tabs</a></li>
         <li><a class="gf-menu__item" href="#form">sample form</a></li>
       </ul>
@@ -496,7 +499,44 @@
     </div>
   </section>
 
-  <!-- Calculator (#keypad) comes here: a working ET 66-style calculator built from .gf-keypad and .gf-key. -->
+  <section class="gf-panel demo-wide" id="keypad" aria-labelledby="keypad-title">
+    <div class="gf-panel__strip"><h2 class="gf-panel__title" id="keypad-title">calculator</h2></div>
+    <div class="gf-panel__body">
+      <div class="gf-row demo-calc">
+        <div class="gf-calc" data-gf-3d="keypad" data-gf-3d-travel="3">
+          <output class="gf-calc__display" aria-live="off"><span class="gf-calc__memory" hidden><span aria-hidden="true">M</span><span class="gf-visually-hidden">memory in use,</span></span><span class="gf-calc__value">0</span></output>
+          <div class="gf-keypad" role="group" aria-label="calculator keys" style="--gf-keypad-columns: 4">
+            <button class="gf-key gf-key--fn" type="button" data-key="C" aria-label="C, clear all">C</button>
+            <button class="gf-key gf-key--fn" type="button" data-key="mrc" aria-label="MRC, memory recall; twice clears the memory">MRC</button>
+            <button class="gf-key gf-key--fn" type="button" data-key="m-" aria-label="M minus, subtract from memory">M&minus;</button>
+            <button class="gf-key gf-key--fn" type="button" data-key="m+" aria-label="M plus, add to memory">M+</button>
+            <button class="gf-key gf-key--fn" type="button" data-key="sqrt" aria-label="square root">&radic;</button>
+            <button class="gf-key gf-key--fn" type="button" data-key="%" aria-label="percent">%</button>
+            <button class="gf-key gf-key--fn" type="button" data-key="neg" aria-label="change sign">&plusmn;</button>
+            <button class="gf-key gf-key--op" type="button" data-key="/" aria-label="divide">&divide;</button>
+            <button class="gf-key" type="button" data-key="7">7</button>
+            <button class="gf-key" type="button" data-key="8">8</button>
+            <button class="gf-key" type="button" data-key="9">9</button>
+            <button class="gf-key gf-key--op" type="button" data-key="*" aria-label="multiply">&times;</button>
+            <button class="gf-key" type="button" data-key="4">4</button>
+            <button class="gf-key" type="button" data-key="5">5</button>
+            <button class="gf-key" type="button" data-key="6">6</button>
+            <button class="gf-key gf-key--op" type="button" data-key="-" aria-label="minus">&minus;</button>
+            <button class="gf-key" type="button" data-key="1">1</button>
+            <button class="gf-key" type="button" data-key="2">2</button>
+            <button class="gf-key" type="button" data-key="3">3</button>
+            <button class="gf-key gf-key--op" type="button" data-key="+" aria-label="plus">+</button>
+            <button class="gf-key" type="button" data-key="0">0</button>
+            <button class="gf-key" type="button" data-key="." aria-label="decimal point">.</button>
+            <button class="gf-key gf-key--fn" type="button" data-key="CE" aria-label="CE, clear entry">CE</button>
+            <button class="gf-key gf-key--accent" type="button" data-key="=" aria-label="equals">=</button>
+          </div>
+          <p class="gf-visually-hidden" id="calc-said" aria-live="polite"></p>
+        </div>
+        <p class="gf-note">The layout is after the Braun ET 66 of 1987 (Dietrich Lubs and Dieter Rams), not an exact copy. It works as that kind of pocket calculator does: each operation runs as you press the next, so 2 + 3 &times; 4 gives 20; pressing = again repeats the last step; 200 + 10 % = gives 220; MRC recalls the memory and, pressed twice, clears it; dividing by zero shows Error until C. Once you have pressed a key you can type too: digits, . or comma, + &minus; * /, Enter or = for equals, Escape for C, Delete for CE and Backspace to remove a digit. Space presses the focused key.</p>
+      </div>
+    </div>
+  </section>
 
   <section class="gf-panel demo-wide" id="form" aria-labelledby="form-title">
     <div class="gf-panel__strip"><h2 class="gf-panel__title" id="form-title">sample form: store a preset</h2></div>
@@ -575,7 +615,8 @@
   --gf-trim: #b98d63;      /* the material: side strips */
   --gf-error: #b3261e;     /* errors, always with a symbol and words */
 }</code></pre>
-      <p>Write labels in lowercase, as Braun printed them. The comment at the top of <code>gute-form.css</code> gives the markup for every component; this page&rsquo;s own script (tabs, menus, the dialog, the mixed check box) is at the bottom of its source.</p>
+      <p>The <a href="#keypad">calculator</a> is a <code>.gf-calc</code>: an <code>&lt;output class="gf-calc__display"&gt;</code> over a <code>.gf-keypad</code> of real buttons, each named by a <code>data-key</code>. The CSS only draws it; the arithmetic and the keyboard are in this page&rsquo;s script.</p>
+      <p>Write labels in lowercase, as Braun printed them. The comment at the top of <code>gute-form.css</code> gives the markup for every component; this page&rsquo;s own script (tabs, menus, the dialog, the mixed check box, the calculator) is at the bottom of its source.</p>
     </div>
   </section>
 
@@ -729,6 +770,173 @@
       form.querySelectorAll("[aria-invalid]").forEach(function (f) { f.removeAttribute("aria-invalid"); });
       form.querySelectorAll(".gf-error").forEach(function (p) { p.hidden = true; });
       status.textContent = "";
+    });
+  })();
+
+  // Calculator (#keypad), ET 66 style: immediate execution, so operations chain left to
+  // right (2 + 3 × 4 = 20); = again repeats the last operation; ten digits are shown and
+  // longer results are rounded to fit. Results go to a polite live region, digits do not.
+  (function () {
+    var calc = document.querySelector(".gf-calc");
+    if (!calc) return;
+    var display = calc.querySelector(".gf-calc__display");
+    var value = calc.querySelector(".gf-calc__value");
+    var memSign = calc.querySelector(".gf-calc__memory");
+    var said = document.getElementById("calc-said");
+    var MAX = 10;
+    var cur = "0", typing = false, entered = false, acc = 0, op = null;
+    var lastOp = null, lastArg = 0, mem = 0, err = false, lastKey = "", armed = false, sayTimer;
+
+    function digits(s) { return s.replace(/[^0-9]/g, "").length; }
+
+    // The shortest string of at most MAX digits for n, or null when it does not fit.
+    function fit(n) {
+      if (!isFinite(n)) return null;
+      var a = Math.abs(n), whole = a < 1 ? 1 : Math.floor(Math.log10(a)) + 1, d, s;
+      if (whole > MAX) return null;
+      for (d = MAX - whole; d >= 0; d--) {
+        s = n.toFixed(d);
+        if (s.indexOf(".") > -1) s = s.replace(/\.?0+$/, "");
+        if (digits(s) <= MAX) return s === "-0" ? "0" : s;
+      }
+      return null;
+    }
+
+    function say(text) {
+      clearTimeout(sayTimer);
+      said.textContent = "";
+      sayTimer = setTimeout(function () { said.textContent = text; }, 60);
+    }
+
+    // Shows a computed value; on overflow or a bad operation, Error until C or CE.
+    function show(n) {
+      var s = fit(n);
+      typing = false;
+      if (s === null) { err = true; say("error, press C to clear"); return false; }
+      cur = s;
+      return true;
+    }
+
+    function run(a, o, b) {
+      if (o === "+") return a + b;
+      if (o === "-") return a - b;
+      if (o === "*") return a * b;
+      return b === 0 ? NaN : a / b;
+    }
+
+    function equals() {
+      var a, b, o;
+      if (op) { a = acc; o = op; b = entered ? +cur : acc; }   // 5 × = squares, as on the ET 66
+      else if (lastOp) { a = +cur; o = lastOp; b = lastArg; }  // = again: repeat the last step
+      else { typing = false; return; }
+      lastOp = o; lastArg = b; op = null; entered = false;
+      if (show(run(a, o, b))) { acc = +cur; say("equals " + cur); }
+    }
+
+    function clearAll() {
+      cur = "0"; typing = false; entered = false; acc = 0; op = null;
+      lastOp = null; lastArg = 0; err = false;
+    }
+
+    function press(key) {
+      var twice = key === "mrc" && lastKey === "mrc";
+      lastKey = key;
+      if (err && key !== "C" && key !== "CE") return;
+      if (/^[0-9]$/.test(key)) {
+        if (!typing) { cur = "0"; typing = true; }
+        if (cur === "0") cur = key;
+        else if (cur === "-0") cur = "-" + key;
+        else if (digits(cur) < MAX) cur += key;
+        entered = true;
+      } else if (key === ".") {
+        if (!typing) { cur = "0"; typing = true; }
+        if (cur.indexOf(".") < 0 && digits(cur) < MAX) cur += ".";
+        entered = true;
+      } else if (key === "Backspace") {
+        if (typing) {
+          cur = cur.slice(0, -1);
+          if (cur === "" || cur === "-") cur = "0";
+        }
+      } else if (key === "neg") {
+        if (cur.charAt(0) === "-") cur = cur.slice(1);
+        else if (cur !== "0") cur = "-" + cur;
+        entered = true;
+      } else if (key === "+" || key === "-" || key === "*" || key === "/") {
+        if (op && entered) {
+          if (!show(run(acc, op, +cur))) return render();
+          acc = +cur;
+          say(cur);
+        } else if (!op) {
+          acc = +cur;
+        }
+        op = key; typing = false; entered = false;
+      } else if (key === "=") {
+        equals();
+      } else if (key === "%") {
+        // a + b % adds b percent of a; a × b % takes b percent of a
+        if (show(op === "+" || op === "-" ? acc * +cur / 100 : +cur / 100)) {
+          entered = true;
+          say("percent " + cur);
+        }
+      } else if (key === "sqrt") {
+        if (show(+cur < 0 ? NaN : Math.sqrt(+cur))) {
+          entered = true;
+          say("square root " + cur);
+        }
+      } else if (key === "m+" || key === "m-") {
+        if (op && entered) equals();
+        if (!err) {
+          var m = fit(mem + (key === "m+" ? 1 : -1) * +cur);
+          if (m === null) { err = true; say("error, press C to clear"); }
+          else { mem = +m; say("memory " + m); }
+          typing = false;
+        }
+      } else if (key === "mrc") {
+        if (twice) { mem = 0; say("memory cleared"); }
+        else { cur = fit(mem); typing = false; entered = true; say("memory recall " + cur); }
+      } else if (key === "CE") {
+        if (err) clearAll();
+        else { cur = "0"; typing = false; entered = true; }
+      } else if (key === "C") {
+        clearAll();
+      }
+      render();
+    }
+
+    function render() {
+      value.textContent = err ? "Error" : cur;
+      if (err) display.setAttribute("data-gf-error", "");
+      else display.removeAttribute("data-gf-error");
+      memSign.hidden = mem === 0;
+    }
+
+    calc.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-key]");
+      if (b) press(b.getAttribute("data-key"));
+    });
+
+    // The keyboard drives the calculator once a key has been pressed or focused, until
+    // focus or a click goes elsewhere on the page.
+    document.addEventListener("pointerdown", function (e) { armed = calc.contains(e.target); });
+    document.addEventListener("focusin", function (e) { armed = calc.contains(e.target); });
+
+    var named = { Enter: "=", "=": "=", ",": ".", x: "*", X: "*", Escape: "C", Delete: "CE", Backspace: "Backspace" };
+    document.addEventListener("keydown", function (e) {
+      if (!(armed || calc.contains(document.activeElement))) return;
+      if (e.ctrlKey || e.metaKey || e.altKey || e.defaultPrevented) return;
+      var key = /^[0-9.+\-*\/%]$/.test(e.key) ? e.key
+        : Object.prototype.hasOwnProperty.call(named, e.key) ? named[e.key] : null;
+      if (!key) return;
+      e.preventDefault();   // Enter means =, not "press the focused key"
+      press(key);
+      var b = calc.querySelector('[data-key="' + key + '"]');
+      if (!b) return;
+      // Show the typed key pressed (the CSS drops the motion under reduced motion), and
+      // tell listeners such as the 3D add-on which button it was.
+      b.setAttribute("data-gf-pressed", "");
+      clearTimeout(b.gfTimer);
+      b.gfTimer = setTimeout(function () { b.removeAttribute("data-gf-pressed"); }, 120);
+      b.dispatchEvent(new CustomEvent("gf-key", { bubbles: true, detail: { key: key, button: b } }));
     });
   })();
 </script>
