@@ -230,7 +230,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.aqua-window[hidden],, .aqua-dialog:not([open]) { display: none; }
+.aqua-window[hidden], .aqua-dialog:not([open]) { display: none; }
 .aqua-window ::selection { background: var(--aqua-halo); color: var(--aqua-face-text); }
 
 /* The title bar: gumdrops at the left, the title centred on the whole bar (a spacer as
@@ -321,7 +321,7 @@ button.aqua-light::after {
   opacity: 0;
 }
 
-button.aqua-light:hover::after,, button.aqua-light:focus-visible::after { opacity: 0.9; }
+button.aqua-light:hover::after, button.aqua-light:focus-visible::after { opacity: 0.9; }
 
 @media (hover: none) {
   button.aqua-light::after { opacity: 0.9; }
@@ -435,7 +435,7 @@ button.aqua-light:focus-visible { outline: 2px solid var(--aqua-focus); outline-
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.25), inset 0 2px 4px rgb(0 0 0 / 0.38);
 }
 
-.aqua-button:active::after,, .aqua-tab:active::after { opacity: 0.6; }
+.aqua-button:active::after, .aqua-tab:active::after { opacity: 0.6; }
 
 .aqua-button:focus-visible,
 .aqua-tab:focus-visible { outline: 2px solid var(--aqua-focus); outline-offset: 2px; }
@@ -471,7 +471,7 @@ button.aqua-light:focus-visible { outline: 2px solid var(--aqua-focus); outline-
   cursor: default;
 }
 
-.aqua-button:disabled::before,, .aqua-button[aria-disabled="true"]::before { animation: none; }
+.aqua-button:disabled::before, .aqua-button[aria-disabled="true"]::before { animation: none; }
 
 /* ---------- Tabs ----------
    A segmented row of capsules straddling the top edge of a recessed panel; the
@@ -588,7 +588,7 @@ textarea.aqua-field { min-height: 5em; line-height: 1.4; resize: vertical; }
   color: var(--aqua-field-text);
 }
 
-.aqua-select:disabled,, .aqua-listbox:disabled { opacity: 0.6; cursor: default; }
+.aqua-select:disabled, .aqua-listbox:disabled { opacity: 0.6; cursor: default; }
 
 /* Focus: a soft ring in the colour round a solid edge. The transparent outline shows
    only in forced colours, which drop the ring. */
@@ -617,7 +617,7 @@ textarea.aqua-field { min-height: 5em; line-height: 1.4; resize: vertical; }
 /* ---------- Check boxes and radio buttons ----------
    Small white gels (rounded squares, or circles); ticked, the gel takes a light shade
    of the colour, so the black tick or dot reads in every colour. */
-.aqua-check,, .aqua-radio { display: inline-flex; align-items: center; gap: 7px; min-height: 24px; cursor: pointer; }
+.aqua-check, .aqua-radio { display: inline-flex; align-items: center; gap: 7px; min-height: 24px; cursor: pointer; }
 
 .aqua-check > input,
 .aqua-radio > input {
@@ -670,7 +670,7 @@ textarea.aqua-field { min-height: 5em; line-height: 1.4; resize: vertical; }
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.25), var(--aqua-focus-ring);
 }
 
-.aqua-check > input:disabled,, .aqua-radio > input:disabled { opacity: 0.55; cursor: default; }
+.aqua-check > input:disabled, .aqua-radio > input:disabled { opacity: 0.55; cursor: default; }
 
 .aqua-check:has(> input:disabled),
 .aqua-radio:has(> input:disabled) { color: var(--aqua-muted); cursor: default; }
@@ -831,7 +831,7 @@ textarea.aqua-field { min-height: 5em; line-height: 1.4; resize: vertical; }
 .aqua-menu__item:hover:not(:disabled, [aria-disabled="true"]),
 .aqua-menu__item:focus-visible { background: var(--aqua-tint); color: var(--aqua-tint-text); }
 .aqua-menu__item:focus-visible { outline: 2px solid var(--aqua-focus); outline-offset: -2px; }
-.aqua-menu__item:disabled,, .aqua-menu__item[aria-disabled="true"] { color: rgb(0 0 0 / 0.42); }
+.aqua-menu__item:disabled, .aqua-menu__item[aria-disabled="true"] { color: rgb(0 0 0 / 0.42); }
 
 /* A tick before the chosen item. */
 .aqua-menu__item[aria-pressed="true"]::before,
@@ -859,7 +859,7 @@ textarea.aqua-field { min-height: 5em; line-height: 1.4; resize: vertical; }
 /* ---------- Motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .aqua-button--default::before,, .aqua-progress:indeterminate { animation: none; }
+  .aqua-button--default::before, .aqua-progress:indeterminate { animation: none; }
   .aqua-progress::-webkit-progress-value { animation: none; }
   .aqua-progress::-moz-progress-bar { animation: none; }
 }
@@ -868,20 +868,20 @@ textarea.aqua-field { min-height: 5em; line-height: 1.4; resize: vertical; }
    Contrast themes drop the gradients and shadows: keep the frames, the edges of the
    controls, the browser's own check boxes and pop-up menus, and system highlights. */
 @media (forced-colors: active) {
-  .aqua-window,, .aqua-menu__list,, .aqua-progress { border-color: CanvasText; }
-  .aqua-titlebar,, .aqua-menubar { border-bottom-color: CanvasText; }
+  .aqua-window, .aqua-menu__list, .aqua-progress { border-color: CanvasText; }
+  .aqua-titlebar, .aqua-menubar { border-bottom-color: CanvasText; }
   .aqua-light { border-color: CanvasText; }
-  button.aqua-light,, .aqua-button,, .aqua-tab { border-color: ButtonText; }
+  button.aqua-light, .aqua-button, .aqua-tab { border-color: ButtonText; }
 
   .aqua-check > input,
-  .aqua-radio > input,, .aqua-select { background-image: none; -webkit-appearance: auto; appearance: auto; }
+  .aqua-radio > input, .aqua-select { background-image: none; -webkit-appearance: auto; appearance: auto; }
 
   .aqua-tab[aria-selected="true"],
   .aqua-menu[open] > .aqua-menubar__item,
   .aqua-menu__item:hover:not(:disabled, [aria-disabled="true"]),
   .aqua-menu__item:focus-visible { forced-color-adjust: none; background: Highlight; color: HighlightText; }
-  .aqua-menu__item:disabled,, .aqua-menu__item[aria-disabled="true"] { color: GrayText; }
-  .aqua-field[aria-invalid="true"],, .aqua-field:user-invalid { border-width: 2px; }
+  .aqua-menu__item:disabled, .aqua-menu__item[aria-disabled="true"] { color: GrayText; }
+  .aqua-field[aria-invalid="true"], .aqua-field:user-invalid { border-width: 2px; }
 
   .aqua-progress:indeterminate {
     forced-color-adjust: none;
