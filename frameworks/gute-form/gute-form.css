@@ -3,7 +3,8 @@
    Hans Gugelot; "less, but better"). Not affiliated with Braun.
    Plain CSS, no JavaScript. Menus open and close by themselves (<details>); tabs, the
    mixed check box, dialogs and the knob need a few lines of your own script (index.html
-   beside this file has them). Background: research/visual.md and research/components.md.
+   beside this file has them). Background: research/visual.md, research/components.md and
+   research/realism.md (what the real parts look like, and the light).
 
    USE
      <link rel="stylesheet" href="gute-form.css">
@@ -38,8 +39,32 @@
      Keep one accent per view; colour is never the only signal (state also shows by
      position, a lamp, a bar or words).
 
+   LIGHT AND DEPTH (one light for every control; no script needed)
+     --gf-light-x, --gf-light-y   where the light comes FROM, numbers from -1 to 1 (x: -1
+       left, 1 right; y: -1 above, 1 below; default -0.35, -0.8). Registered (@property)
+       and inherited: set them on :root or on any block, also from a script while scrolling.
+     The depth kit is declared again on every element with a gf- class, so each part is
+     lit by its own values. A part sets, in its own rule: --gf-d (its height above the
+     plate = the length of its cast shadow, 4px), --gf-rise (a visible front wall, 0px)
+     and --gf-body (its colour, for the wall). Then it composes:
+       raised:    box-shadow: var(--gf-edge-lit), var(--gf-edge-far), var(--gf-wall),
+                              var(--gf-contact), var(--gf-cast);
+       recessed:  box-shadow: var(--gf-inset), var(--gf-lip);
+       face:      background-color: var(--gf-plastic); background-image: var(--gf-sheen-matt);
+                  (always these two apart, never the background shorthand)
+     --gf-cast: a control's shadow; --gf-cast-soft: a plate's (panel, menu); --gf-contact:
+     the dark line at its foot; --gf-wall: the front wall; --gf-edge-lit / --gf-edge-far:
+     1px light and dark lines on a raised part's edges; --gf-inset / --gf-lip: the lip
+     shadow and far lip of a well; --gf-sheen (lacquer), --gf-sheen-matt (plastic),
+     --gf-sheen-metal (aluminium). Helpers: --gf-sx, --gf-sy (the way shadows fall),
+     --gf-ex, --gf-ey (1px the same way), --gf-light-angle (gradient angle, lit side first).
+     Materials (on :root): --gf-lacquer, --gf-plastic, --gf-plastic-dark, --gf-aluminium
+     with --gf-brush, --gf-elm with --gf-grain, --gf-edge (soft plate edges); --gf-glint
+     and --gf-shade are the highlight and shadow colours (on a dark face set --gf-glint
+     to rgb(255 255 255 / 0.5) on the part).
+
    COMPONENTS (write labels in lowercase, as Braun printed them; names stay real words)
-     Panel: a flat plate with a label strip instead of a title bar
+     Panel: a lacquered plate with a brushed label strip instead of a title bar
        <section class="gf-panel" aria-labelledby="p1">
          <div class="gf-panel__strip">
            <h2 class="gf-panel__title" id="p1">tuner</h2>
@@ -58,6 +83,8 @@
          a latching key: aria-pressed="true" keeps it down with its lamp lit (your script
          flips the attribute). Also on <a>. Disabled: the disabled attribute (or
          aria-disabled="true" on a link).
+       A key stands 3px above the plate (--gf-key-rise) with its front wall showing, and
+       sinks nearly flush while pressed or latched. In a panel's label strip it is smaller.
      Text field and text area
        <label class="gf-label" for="f1">station</label>
        <input class="gf-field" id="f1" aria-describedby="f1-note">
@@ -206,10 +233,10 @@
    ACCESSIBILITY
      Native elements under every look (buttons, check boxes, radios, range inputs,
      selects, meter, progress, details, dialog, fieldset); text 4.5:1 and control edges
-     3:1 on page and surface; a 2px ink focus ring (3:1 or more) on every control; hit
+     3:1 on page and surface, sheen and textures included; a 2px ink focus ring (3:1 or more) on every control; hit
      areas 24px or more; no transitions, no blinking and no moving pointer under
-     prefers-reduced-motion; native controls and system colours under forced colours
-     (Windows contrast themes). */
+     prefers-reduced-motion; native controls, system colours and real borders, with no
+     textures, shadows or gradients, under forced colours (Windows contrast themes). */
 
 /* ---------- Font ---------- */
 
@@ -250,6 +277,95 @@
   --gf-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --gf-radius: 2px;
   --gf-pressed: color-mix(in srgb, var(--gf-surface) 70%, var(--gf-line));
+}
+
+/* ---------- Light and depth kit ---------- */
+
+/* Where the light comes FROM, as the control sees it: x -1 = from the left, 1 = from the
+   right; y -1 = from above, 1 = from below. Registered so they inherit as numbers; set
+   them on :root or on any block (a script may write them while the page scrolls). */
+@property --gf-light-x {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: -0.35;
+}
+
+@property --gf-light-y {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: -0.8;
+}
+
+/* Per-part heights, registered as lengths so a press can ease them (the shadows follow). */
+@property --gf-d {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 4px;
+}
+
+@property --gf-rise {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+:root {
+  --gf-light-x: -0.35;  /* the same defaults, for browsers without @property */
+  --gf-light-y: -0.8;
+  --gf-glint: #fff;     /* highlight colour; on a dark face use it half as strong */
+  --gf-shade: #1b1710;  /* shadow colour: a warm black */
+
+  /* Materials, built from the palette. */
+  --gf-lacquer: var(--gf-surface);                                           /* satin lacquered sheet metal: panels */
+  --gf-plastic: color-mix(in srgb, var(--gf-surface) 94%, var(--gf-line));   /* matt light grey plastic: keys, knobs */
+  --gf-plastic-dark: var(--gf-accent);                                       /* matt anthracite plastic */
+  --gf-aluminium: color-mix(in srgb, var(--gf-surface) 91%, var(--gf-line)); /* anodised aluminium; with --gf-brush */
+  --gf-elm: var(--gf-trim);                                                  /* elm veneer; with --gf-grain */
+  --gf-edge: color-mix(in srgb, var(--gf-line) 50%, var(--gf-surface));      /* soft plate edges and joints (not control edges) */
+  /* Fine brush marks along a horizontal plate: light streaks only, so text contrast never drops. */
+  --gf-brush: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='64'%3E%3Cfilter id='b' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 0.9' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0.9 0 0 0 -0.28'/%3E%3C/filter%3E%3Crect width='256' height='64' filter='url(%23b)'/%3E%3C/svg%3E");
+  /* Wood grain running top to bottom: dark streaks over --gf-elm. */
+  --gf-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='256'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45 0.012' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.27 0 0 0 0 0.15 1.1 0 0 0 -0.4'/%3E%3C/filter%3E%3Crect width='64' height='256' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* The kit. It is declared on every element with a gf- class (at no specificity), not
+   only on :root, because a custom property is worked out where it is declared: this way
+   each element's shadows follow its own --gf-light-x / --gf-light-y, also when a block
+   further up overrides them. Elements without a gf- class inherit their parent's kit.
+   A part sets --gf-d, --gf-rise and --gf-body in its own rule, then uses the rest. */
+:where(:root, [class*="gf-"]) {
+  --gf-d: 4px;                   /* height above the plate = length of the cast shadow at full light */
+  --gf-rise: 0px;                /* height of the visible front wall; shadows start at its foot */
+  --gf-body: var(--gf-plastic);  /* the part's own colour: the wall is a shaded mix of it */
+
+  /* Helpers: the way shadows fall (numbers), a 1px step the same way, the gradient angle. */
+  --gf-sx: calc(var(--gf-light-x) * -1);
+  --gf-sy: calc(var(--gf-light-y) * -1);
+  --gf-ex: clamp(-1px, calc(var(--gf-light-x) * -4px), 1px);
+  --gf-ey: clamp(-1px, calc(var(--gf-light-y) * -4px), 1px);
+  --gf-light-angle: atan2(var(--gf-sx), var(--gf-light-y));  /* starts on the lit side */
+
+  /* Raised parts (outside shadows fall away from the light; inset lines sit on the edges). */
+  --gf-cast: calc(var(--gf-sx) * var(--gf-d)) calc(var(--gf-sy) * var(--gf-d) + var(--gf-rise)) calc(var(--gf-d) * 1.25) color-mix(in srgb, var(--gf-shade) 22%, transparent);
+  --gf-cast-soft: calc(var(--gf-sx) * var(--gf-d)) calc(var(--gf-sy) * var(--gf-d) + var(--gf-rise)) calc(var(--gf-d) * 2.67) color-mix(in srgb, var(--gf-shade) 12%, transparent);
+  --gf-contact: calc(var(--gf-sx) * 1px) calc(var(--gf-sy) * 1px + var(--gf-rise)) 2px color-mix(in srgb, var(--gf-shade) 20%, transparent);
+  --gf-wall: 0 var(--gf-rise) 0 color-mix(in srgb, var(--gf-shade) calc(20% - var(--gf-light-y) * 10%), var(--gf-body));
+  --gf-edge-lit: inset var(--gf-ex) var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 50%, transparent);
+  --gf-edge-far: inset calc(var(--gf-ex) * -1) calc(var(--gf-ey) * -1) 0 color-mix(in srgb, var(--gf-shade) 15%, transparent);
+
+  /* Recessed parts (windows, slots, wells): the lip nearest the light shades the well. */
+  --gf-inset: inset calc(var(--gf-sx) * 2px) calc(var(--gf-sy) * 2px) 3px color-mix(in srgb, var(--gf-shade) 30%, transparent);
+  --gf-lip: inset calc(var(--gf-ex) * -1) calc(var(--gf-ey) * -1) 0 color-mix(in srgb, var(--gf-glint) 60%, transparent);
+
+  /* Sheen: a gradient from the lit side to the far side, for background-image. */
+  --gf-sheen: linear-gradient(var(--gf-light-angle), color-mix(in srgb, var(--gf-glint) 5%, transparent), transparent 45%, color-mix(in srgb, var(--gf-shade) 3%, transparent));
+  --gf-sheen-matt: linear-gradient(var(--gf-light-angle), color-mix(in srgb, var(--gf-glint) 4%, transparent), color-mix(in srgb, var(--gf-shade) 4%, transparent));
+  --gf-sheen-metal: linear-gradient(var(--gf-light-angle), color-mix(in srgb, var(--gf-glint) 8%, transparent), transparent 50%, color-mix(in srgb, var(--gf-shade) 2%, transparent));
+}
+
+/* Without atan2() the sheen keeps the default angle; shadows still follow the light. */
+@supports not (rotate: atan2(1, 1)) {
+  :where(:root, [class*="gf-"]) { --gf-light-angle: 156deg; }
 }
 
 /* ---------- Base type ---------- */
@@ -315,23 +431,53 @@
 
 /* ---------- Panel ---------- */
 
+/* A lacquered sheet-metal plate lying on the page: one broad faint sheen, a light line
+   on the edges facing the light, a contact shadow and a soft cast shadow. */
 .gf-panel {
+  --gf-d: 12px;
   box-sizing: border-box;
   min-width: 0;
   margin: 0;
-  background: var(--gf-surface);
+  background-color: var(--gf-lacquer);
+  background-image: var(--gf-sheen);
   color: var(--gf-ink);
-  border: 1px solid var(--gf-line);
+  border: 1px solid var(--gf-edge);
   border-radius: var(--gf-radius);
+  box-shadow:
+    inset var(--gf-ex) var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 70%, transparent),
+    var(--gf-contact),
+    var(--gf-cast-soft);
   font-family: var(--gf-font);
   font-size: 14px;
   line-height: 1.5;
 }
 
+/* Elm side strips: the wood fills the border box (grain, and a light line on the outer
+   edge that faces the light); the lacquered plate is laid over the padding box. The
+   strips stand a little proud, so the one nearest the light shades the plate. */
 .gf-panel--trim {
-  border-inline: 10px solid var(--gf-trim);
+  border-inline: 10px solid transparent;
+  background-color: var(--gf-elm);
+  background-image:
+    var(--gf-sheen),
+    linear-gradient(var(--gf-lacquer), var(--gf-lacquer)),
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--gf-glint) clamp(0%, calc(var(--gf-sx) * 80%), 28%), transparent) 1px,
+      transparent 1px calc(100% - 1px),
+      color-mix(in srgb, var(--gf-glint) clamp(0%, calc(var(--gf-sx) * -80%), 28%), transparent) calc(100% - 1px)),
+    var(--gf-grain);
+  background-origin: padding-box, padding-box, border-box, border-box;
+  background-clip: padding-box, padding-box, border-box, border-box;
+  box-shadow:
+    inset 0 var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 70%, transparent),
+    inset calc(var(--gf-sx) * 4px) 0 2px -1px color-mix(in srgb, var(--gf-shade) 30%, transparent),
+    var(--gf-contact),
+    var(--gf-cast-soft);
 }
 
+/* The label strip: a flush cover plate of brushed aluminium with flat printing. The
+   brush only lightens it, and the sheen darkens the far end by 2% at most, so the
+   label keeps 4.5:1. */
 .gf-panel__strip {
   display: flex;
   align-items: center;
@@ -339,7 +485,15 @@
   gap: 12px;
   min-height: 28px;
   padding: 0 16px;
-  border-bottom: 1px solid var(--gf-line);
+  background-color: var(--gf-aluminium);
+  background-image: var(--gf-brush), var(--gf-sheen-metal);
+  border-bottom: 1px solid var(--gf-edge);
+  border-radius: calc(var(--gf-radius) - 1px) calc(var(--gf-radius) - 1px) 0 0;
+  box-shadow: inset var(--gf-ex) max(0px, var(--gf-ey)) 0 color-mix(in srgb, var(--gf-glint) 70%, transparent);
+}
+
+.gf-panel--trim > .gf-panel__strip {
+  box-shadow: inset 0 max(0px, var(--gf-ey)) 0 color-mix(in srgb, var(--gf-glint) 70%, transparent);
 }
 
 .gf-panel__title {
@@ -386,13 +540,14 @@
   font-size: 0.92em;
 }
 
+/* A window cut into the plate: the lip nearest the light shades it. */
 .gf-panel__body pre {
   overflow: auto;
   padding: 12px;
   background: var(--gf-page);
   border: 1px solid var(--gf-line);
   border-radius: var(--gf-radius);
-  box-shadow: inset 0 1px 0 var(--gf-line);
+  box-shadow: var(--gf-inset), var(--gf-lip);
   font: 12px/1.55 var(--gf-mono);
 }
 
@@ -406,7 +561,15 @@
 
 /* ---------- Buttons ---------- */
 
+/* A push key of matt plastic standing --gf-key-rise above the plate, seen a little from
+   the front: its front wall shows below the face. Pressing lowers --gf-rise and --gf-d,
+   so the face travels down, the wall shortens and the shadow shrinks, all in step. */
 .gf-button {
+  --gf-key-rise: 3px;
+  --gf-rise: var(--gf-key-rise);
+  --gf-d: 4px;
+  --gf-body: var(--gf-plastic);
+  --gf-key-edge: color-mix(in srgb, var(--gf-line) 85%, var(--gf-ink));  /* the dark slot round the key: 3:1 on face and plate */
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;
@@ -423,24 +586,44 @@
   line-height: 1.2;
   color: var(--gf-ink);
   text-decoration: none;
-  background: var(--gf-surface);
-  border: 1px solid var(--gf-line);
+  background-color: var(--gf-body);
+  background-image: var(--gf-sheen-matt);
+  border: 1px solid var(--gf-key-edge);
   border-radius: var(--gf-radius);
-  box-shadow: inset 0 -1px 0 var(--gf-line);
+  box-shadow: var(--gf-edge-lit), var(--gf-edge-far), var(--gf-wall), var(--gf-contact), var(--gf-cast);
+  transform: translateY(calc(var(--gf-key-rise) - var(--gf-rise)));
   cursor: pointer;
-  transition: transform 80ms ease-out, background-color 80ms ease-out, border-color 80ms ease-out;
+  transition: --gf-rise 80ms ease-out, --gf-d 80ms ease-out, background-color 80ms ease-out, border-color 80ms ease-out;
 }
 
 .gf-button:hover { border-color: var(--gf-muted); }
 
-.gf-button:active,
-.gf-button[aria-pressed="true"] {
-  transform: translateY(1px);
-  background: var(--gf-pressed);
-  box-shadow: inset 0 1px 0 var(--gf-line);
+/* The accent key: matt anthracite. A dark face takes half the highlight. */
+.gf-button--accent {
+  --gf-body: var(--gf-plastic-dark);
+  --gf-glint: rgb(255 255 255 / 0.5);
+  color: var(--gf-accent-ink);
+  background-image: linear-gradient(var(--gf-light-angle), color-mix(in srgb, var(--gf-glint) 18%, transparent), transparent 55%, color-mix(in srgb, var(--gf-shade) 18%, transparent));
+  border-color: color-mix(in srgb, var(--gf-accent) 70%, #000);
 }
 
-/* A latching key's lamp: unlit when up, lit in --gf-second when down. */
+.gf-button--accent:hover {
+  background-color: color-mix(in srgb, var(--gf-accent) 92%, #fff);
+  border-color: color-mix(in srgb, var(--gf-accent) 70%, #000);
+}
+
+/* Down: nearly flush with the plate. A latched key goes the last step while held. */
+.gf-button:active,
+.gf-button[aria-pressed="true"] {
+  --gf-rise: 1px;
+  --gf-d: 1px;
+  background-color: color-mix(in srgb, var(--gf-body) 96%, var(--gf-shade));
+}
+
+.gf-button[aria-pressed="true"]:active { --gf-rise: 0px; }
+
+/* A latching key's lamp: a small lens set into the face. Dull and hollow when up;
+   filled and glowing softly in --gf-second when down. */
 .gf-button[aria-pressed]::before {
   content: "";
   flex: none;
@@ -449,41 +632,54 @@
   height: 6px;
   border: 1px solid var(--gf-line);
   border-radius: 50%;
+  background-color: color-mix(in srgb, var(--gf-body) 86%, var(--gf-shade));
+  box-shadow: inset calc(var(--gf-sx) * 1px) calc(var(--gf-sy) * 1px) 1px color-mix(in srgb, var(--gf-shade) 35%, transparent);
 }
 
-.gf-button[aria-pressed="true"]::before { border: 3px solid var(--gf-second); }
-
-.gf-button--accent {
-  color: var(--gf-accent-ink);
-  background: var(--gf-accent);
-  border-color: var(--gf-accent);
-  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--gf-accent) 60%, #000);
+.gf-button[aria-pressed="true"]::before {
+  border-color: color-mix(in srgb, var(--gf-second) 80%, var(--gf-shade));
+  background-color: var(--gf-second);
+  background-image: radial-gradient(circle at calc(50% + var(--gf-light-x) * 30%) calc(50% + var(--gf-light-y) * 30%), color-mix(in srgb, var(--gf-second) 45%, #fff), transparent 70%);
+  box-shadow:
+    0 0 2px color-mix(in srgb, var(--gf-second) 80%, transparent),
+    0 0 7px 1px color-mix(in srgb, var(--gf-second) 45%, transparent);
 }
 
-.gf-button--accent:hover { border-color: var(--gf-ink); }
-
-.gf-button--accent:active {
-  background: color-mix(in srgb, var(--gf-accent) 85%, var(--gf-ink));
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gf-accent) 60%, #000);
-}
-
+/* The ring clears the front wall. */
 .gf-button:focus-visible {
   outline: 2px solid var(--gf-ink);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
+/* Disabled: flat on the plate and dim, no wall, shadow or sheen. */
 .gf-button:disabled,
 .gf-button[aria-disabled="true"] {
+  --gf-rise: 0px;
+  --gf-d: 0px;
   opacity: 0.45;
   transform: none;
+  background-color: var(--gf-body);
+  background-image: none;
   box-shadow: none;
   cursor: not-allowed;
 }
 
 .gf-button:disabled:hover,
-.gf-button[aria-disabled="true"]:hover { border-color: var(--gf-line); }
+.gf-button[aria-disabled="true"]:hover { border-color: var(--gf-key-edge); }
 
-.gf-button--accent:disabled:hover { border-color: var(--gf-accent); }
+.gf-button--accent:disabled,
+.gf-button--accent:disabled:hover,
+.gf-button--accent[aria-disabled="true"],
+.gf-button--accent[aria-disabled="true"]:hover { border-color: color-mix(in srgb, var(--gf-accent) 70%, #000); }
+
+/* A key in a panel's label strip is smaller and lower, and leaves room for its wall. */
+.gf-panel__strip > .gf-button {
+  --gf-key-rise: 2px;
+  min-height: 24px;
+  margin-block: 3px 5px;
+  padding: 0 10px;
+  font-size: 12px;
+}
 
 .gf-buttons {
   display: flex;
@@ -1583,6 +1779,7 @@ textarea.gf-field {
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
+  /* Keys go down at once: the eased --gf-rise and --gf-d are part of this transition. */
   .gf-button,
   .gf-tab,
   .gf-check input,
@@ -1629,6 +1826,19 @@ textarea.gf-field {
   .gf-select { -webkit-appearance: auto; appearance: auto; padding-right: 10px; }
 
   .gf-panel--trim { border-inline-width: 1px; }
+
+  /* No materials: no textures, gradients or shadows, only system colours and real
+     borders. A pressed key still sinks; a lit lamp is a filled dot, an unlit one a ring. */
+  .gf-panel,
+  .gf-panel__strip,
+  .gf-panel__body pre,
+  .gf-button,
+  .gf-button[aria-pressed]::before {
+    background-image: none;
+    box-shadow: none;
+  }
+
+  .gf-button[aria-pressed="true"]::before { border-width: 3px; }
 
   .gf-progress,
   .gf-progress:indeterminate {
