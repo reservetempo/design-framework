@@ -16,6 +16,7 @@
 }
 </script>
 <script type="module" src="gute-form-3d.js"></script>
+<script defer src="gute-form-light.js"></script>
 <style>
   html {
     scroll-padding-top: 48px;
@@ -135,6 +136,8 @@
         <li><a class="gf-menu__item" href="#keypad">calculator</a></li>
         <li><a class="gf-menu__item" href="#tabs">tabs</a></li>
         <li><a class="gf-menu__item" href="#form">sample form</a></li>
+        <li class="gf-menu__separator" role="separator"></li>
+        <li><button class="gf-menu__item" type="button" aria-pressed="false" data-light-toggle>moving light</button></li>
       </ul>
     </details>
     <details class="gf-menu gf-menu--end">
@@ -635,6 +638,8 @@
 &lt;script type="module" src="gute-form-3d.js"&gt;&lt;/script&gt;
 
 &lt;figure class="gf-product" data-gf-3d="hero" data-gf-3d-turn="spin"&gt;</code></pre>
+      <p>A second optional add-on, <a href="gute-form-light.js">gute-form-light.js</a>, moves the light as the page scrolls: a lamp stays put above the top of the window, and the shadows of each <code>.gf-panel</code>, <code>.gf-product</code> and <code>.gf-menubar</code> follow it as the block passes. It is one line in your <code>&lt;head&gt;</code> and needs nothing else. Put <code>data-gf-light</code> on any other element to light it on its own, and <code>data-gf-light="off"</code> on an element or on <code>&lt;html&gt;</code> to keep the fixed light there. It rests under reduced motion and forced colours; here, view &rsaquo; moving light switches it.</p>
+      <pre tabindex="0" aria-label="The light add-on"><code>&lt;script defer src="gute-form-light.js"&gt;&lt;/script&gt;</code></pre>
       <p>Write labels in lowercase, as Braun printed them. The comment at the top of <code>gute-form.css</code> gives the markup for every component; this page&rsquo;s own script (tabs, menus, the dialog, the mixed check box, the calculator) is at the bottom of its source.</p>
     </div>
   </section>
@@ -708,6 +713,24 @@
       b.addEventListener("click", function () {
         b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"));
       });
+    });
+
+    // The moving light (gute-form-light.js): view > moving light switches it with
+    // data-gf-light="off" on <html>; the choice is kept in localStorage. The item shows
+    // the add-on's real state, from its gf-light event.
+    var lightItem = document.querySelector("[data-light-toggle]");
+    try {
+      if (localStorage.getItem("gf-light") === "off") document.documentElement.setAttribute("data-gf-light", "off");
+    } catch (e) {}
+    document.addEventListener("gf-light", function (e) {
+      lightItem.setAttribute("aria-pressed", String(e.detail.on));
+    });
+    lightItem.addEventListener("click", function () {
+      var off = document.documentElement.getAttribute("data-gf-light") !== "off";
+      if (off) document.documentElement.setAttribute("data-gf-light", "off");
+      else document.documentElement.removeAttribute("data-gf-light");
+      try { localStorage.setItem("gf-light", off ? "off" : "on"); } catch (e) {}
+      if (window.GuteFormLight) window.GuteFormLight.refresh();
     });
 
     // The mixed check box.

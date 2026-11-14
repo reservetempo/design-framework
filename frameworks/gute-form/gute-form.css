@@ -62,6 +62,13 @@
      with --gf-brush, --gf-elm with --gf-grain, --gf-edge (soft plate edges); --gf-glint
      and --gf-shade are the highlight and shadow colours (on a dark face set --gf-glint
      to rgb(255 255 255 / 0.5) on the part).
+     Optional: gute-form-light.js moves the light as the page scrolls. A lamp stays put
+     above the top of the window and the script writes --gf-light-x / --gf-light-y on each
+     .gf-panel, .gf-product and .gf-menubar near the window (their children inherit):
+       <script defer src="gute-form-light.js"></script>
+     data-gf-light on another element lights it on its own; data-gf-light="off" on an
+     element, an ancestor or <html> keeps the fixed light there. It rests under reduced
+     motion and forced colours. See the top of that file for its API and gf-light event.
 
    COMPONENTS (write labels in lowercase, as Braun printed them; names stay real words)
      Panel: a lacquered plate with a brushed label strip instead of a title bar
