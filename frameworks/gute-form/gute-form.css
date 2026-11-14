@@ -1128,52 +1128,87 @@ textarea.gf-field {
 
 /* ---------- Progress: a scale with a bar, or a sweeping pointer ---------- */
 
+/* A tuning slot cut into the plate. The scale is printed on its paper-white floor and a
+   flat matt ribbon lies on it: the lip nearest the light shades floor and ribbon, the
+   ribbon's free end has a dark edge and casts a small shadow away from the light. */
 .gf-progress {
   --gf-ticks: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), var(--gf-line) calc(10% - 1px) 10%);
+  --gf-ribbon-shadow:
+    inset -1px 0 0 color-mix(in srgb, var(--gf-accent) 55%, #000),
+    inset 0 calc(var(--gf-sy) * 2px) 2px color-mix(in srgb, var(--gf-shade) 50%, transparent),
+    calc(var(--gf-sx) * 2px) 0 2px color-mix(in srgb, var(--gf-shade) 40%, transparent);
+  /* The sweeping pointer's shadow: only on the side away from the light. */
+  --gf-pointer-shade-right: color-mix(in srgb, var(--gf-shade) clamp(0%, calc(var(--gf-sx) * 90%), 40%), transparent);
+  --gf-pointer-shade-left: color-mix(in srgb, var(--gf-shade) clamp(0%, calc(var(--gf-light-x) * 90%), 40%), transparent);
   -webkit-appearance: none;
   appearance: none;
   box-sizing: content-box;
   display: block;
   width: 100%;
   max-width: 100%;
-  height: 6px;
+  height: 8px;
   margin: 0;
   padding: 0;
   overflow: hidden;
   color: var(--gf-ink);
-  background: var(--gf-ticks), var(--gf-page);
+  background-color: var(--gf-page);
+  background-image: var(--gf-ticks);
   border: 1px solid var(--gf-line);
   border-radius: 1px;
+  box-shadow: var(--gf-inset), var(--gf-lip), var(--gf-ex) var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 55%, transparent);
 }
 
-.gf-progress::-webkit-progress-bar { background: transparent; }
-.gf-progress::-webkit-progress-value { background: var(--gf-ink); }
-.gf-progress::-moz-progress-bar { background: var(--gf-ink); }
+.gf-progress::-webkit-progress-bar { background-color: transparent; }
 
+.gf-progress::-webkit-progress-value {
+  background-color: var(--gf-accent);
+  box-shadow: var(--gf-ribbon-shadow);
+}
+
+.gf-progress::-moz-progress-bar {
+  background-color: var(--gf-accent);
+  box-shadow: var(--gf-ribbon-shadow);
+}
+
+/* Searching: a short ribbon slides to and fro on the floor, under the lip's shadow. */
 .gf-progress:indeterminate {
-  background:
-    linear-gradient(var(--gf-accent), var(--gf-accent)) 0 0 / 20% 100% no-repeat,
-    var(--gf-ticks),
-    var(--gf-page);
+  background-image:
+    linear-gradient(90deg, transparent, var(--gf-pointer-shade-left) 3px, var(--gf-accent) 3px calc(100% - 3px), var(--gf-pointer-shade-right) calc(100% - 3px), transparent),
+    var(--gf-ticks);
+  background-size: calc(20% + 6px) 100%, auto;
+  background-repeat: no-repeat, repeat;
   animation: gf-sweep 1.6s ease-in-out infinite alternate;
 }
 
-.gf-progress:indeterminate::-moz-progress-bar { background: transparent; }
+.gf-progress:indeterminate::-moz-progress-bar {
+  background-color: transparent;
+  box-shadow: none;
+}
 
 @keyframes gf-sweep {
-  from { background-position: 0% 0, 0 0, 0 0; }
-  to { background-position: 100% 0, 0 0, 0 0; }
+  from { background-position: 0% 0, 0 0; }
+  to { background-position: 100% 0, 0 0; }
 }
 
 /* ---------- Tabs: a row of joined band keys ---------- */
 
+/* Push keys side by side in one dark slot, each made like .gf-button. The selected key
+   is latched: nearly flush with the plate, shaded on its lit side by the key beside it,
+   with an ink bar printed under its label. Choosing another key lets it up again. The
+   panel below is the plate itself: nothing is drawn between key and panel. */
 .gf-tabs__list {
   display: flex;
   flex-wrap: wrap;
-  row-gap: 4px;
+  row-gap: 10px;
+  padding-bottom: 3px;  /* room for the keys' front walls */
 }
 
 .gf-tab {
+  --gf-key-rise: 3px;
+  --gf-rise: var(--gf-key-rise);
+  --gf-d: 4px;
+  --gf-body: var(--gf-plastic);
+  --gf-key-edge: color-mix(in srgb, var(--gf-line) 85%, var(--gf-ink));  /* the dark slot between the keys: 3:1 on face and plate */
   box-sizing: border-box;
   position: relative;
   min-width: 48px;
@@ -1186,49 +1221,75 @@ textarea.gf-field {
   letter-spacing: 0.02em;
   line-height: 1.2;
   color: var(--gf-ink);
-  background: var(--gf-surface);
-  border: 1px solid var(--gf-line);
+  background-color: var(--gf-body);
+  background-image: var(--gf-sheen-matt);
+  border: 1px solid var(--gf-key-edge);
   border-radius: 0;
-  box-shadow: inset 0 -1px 0 var(--gf-line);
+  box-shadow: var(--gf-edge-lit), var(--gf-edge-far), var(--gf-wall), var(--gf-contact), var(--gf-cast);
+  /* Keys of one height don't shade each other: each keeps its shadow to its own width. */
+  clip-path: inset(-16px 0);
+  transform: translateY(calc(var(--gf-key-rise) - var(--gf-rise)));
   cursor: pointer;
-  transition: transform 80ms ease-out, background-color 80ms ease-out;
+  transition: --gf-rise 80ms ease-out, --gf-d 80ms ease-out, background-color 80ms ease-out, border-color 80ms ease-out;
 }
 
-.gf-tab:first-child { margin-left: 0; border-radius: var(--gf-radius) 0 0 var(--gf-radius); }
-.gf-tab:last-child { border-radius: 0 var(--gf-radius) var(--gf-radius) 0; }
-.gf-tab:only-child { border-radius: var(--gf-radius); }
+.gf-tab:first-child { margin-left: 0; border-radius: var(--gf-radius) 0 0 var(--gf-radius); clip-path: inset(-16px 0 -16px -16px); }
+.gf-tab:last-child { border-radius: 0 var(--gf-radius) var(--gf-radius) 0; clip-path: inset(-16px -16px -16px 0); }
+.gf-tab:only-child { border-radius: var(--gf-radius); clip-path: none; }
 
 .gf-tab:hover { z-index: 1; border-color: var(--gf-muted); }
 
+/* Held down, and latched: the selected key stays one step above the plate. */
+.gf-tab:active,
 .gf-tab[aria-selected="true"] {
-  transform: translateY(1px);
-  background: var(--gf-pressed);
-  box-shadow: inset 0 1px 0 var(--gf-line);
+  --gf-rise: 1px;
+  --gf-d: 1px;
 }
 
+.gf-tab[aria-selected="true"] {
+  background-color: color-mix(in srgb, var(--gf-body) 94%, var(--gf-shade));
+  box-shadow: var(--gf-inset), var(--gf-wall), var(--gf-contact), var(--gf-cast);
+}
+
+.gf-tab[aria-selected="true"]:active { --gf-rise: 0px; }
+
+/* The printed bar under the selected key's label. */
 .gf-tab[aria-selected="true"]::after {
   content: "";
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  right: 12px;
+  bottom: 4px;
+  left: 12px;
   height: 2px;
   background: var(--gf-ink);
 }
 
+/* The ring clears the front wall and is not cut off with the shadow. */
 .gf-tab:focus-visible {
   z-index: 2;
+  clip-path: none;
   outline: 2px solid var(--gf-ink);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
-.gf-tab:disabled { opacity: 0.45; cursor: not-allowed; }
+/* Disabled: flat on the plate and dim, no wall, shadow or sheen. */
+.gf-tab:disabled {
+  --gf-rise: 0px;
+  --gf-d: 0px;
+  opacity: 0.45;
+  background-image: none;
+  border-color: var(--gf-key-edge);
+  box-shadow: none;
+  cursor: not-allowed;
+}
 
-.gf-tabs__panel { padding-top: 16px; }
+.gf-tabs__panel { padding-top: 13px; }
 .gf-tabs__panel[hidden] { display: none; }
 
 /* ---------- Menu bar and menus ---------- */
 
+/* The bar is a strip of the cover plate: brushed anodised aluminium lying flush, with
+   flat printing and a dark joint line below. The brush only lightens it. */
 .gf-menubar {
   box-sizing: border-box;
   position: relative;
@@ -1238,9 +1299,11 @@ textarea.gf-field {
   min-height: 32px;
   margin: 0;
   padding: 0 4px;
-  background: var(--gf-surface);
+  background-color: var(--gf-aluminium);
+  background-image: var(--gf-brush), var(--gf-sheen-metal);
   color: var(--gf-ink);
   border-bottom: 1px solid var(--gf-line);
+  box-shadow: inset 0 var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 70%, transparent);
   font-family: var(--gf-font);
   font-size: 13px;
   line-height: 1.2;
@@ -1266,11 +1329,13 @@ textarea.gf-field {
 
 .gf-menubar__item--app { font-weight: 600; }
 
-.gf-menubar__item:hover { background: var(--gf-page); }
+.gf-menubar__item:hover { background-color: color-mix(in srgb, var(--gf-glint) 55%, transparent); }
 
+/* An open menu's title is pressed into the strip: shaded from the lit side, with an
+   ink bar below. */
 .gf-menu[open] > .gf-menubar__item {
-  background: var(--gf-pressed);
-  box-shadow: inset 0 -2px 0 var(--gf-ink), inset 0 1px 0 var(--gf-line);
+  background-color: var(--gf-pressed);
+  box-shadow: inset 0 -2px 0 var(--gf-ink), var(--gf-inset);
 }
 
 .gf-menubar__item:focus-visible {
@@ -1280,16 +1345,21 @@ textarea.gf-field {
 
 .gf-menu { position: relative; }
 
+/* A menu is a thin aluminium sheet held just above the set: a light line on the edges
+   facing the light, a contact shadow and a soft cast shadow. The items are print. */
 .gf-menu__list {
+  --gf-d: 6px;
   box-sizing: border-box;
   min-width: 200px;
   margin: 0;
   padding: 4px 0;
   list-style: none;
-  background: var(--gf-surface);
+  background-color: var(--gf-aluminium);
+  background-image: var(--gf-brush), var(--gf-sheen-metal);
   color: var(--gf-ink);
   border: 1px solid var(--gf-line);
   border-radius: var(--gf-radius);
+  box-shadow: var(--gf-edge-lit), var(--gf-contact), var(--gf-cast-soft);
   font-family: var(--gf-font);
   font-size: 13px;
   line-height: 1.2;
@@ -1300,7 +1370,6 @@ textarea.gf-field {
   z-index: 20;
   top: calc(100% + 1px);
   left: 0;
-  box-shadow: 0 2px 0 var(--gf-line);
 }
 
 .gf-menu--end > .gf-menu__list { right: 0; left: auto; }
@@ -1319,18 +1388,27 @@ textarea.gf-field {
   color: var(--gf-ink);
   text-align: left;
   text-decoration: none;
-  background: none;
+  background-color: transparent;
+  background-image: none;
   border: 0;
   cursor: pointer;
 }
 
+/* The highlighted item: an ink band with the print reversed. Keyboard focus adds a
+   light ring inside the band. */
 .gf-menu__item:hover,
-.gf-menu__item:focus-visible { background: var(--gf-page); }
+.gf-menu__item:focus-visible {
+  color: var(--gf-accent-ink);
+  background-color: var(--gf-accent);
+}
 
 .gf-menu__item:focus-visible {
-  outline: 2px solid var(--gf-ink);
-  outline-offset: -2px;
+  outline: 2px solid var(--gf-accent-ink);
+  outline-offset: -4px;
 }
+
+.gf-menu__item:hover .gf-menu__key,
+.gf-menu__item:focus-visible .gf-menu__key { color: inherit; }
 
 .gf-menu__item[aria-pressed="true"]::before,
 .gf-menu__item[aria-checked="true"]::before {
@@ -1341,7 +1419,7 @@ textarea.gf-field {
   width: 0;
   height: 0;
   margin-top: -3px;
-  border: 3px solid var(--gf-ink);
+  border: 3px solid currentColor;
   border-radius: 50%;
 }
 
@@ -1353,17 +1431,24 @@ textarea.gf-field {
   font-variant-numeric: tabular-nums;
 }
 
+/* A scored line: dark, with a line of light on the side away from the light. */
 .gf-menu__separator {
   height: 0;
   margin: 4px 0;
-  border-top: 1px solid var(--gf-line);
+  border-top: 1px solid var(--gf-edge);
+  box-shadow: 0 var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 55%, transparent);
 }
 
 .gf-menu__item:disabled,
 .gf-menu__item[aria-disabled="true"] {
   color: var(--gf-muted);
-  background: none;
+  background-color: transparent;
   cursor: not-allowed;
+}
+
+.gf-menu__item[aria-disabled="true"]:focus-visible {
+  outline-color: var(--gf-ink);
+  outline-offset: -2px;
 }
 
 @media (max-width: 480px) {
@@ -1378,12 +1463,20 @@ textarea.gf-field {
 
 /* ---------- Dialog ---------- */
 
+/* A panel held well clear of the page, like a lid: a contact shadow close by, then a
+   deep and very soft cast shadow in two layers. The backdrop is a calm tint, no blur. */
 .gf-dialog {
+  --gf-d: 18px;
   box-sizing: border-box;
   width: min(28rem, calc(100% - 32px));
   max-width: none;
   margin: auto;
   padding: 0;
+  box-shadow:
+    inset var(--gf-ex) var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 70%, transparent),
+    calc(var(--gf-sx) * 2px) calc(var(--gf-sy) * 2px) 4px color-mix(in srgb, var(--gf-shade) 18%, transparent),
+    var(--gf-cast-soft),
+    calc(var(--gf-sx) * var(--gf-d) * 2) calc(var(--gf-sy) * var(--gf-d) * 2) calc(var(--gf-d) * 4) color-mix(in srgb, var(--gf-shade) 14%, transparent);
 }
 
 .gf-dialog > .gf-panel__body { padding: 24px; }
@@ -1391,7 +1484,7 @@ textarea.gf-field {
 .gf-dialog[open] { animation: gf-fade 120ms ease-out; }
 
 .gf-dialog::backdrop {
-  background: color-mix(in srgb, var(--gf-ink, #26251f) 40%, transparent);
+  background: color-mix(in srgb, var(--gf-ink, #26251f) 30%, transparent);
 }
 
 @keyframes gf-fade {
@@ -1401,13 +1494,18 @@ textarea.gf-field {
 
 /* ---------- Group box ---------- */
 
+/* A zone scored into the plate, not a box: a fine dark line with a line of light on
+   the side away from the light (kept clear of the heading). The heading is flat print. */
 .gf-group {
   box-sizing: border-box;
   min-width: 0;
   margin: 0;
   padding: 8px 16px 12px;
-  border: 1px solid var(--gf-line);
+  border: 1px solid color-mix(in srgb, var(--gf-line) 70%, var(--gf-surface));
   border-radius: var(--gf-radius);
+  box-shadow:
+    inset var(--gf-ex) min(0px, var(--gf-ey)) 0 color-mix(in srgb, var(--gf-glint) 55%, transparent),
+    var(--gf-ex) max(0px, var(--gf-ey)) 0 color-mix(in srgb, var(--gf-glint) 55%, transparent);
 }
 
 .gf-group > legend {
@@ -1950,7 +2048,7 @@ textarea.gf-field {
 
   .gf-progress:indeterminate {
     animation: none;
-    background-position: 50% 0, 0 0, 0 0;
+    background-position: 50% 0, 0 0;
   }
 
   .gf-knob__cap,
@@ -1999,7 +2097,15 @@ textarea.gf-field {
   .gf-switch input,
   .gf-select,
   .gf-select:disabled,
-  .gf-listbox {
+  .gf-listbox,
+  .gf-tab,
+  .gf-tab[aria-selected="true"],
+  .gf-menubar,
+  .gf-menu[open] > .gf-menubar__item,
+  .gf-menu__list,
+  .gf-menu__separator,
+  .gf-dialog,
+  .gf-group {
     background-image: none;
     box-shadow: none;
   }
@@ -2011,14 +2117,15 @@ textarea.gf-field {
     forced-color-adjust: none;
     background: Canvas;
     border-color: CanvasText;
+    box-shadow: none;
   }
 
   .gf-progress:indeterminate {
     background: linear-gradient(Highlight, Highlight) 0 0 / 20% 100% no-repeat, Canvas;
   }
 
-  .gf-progress::-webkit-progress-value { forced-color-adjust: none; background: Highlight; }
-  .gf-progress::-moz-progress-bar { forced-color-adjust: none; background: Highlight; }
+  .gf-progress::-webkit-progress-value { forced-color-adjust: none; background: Highlight; box-shadow: none; }
+  .gf-progress::-moz-progress-bar { forced-color-adjust: none; background: Highlight; box-shadow: none; }
   .gf-progress:indeterminate::-moz-progress-bar { background: transparent; }
 
   .gf-tab[aria-selected="true"]::after,
@@ -2035,6 +2142,15 @@ textarea.gf-field {
   }
 
   .gf-menu[open] > .gf-menubar__item { outline: 2px solid CanvasText; outline-offset: -2px; }
+
+  /* The highlighted menu item keeps its reversed band. */
+  .gf-menu__item:hover:not(:disabled, [aria-disabled="true"]),
+  .gf-menu__item:focus-visible:not([aria-disabled="true"]) {
+    forced-color-adjust: none;
+    color: HighlightText;
+    background-color: Highlight;
+    outline-color: HighlightText;
+  }
 
   .gf-slider { -webkit-appearance: auto; appearance: auto; }
 
