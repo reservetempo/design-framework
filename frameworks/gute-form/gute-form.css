@@ -697,6 +697,9 @@
 
 /* ---------- Text field and text area ---------- */
 
+/* A display window cut into the plate. The paper-white floor lies a little below the
+   surface: the lip nearest the light shades it, and the far lip and the plate's edge
+   beyond it catch a line of light. The 1px line is the cut edge (3:1 on both sides). */
 .gf-field {
   box-sizing: border-box;
   display: block;
@@ -709,10 +712,11 @@
   font-size: 14px;
   color: var(--gf-ink);
   caret-color: var(--gf-ink);
-  background: var(--gf-page);
+  background-color: var(--gf-page);
+  background-image: none;
   border: 1px solid var(--gf-line);
   border-radius: var(--gf-radius);
-  box-shadow: inset 0 1px 0 var(--gf-line);
+  box-shadow: var(--gf-inset), var(--gf-lip), var(--gf-ex) var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 55%, transparent);
 }
 
 textarea.gf-field {
@@ -733,17 +737,19 @@ textarea.gf-field {
   outline-offset: 2px;
 }
 
-/* Two rules, so a browser without :user-invalid still keeps the first. */
+/* An error keeps the window and adds a red edge and a red bar on the left.
+   Two rules, so a browser without :user-invalid still keeps the first. */
 .gf-field[aria-invalid="true"] {
   border-color: var(--gf-error);
-  box-shadow: inset 2px 0 0 var(--gf-error), inset 0 1px 0 var(--gf-line);
+  box-shadow: inset 2px 0 0 var(--gf-error), var(--gf-inset), var(--gf-lip), var(--gf-ex) var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 55%, transparent);
 }
 
 .gf-field:user-invalid {
   border-color: var(--gf-error);
-  box-shadow: inset 2px 0 0 var(--gf-error), inset 0 1px 0 var(--gf-line);
+  box-shadow: inset 2px 0 0 var(--gf-error), var(--gf-inset), var(--gf-lip), var(--gf-ex) var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 55%, transparent);
 }
 
+/* Disabled: dim and flat, no depth. */
 .gf-field:disabled {
   opacity: 0.45;
   box-shadow: none;
@@ -768,8 +774,17 @@ textarea.gf-field {
   cursor: pointer;
 }
 
+/* Check box: a small square latching key. Radio: a round domed button. Both stand on the
+   plate with a front wall, like the push key. The input has no gf- class, so it takes
+   the label's light and builds its shadows here from its own --gf-d and --gf-rise; the
+   first shadow is the lip's shade on the face, which grows as the key sinks. */
 .gf-check input,
 .gf-radio input {
+  --gf-key-rise: 2px;
+  --gf-rise: var(--gf-key-rise);
+  --gf-d: 2px;
+  --gf-body: var(--gf-plastic);
+  --gf-key-edge: color-mix(in srgb, var(--gf-line) 60%, var(--gf-ink));  /* the slot round the key: over 3:1 on face and plate */
   -webkit-appearance: none;
   appearance: none;
   box-sizing: border-box;
@@ -778,28 +793,50 @@ textarea.gf-field {
   flex: none;
   width: 16px;
   height: 16px;
-  margin: 0;
-  background: var(--gf-surface);
-  border: 1px solid var(--gf-ink);
+  margin: 0 0 var(--gf-key-rise);
+  background-color: var(--gf-body);
+  background-image: var(--gf-sheen-matt);
+  border: 1px solid var(--gf-key-edge);
   border-radius: var(--gf-radius);
+  box-shadow:
+    inset calc(var(--gf-sx) * (var(--gf-key-rise) - var(--gf-rise)) * 0.75) calc(var(--gf-sy) * (var(--gf-key-rise) - var(--gf-rise)) * 0.75) calc(var(--gf-key-rise) - var(--gf-rise)) color-mix(in srgb, var(--gf-shade) 40%, transparent),
+    var(--gf-edge-lit),
+    var(--gf-edge-far),
+    0 var(--gf-rise) 0 color-mix(in srgb, var(--gf-shade) calc(20% - var(--gf-light-y) * 10%), var(--gf-body)),
+    calc(var(--gf-sx) * min(1px, var(--gf-d))) calc(var(--gf-sy) * min(1px, var(--gf-d)) + var(--gf-rise)) min(2px, var(--gf-d)) color-mix(in srgb, var(--gf-shade) 20%, transparent),
+    calc(var(--gf-sx) * var(--gf-d)) calc(var(--gf-sy) * var(--gf-d) + var(--gf-rise)) calc(var(--gf-d) * 1.25) color-mix(in srgb, var(--gf-shade) 22%, transparent);
+  transform: translateY(calc(var(--gf-key-rise) - var(--gf-rise)));
   cursor: pointer;
-  transition: transform 80ms ease-out;
+  transition: --gf-rise 80ms ease-out, --gf-d 80ms ease-out, background-color 80ms ease-out, border-color 80ms ease-out;
 }
 
-.gf-radio input { border-radius: 50%; }
+/* The radio's low dome: a soft highlight towards the light, a darker rim away from it. */
+.gf-radio input {
+  --gf-d: 3px;
+  border-radius: 50%;
+  background-image:
+    radial-gradient(circle at calc(50% + var(--gf-light-x) * 25%) calc(50% + var(--gf-light-y) * 25%), color-mix(in srgb, var(--gf-glint) 55%, transparent), transparent 60%),
+    radial-gradient(circle at calc(50% + var(--gf-light-x) * 25%) calc(50% + var(--gf-light-y) * 25%), transparent 45%, color-mix(in srgb, var(--gf-shade) 14%, transparent));
+}
 
+/* The marks are printed in flat ink on the face. */
 .gf-check input::before {
   content: "";
   width: 10px;
   height: 10px;
-  background: var(--gf-surface);
+  background-color: var(--gf-ink);
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0, 43% 62%);
   transform: scale(0);
   transition: transform 80ms ease-out;
 }
 
+/* On or mixed: the key latches down, flush with the plate, and shows its mark. */
 .gf-check input:checked,
-.gf-check input:indeterminate { background: var(--gf-ink); }
+.gf-check input:indeterminate {
+  --gf-rise: 0px;
+  --gf-d: 0px;
+  background-color: color-mix(in srgb, var(--gf-body) 93%, var(--gf-shade));
+}
 
 .gf-check input:checked::before { transform: scale(1); }
 
@@ -814,20 +851,32 @@ textarea.gf-field {
   content: "";
   width: 8px;
   height: 8px;
-  background: var(--gf-ink);
+  background-color: var(--gf-ink);
   border-radius: 50%;
   transform: scale(0);
   transition: transform 80ms ease-out;
 }
 
+/* The chosen button sits low and shows its dot. */
+.gf-radio input:checked {
+  --gf-rise: 1px;
+  --gf-d: 1px;
+}
+
 .gf-radio input:checked::before { transform: scale(1); }
 
 .gf-check input:hover,
-.gf-radio input:hover { box-shadow: inset 0 0 0 1px var(--gf-ink); }
+.gf-radio input:hover { border-color: var(--gf-ink); }
 
 .gf-check input:active,
-.gf-radio input:active { transform: translateY(1px); }
+.gf-radio input:active {
+  --gf-rise: 0px;
+  --gf-d: 0px;
+}
 
+/* Toggle: a slide switch. A slot milled in the plate with a dark floor, and a ridged
+   block standing in it. On: the block is at the right and the elm tone shows on the
+   floor beside it; the printed words say the same. */
 .gf-switch input {
   -webkit-appearance: none;
   appearance: none;
@@ -838,13 +887,17 @@ textarea.gf-field {
   width: 36px;
   height: 20px;
   margin: 0;
-  background: var(--gf-page);
-  border: 1px solid var(--gf-line);
+  background-color: color-mix(in srgb, var(--gf-ink) 80%, var(--gf-surface));
+  background-image: none;
+  border: 1px solid var(--gf-ink);
   border-radius: var(--gf-radius);
+  box-shadow: var(--gf-inset), var(--gf-ex) var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 60%, transparent);
   cursor: pointer;
   transition: background-color 120ms ease-out, border-color 120ms ease-out;
 }
 
+/* The block: three grip ribs (a dark line each, with a light flank towards the light),
+   a 1px front wall, and a shadow thrown along the slot floor. */
 .gf-switch input::before {
   content: "";
   box-sizing: border-box;
@@ -852,21 +905,37 @@ textarea.gf-field {
   top: 1px;
   left: 1px;
   width: 16px;
-  height: 16px;
+  height: 15px;
   border: 1px solid var(--gf-ink);
   border-radius: 1px;
-  background:
-    linear-gradient(var(--gf-line), var(--gf-line)) 4px 50% / 1px 8px no-repeat,
-    linear-gradient(var(--gf-line), var(--gf-line)) 9px 50% / 1px 8px no-repeat,
-    var(--gf-surface);
-  transition: transform 120ms ease-out;
+  background-color: var(--gf-plastic);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--gf-shade) 55%, transparent), color-mix(in srgb, var(--gf-shade) 55%, transparent)),
+    linear-gradient(color-mix(in srgb, var(--gf-shade) 55%, transparent), color-mix(in srgb, var(--gf-shade) 55%, transparent)),
+    linear-gradient(color-mix(in srgb, var(--gf-shade) 55%, transparent), color-mix(in srgb, var(--gf-shade) 55%, transparent)),
+    linear-gradient(color-mix(in srgb, var(--gf-glint) 70%, transparent), color-mix(in srgb, var(--gf-glint) 70%, transparent)),
+    linear-gradient(color-mix(in srgb, var(--gf-glint) 70%, transparent), color-mix(in srgb, var(--gf-glint) 70%, transparent)),
+    linear-gradient(color-mix(in srgb, var(--gf-glint) 70%, transparent), color-mix(in srgb, var(--gf-glint) 70%, transparent)),
+    var(--gf-sheen-matt);
+  background-position:
+    4px 50%, 7px 50%, 10px 50%,
+    calc(4px - var(--gf-ex)) 50%, calc(7px - var(--gf-ex)) 50%, calc(10px - var(--gf-ex)) 50%,
+    0 0;
+  background-size: 1px 9px, 1px 9px, 1px 9px, 1px 9px, 1px 9px, 1px 9px, auto;
+  background-repeat: no-repeat;
+  box-shadow:
+    var(--gf-edge-lit),
+    var(--gf-edge-far),
+    0 1px 0 color-mix(in srgb, var(--gf-shade) calc(20% - var(--gf-light-y) * 10%), var(--gf-plastic)),
+    calc(var(--gf-sx) * 3px) calc(var(--gf-sy) * 3px + 1px) 3px color-mix(in srgb, var(--gf-shade) 55%, transparent);
+  transition: transform 120ms ease-out, background-color 120ms ease-out;
 }
 
-.gf-switch input:hover { border-color: var(--gf-muted); }
+.gf-switch input:hover::before { background-color: color-mix(in srgb, var(--gf-plastic) 55%, var(--gf-page)); }
 
 .gf-switch input:checked {
-  background: var(--gf-second);
-  border-color: var(--gf-second);
+  background-color: var(--gf-second);
+  border-color: color-mix(in srgb, var(--gf-second) 55%, var(--gf-ink));
 }
 
 .gf-switch input:checked::before { transform: translateX(16px); }
@@ -884,8 +953,13 @@ textarea.gf-field {
 .gf-switch input:not(:checked) ~ .gf-switch__word--off,
 .gf-switch input:checked ~ .gf-switch__word--on { color: var(--gf-ink); }
 
+/* The ring clears the key's front wall. */
 .gf-check input:focus-visible,
-.gf-radio input:focus-visible,
+.gf-radio input:focus-visible {
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 3px;
+}
+
 .gf-switch input:focus-visible {
   outline: 2px solid var(--gf-ink);
   outline-offset: 2px;
@@ -898,20 +972,43 @@ textarea.gf-field {
   cursor: not-allowed;
 }
 
+/* Disabled: dim and flat on the plate; the mark and the block's place still show. */
 .gf-check input:disabled,
 .gf-radio input:disabled,
 .gf-switch input:disabled {
   opacity: 0.45;
   box-shadow: none;
-  transform: none;
   cursor: not-allowed;
 }
 
-.gf-switch input:disabled:hover { border-color: var(--gf-line); }
+.gf-check input:disabled,
+.gf-radio input:disabled {
+  --gf-rise: 0px;
+  --gf-d: 0px;
+  transform: none;
+  background-color: var(--gf-body);
+  background-image: none;
+}
+
+.gf-check input:disabled:hover,
+.gf-radio input:disabled:hover { border-color: var(--gf-key-edge); }
+
+.gf-switch input:disabled::before { box-shadow: none; }
+
+.gf-switch input:disabled:hover::before { background-color: var(--gf-plastic); }
 
 /* ---------- Select and list box ---------- */
 
+/* A band selector: a raised key that carries its setting, with a small well on the
+   right for the printed arrow. Pressing it sinks it, as the push key does. The well is
+   drawn in the background: arrow, lip shade, floor, frame, far lip, then the sheen. */
 .gf-select {
+  --gf-key-rise: 3px;
+  --gf-rise: var(--gf-key-rise);
+  --gf-d: 4px;
+  --gf-body: var(--gf-plastic);
+  --gf-key-edge: color-mix(in srgb, var(--gf-line) 85%, var(--gf-ink));  /* as the push key: 3:1 on face and plate */
+  --gf-select-arrow: linear-gradient(45deg, transparent 50%, var(--gf-ink) 50%), linear-gradient(135deg, var(--gf-ink) 50%, transparent 50%);
   -webkit-appearance: none;
   appearance: none;
   box-sizing: border-box;
@@ -919,25 +1016,53 @@ textarea.gf-field {
   max-width: 100%;
   height: 32px;
   margin: 0;
-  padding: 0 30px 0 10px;
+  padding: 0 32px 0 10px;
   font-family: var(--gf-font);
   font-size: 13px;
   color: var(--gf-ink);
-  background-color: var(--gf-surface);
+  background-color: var(--gf-body);
   background-image:
-    linear-gradient(45deg, transparent 50%, var(--gf-ink) 50%),
-    linear-gradient(135deg, var(--gf-ink) 50%, transparent 50%);
-  background-position: calc(100% - 15px) 50%, calc(100% - 10px) 50%;
-  background-size: 5px 5px;
+    var(--gf-select-arrow),
+    linear-gradient(var(--gf-light-angle), color-mix(in srgb, var(--gf-shade) 26%, transparent), transparent 60%),
+    linear-gradient(color-mix(in srgb, var(--gf-body) 94%, var(--gf-shade)), color-mix(in srgb, var(--gf-body) 94%, var(--gf-shade))),
+    linear-gradient(color-mix(in srgb, var(--gf-key-edge) 70%, transparent), color-mix(in srgb, var(--gf-key-edge) 70%, transparent)),
+    linear-gradient(color-mix(in srgb, var(--gf-glint) 70%, transparent), color-mix(in srgb, var(--gf-glint) 70%, transparent)),
+    var(--gf-sheen-matt);
+  background-position:
+    calc(100% - 15px) 50%, calc(100% - 10px) 50%,
+    calc(100% - 6px) 50%,
+    calc(100% - 6px) 50%,
+    calc(100% - 5px) 50%,
+    calc(100% - 5px + var(--gf-ex)) calc(50% + var(--gf-ey)),
+    0 0;
+  background-size: 5px 5px, 5px 5px, 18px 18px, 18px 18px, 20px 20px, 20px 20px, auto;
   background-repeat: no-repeat;
-  border: 1px solid var(--gf-line);
+  border: 1px solid var(--gf-key-edge);
   border-radius: var(--gf-radius);
-  box-shadow: inset 0 -1px 0 var(--gf-line);
+  box-shadow: var(--gf-edge-lit), var(--gf-edge-far), var(--gf-wall), var(--gf-contact), var(--gf-cast);
+  transform: translateY(calc(var(--gf-key-rise) - var(--gf-rise)));
   cursor: pointer;
+  transition: --gf-rise 80ms ease-out, --gf-d 80ms ease-out, background-color 80ms ease-out, border-color 80ms ease-out;
 }
 
 .gf-select:hover { border-color: var(--gf-muted); }
 
+.gf-select:active {
+  --gf-rise: 1px;
+  --gf-d: 1px;
+  background-color: color-mix(in srgb, var(--gf-body) 96%, var(--gf-shade));
+}
+
+/* Where :open is known, the key stays down while its list is open (a rule of its own,
+   so other browsers only drop this one). */
+.gf-select:open {
+  --gf-rise: 1px;
+  --gf-d: 1px;
+  background-color: color-mix(in srgb, var(--gf-body) 96%, var(--gf-shade));
+}
+
+/* A scale card behind a window: the recess of the text field. Rows are print on the
+   card; the chosen row is an ink band pressed into it, shaded on the side of the light. */
 .gf-listbox {
   box-sizing: border-box;
   min-width: 160px;
@@ -948,20 +1073,35 @@ textarea.gf-field {
   font-size: 13px;
   line-height: 1.4;
   color: var(--gf-ink);
-  background: var(--gf-page);
+  background-color: var(--gf-page);
+  background-image: none;
   border: 1px solid var(--gf-line);
   border-radius: var(--gf-radius);
-  box-shadow: inset 0 1px 0 var(--gf-line);
+  box-shadow: var(--gf-inset), var(--gf-lip), var(--gf-ex) var(--gf-ey) 0 color-mix(in srgb, var(--gf-glint) 55%, transparent);
 }
 
 .gf-listbox option { padding: 5px 10px; }
 
+.gf-listbox:enabled option:not(:checked):hover { background-color: color-mix(in srgb, var(--gf-ink) 6%, transparent); }
+
+/* The flat ink layer is a gradient too: browsers paint their own highlight colour over a
+   plain background-color here. The shading only darkens or slightly lifts the ink, so
+   the row's text keeps well over 4.5:1. */
 .gf-listbox option:checked {
-  background: linear-gradient(var(--gf-ink), var(--gf-ink));
   color: var(--gf-surface);
+  background-color: var(--gf-ink);
+  background-image:
+    linear-gradient(var(--gf-light-angle), color-mix(in srgb, var(--gf-shade) 60%, transparent), transparent 40%, transparent 75%, color-mix(in srgb, var(--gf-glint) 14%, transparent)),
+    linear-gradient(var(--gf-ink), var(--gf-ink));
 }
 
-.gf-select:focus-visible,
+/* The select's ring clears its front wall. */
+.gf-select:focus-visible {
+  border-color: var(--gf-ink);
+  outline: 2px solid var(--gf-ink);
+  outline-offset: 3px;
+}
+
 .gf-listbox:focus-visible {
   border-color: var(--gf-ink);
   outline: 2px solid var(--gf-ink);
@@ -975,7 +1115,16 @@ textarea.gf-field {
   cursor: not-allowed;
 }
 
-.gf-select:disabled:hover { border-color: var(--gf-line); }
+/* A disabled select lies flat on the plate and keeps only its arrow. */
+.gf-select:disabled {
+  --gf-rise: 0px;
+  --gf-d: 0px;
+  transform: none;
+  background-color: var(--gf-body);
+  background-image: var(--gf-select-arrow);
+}
+
+.gf-select:disabled:hover { border-color: var(--gf-key-edge); }
 
 /* ---------- Progress: a scale with a bar, or a sweeping pointer ---------- */
 
@@ -1788,6 +1937,7 @@ textarea.gf-field {
 @media (prefers-reduced-motion: reduce) {
   /* Keys go down at once: the eased --gf-rise and --gf-d are part of this transition. */
   .gf-button,
+  .gf-select,
   .gf-tab,
   .gf-check input,
   .gf-check input::before,
@@ -1824,13 +1974,15 @@ textarea.gf-field {
     appearance: auto;
     width: auto;
     height: auto;
+    margin: 0;
+    transform: none;
   }
 
   .gf-check input::before,
   .gf-radio input::before,
   .gf-switch input::before { content: none; }
 
-  .gf-select { -webkit-appearance: auto; appearance: auto; padding-right: 10px; }
+  .gf-select { -webkit-appearance: auto; appearance: auto; padding-right: 10px; transform: none; }
 
   .gf-panel--trim { border-inline-width: 1px; }
 
@@ -1840,7 +1992,14 @@ textarea.gf-field {
   .gf-panel__strip,
   .gf-panel__body pre,
   .gf-button,
-  .gf-button[aria-pressed]::before {
+  .gf-button[aria-pressed]::before,
+  .gf-field,
+  .gf-check input,
+  .gf-radio input,
+  .gf-switch input,
+  .gf-select,
+  .gf-select:disabled,
+  .gf-listbox {
     background-image: none;
     box-shadow: none;
   }
